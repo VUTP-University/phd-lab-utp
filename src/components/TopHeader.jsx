@@ -4,15 +4,15 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const TopHeader = () => {
   return (
-    <div className="bg-light py-2 border-bottom">
-      <div className="container d-flex flex-wrap align-items-center justify-content-between">
+    <div style={{ backgroundColor: '#49688e' }} className="py-2 border-bottom">
+      <div className="container d-flex flex-wrap align-items-center justify-content-between text-white">
 
         {/* Онлайн новини */}
         <div className="d-flex align-items-center gap-2">
           <strong>Онлайн:</strong>
           <p className="mb-0">
-            <a href="http://priem.utp.bg">Кандидатстване</a> /{' '}
-            <a href="https://elearning.utp.bg/mod/quiz/view.php?id=4492">
+            <a href="http://priem.utp.bg" className="text-white text-decoration-underline">Кандидатстване</a> /{' '}
+            <a href="https://elearning.utp.bg/mod/quiz/view.php?id=4492" className="text-white text-decoration-underline">
               ON-Line доброволен тест за кандидатстване - 2024/2025
             </a>
           </p>
@@ -21,7 +21,7 @@ const TopHeader = () => {
         {/* Бърз достъп с dropdown */}
         <div className="dropdown">
           <button
-            className="btn btn-sm btn-outline-primary dropdown-toggle"
+            className="btn btn-sm btn-outline-light dropdown-toggle"
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
