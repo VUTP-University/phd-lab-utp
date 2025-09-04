@@ -53,10 +53,7 @@ const MainNav = () => {
           color: #fff !important;
         }
 
-      .navbar .nav-link,
-.navbar .dropdown-item {
-  color: black !important;
-}
+
 }
       `}</style>
 
