@@ -6,7 +6,6 @@ const TopHeader = () => {
   return (
     <div style={{ backgroundColor: '#49688e' }} className="py-2 border-bottom">
       <div className="container d-flex flex-wrap align-items-center justify-content-between text-white">
-
         {/* Онлайн новини */}
         <div className="d-flex align-items-center gap-2">
           <strong>Онлайн:</strong>

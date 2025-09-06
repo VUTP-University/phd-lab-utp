@@ -80,6 +80,7 @@ const Footer = () => {
                 <a href="https://www.facebook.com/www.utp.bg/" className="text-white">
                   Висше училище по телекомуникации и пощи
                 </a>
+
               </blockquote>
             </div>
           </div>
@@ -91,4 +92,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

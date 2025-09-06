@@ -53,7 +53,6 @@ const ArticlesSection = () => {
                   ))}
                 </ul>
               </div>
-
             </div>
           </div>
         ))}
