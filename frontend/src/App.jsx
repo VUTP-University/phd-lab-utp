@@ -1,35 +1,29 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import "./i18n.js";
+import Header from "./components/Header";
+import Programs from "./components/Programs";
+import Requirements from "./components/Requirements";
+import Resources from "./components/Resources";
+import Documents from "./components/Documents";
+import ContactForm from "./components/ContactForm";
+import News from "./components/News";
+import LoginSection from "./components/LoginSection";
+import Footer from "./components/Footer";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="font-sans text-gray-800 bg-gray-50">
+      <Header />
+      <main className="space-y-16">
+        <Programs />
+        <LoginSection />
+        <Requirements />
+        <Resources />
+        <Documents />
+        <News />
+      </main>
+      <Footer />
+    </div>
+  );
 }
-
-export default App
