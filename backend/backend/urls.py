@@ -20,6 +20,11 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('api.urls')),
+    
+    # Google OAuth2 authentication endpoints
+    path('api/auth/', include('dj_rest_auth.urls')),
+    path('api/auth/', include('dj_rest_auth.registration.urls')),
+    path('api/auth/', include('allauth.socialaccount.urls')),
 ]
 
 

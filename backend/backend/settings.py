@@ -38,9 +38,33 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
-    'api'
+    'dj_rest_auth',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'api',
 ]
+
+SITE_ID = 1
+
+SOCIAL_ACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'email',
+            'profile',
+            'https://www.googleapis.com/auth/classroom.courses.readonly',
+            'https://www.googleapis.com/auth/classroom.rosters.readonly',
+        ],
+        'AUTH_PARAMS': {'access_type': 'offline'},
+    }
+}
+
+REST_USE_JWT = True
+LOGIN_REDIRECT_URL = '/'
+GOOGLE_CLIENT_ID = ''
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,7 +74,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -135,6 +160,9 @@ REST_FRAMEWORK = {
     ],
 }
 
-# CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:3000/',
+# CORS_ALLOWED_ALL_ORIGINS = [
+#     'http://localhost:5173',
 # ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True

@@ -11,14 +11,16 @@ import News from "./components/News";
 import LoginSection from "./components/LoginSection";
 import Footer from "./components/Footer";
 
+// import { Dashboard } from "./components/Panel/Dashboard";
+
 export default function App() {
   return (
     <div className="font-sans text-gray-800 bg-gray-50">
       <Header />
       <main className="space-y-16">
         <Programs />
-        <LoginSection />
         <Requirements />
+        <LoginSection />
         <Resources />
         <Documents />
         <News />
