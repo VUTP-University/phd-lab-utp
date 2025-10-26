@@ -32,3 +32,9 @@ venv/
 
 # Ignore node_modules
 **node_modules/**
+
+# Ignore env variables
+**/.env
+
+# Ignore credentials
+**/service_account.json
