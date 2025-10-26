@@ -8,6 +8,7 @@
 //     <App />
 //   </StrictMode>,
 // )
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 
 import { StrictMode } from "react";
@@ -17,7 +18,6 @@ import "./index.css";
 import App from "./App.jsx";
 
 // Client ID from Google Cloud Console
-const GOOGLE_CLIENT_ID = "";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

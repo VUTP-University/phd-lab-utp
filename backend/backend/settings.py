@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'api',
+    'appuser'
 ]
 
 SITE_ID = 1
@@ -64,7 +65,7 @@ SOCIAL_ACCOUNT_PROVIDERS = {
 
 REST_USE_JWT = True
 LOGIN_REDIRECT_URL = '/'
-GOOGLE_CLIENT_ID = ''
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -166,3 +167,8 @@ REST_FRAMEWORK = {
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
+
+
+
+

@@ -10,6 +10,8 @@ from google.auth.transport import requests
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.conf import settings
+
+from appuser.models import CustomUser
 from .models import News
 from .serializers import NewsSerializer
 
@@ -24,50 +26,58 @@ class NewsListView(generics.ListAPIView):
     serializer_class = NewsSerializer
     queryset = News.objects.all().order_by('-published_at')
     # permission_classes = [permissions.IsAuthenticated]
-    
-    
+
+
 class NewsCreateView(generics.CreateAPIView):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     # permission_classes = [permissions.AllowAny]
     # permission_classes = [permissions.IsAuthenticated]
-    
+
     def perform_create(self, serializer):
         serializer.save(author="john doe")
-        
-        
+
+
 class GoogleAuthView(APIView):
     def post(self, request):
-        print("Request body:", request.data)
-        token = request.data.get("access_token")
-        print("Received token:", token)
-
-        if not token:
+        token_str = request.data.get("access_token")
+        if not token_str:
             return Response({"error": "No token provided"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # Verify token with Google
-            idinfo = id_token.verify_oauth2_token(
-                token, requests.Request(), settings.GOOGLE_CLIENT_ID
-            )
+            idinfo = id_token.verify_oauth2_token(token_str, requests.Request(), settings.GOOGLE_CLIENT_ID)
 
             email = idinfo.get("email")
-            name = idinfo.get("name", "")
-            
-            # Optional domain restriction:
-            # if not email.endswith("@yourdomain.com"):
-            #     return Response({"error": "Unauthorized domain"}, status=status.HTTP_403_FORBIDDEN)
+            first_name = idinfo.get("given_name", "")
+            family_name = idinfo.get("family_name", "")
+            google_sub = idinfo.get("sub")
 
-            # Create or get user
-            user, created = User.objects.get_or_create(username=email, defaults={"email": email, "first_name": name})
+            user = CustomUser.objects.filter(google_sub=google_sub).first()
+            if not user:
+                user, created = CustomUser.objects.get_or_create(
+                    email=email,
+                    defaults={
+                        "first_name": first_name,
+                        "family_name": family_name,
+                        "google_sub": google_sub,
+                        "is_admin": email == "mariqn.karastoyanov@gmail.com",
+                    }
+                )
+            else:
+                if email == "mariqn.karastoyanov@gmail.com" and not user.is_admin:
+                    user.is_admin = True
+                    user.save()
 
-            # Generate DRF token
             token, _ = Token.objects.get_or_create(user=user)
 
             return Response({
                 "message": "Login successful",
                 "token": token.key,
-                "user": {"email": user.email, "name": user.first_name}
+                "user": {
+                    "email": user.email,
+                    "name": f"{user.first_name} {user.family_name}",
+                    "is_admin": user.is_admin
+                }
             })
 
         except ValueError as e:
