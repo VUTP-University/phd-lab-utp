@@ -16,6 +16,7 @@ jobs:
         run: |
           echo "🔍 Scanning for 'print(' in Python files..."
           # Find all added/modified Python files in the PR
+          git fetch --unshallow
           git fetch origin master
           changed_files=$(git diff --name-only origin/master...HEAD -- '*.py')
 
