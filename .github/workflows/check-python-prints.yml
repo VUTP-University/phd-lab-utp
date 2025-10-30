@@ -1,4 +1,6 @@
 name: Check for print() in Python files
+permissions:
+  contents: read
 
 on:
   pull_request:
