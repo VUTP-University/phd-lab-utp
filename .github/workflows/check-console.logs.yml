@@ -15,6 +15,7 @@ jobs:
       - name: Look for console.log() in JS/TS files
         run: |
           echo "🔍 Scanning for 'console.log(' in JS/TS files..."
+          git fetch --unshallow
           git fetch origin master
           changed_files=$(git diff --name-only origin/master...HEAD -- '*.js' '*.jsx' '*.ts' '*.tsx')
 
