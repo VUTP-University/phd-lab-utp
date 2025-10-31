@@ -8,6 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export default function LoginSection() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
@@ -17,9 +18,9 @@ export default function LoginSection() {
       }, {
         headers: { 'Content-Type': 'application/json' },
       });
-
-      console.log('Login successful:', res.data);
-      console.log('zzzzzzzzzzzz',credentialResponse.credential,)
+      navigate('/dashboard');
+      // console.log('Login successful:', res.data);
+      // console.log('zzzzzzzzzzzz',credentialResponse.credential,)
     } catch (error) {
       console.error('Login failed:', error.response?.data || error.message);
     }
