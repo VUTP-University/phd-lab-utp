@@ -38,3 +38,6 @@ venv/
 
 # Ignore credentials
 **/service_account.json
+
+# Ignore dev database
+**/db.sqlite3

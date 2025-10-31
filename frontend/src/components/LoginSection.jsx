@@ -18,6 +18,8 @@ export default function LoginSection() {
       }, {
         headers: { 'Content-Type': 'application/json' },
       });
+      const { name, email, picture, is_lab_admin } = res.data;
+      localStorage.setItem('user', JSON.stringify({ name, email, picture, is_lab_admin }));
       navigate('/dashboard');
       // console.log('Login successful:', res.data);
       // console.log('zzzzzzzzzzzz',credentialResponse.credential,)

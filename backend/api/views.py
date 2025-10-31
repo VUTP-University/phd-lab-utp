@@ -20,10 +20,6 @@ from appuser.models import CustomUser
 from .models import News
 from .serializers import NewsSerializer
 
-# Create your views here.
-@api_view(['GET'])
-def hello_world(request):
-    return Response({"message": "Hello from UTP Lab"})
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SERVICE_ACCOUNT_FILE = os.path.join(BASE_DIR, 'api', 'service_account.json')
@@ -32,7 +28,14 @@ TARGET_GROUP = os.getenv('GOOGLE_TARGET_GROUP_EMAIL')
 
 
 def is_user_in_group(user_email):
-    '''Check if a given Google Workspace user is in the target group'''
+    """Check if a user is in a specific Google Group.
+
+    Args:
+        user_email (string): User's email address.
+
+    Returns:
+        bool: True if user is in the group, False otherwise.
+    """
     SCOPES = ['https://www.googleapis.com/auth/admin.directory.group.readonly']
     creds = service_account.Credentials.from_service_account_file(
         SERVICE_ACCOUNT_FILE, scopes=SCOPES
@@ -41,13 +44,17 @@ def is_user_in_group(user_email):
     service = build('admin', 'directory_v1', credentials=creds)
 
     try:
-
         service.groups().list(userKey=user_email).execute()
         return True
     except Exception as e:
         return False
 
 class GoogleAuthView(APIView):
+    """Google OAuth2 Authentication View.
+
+    Args:
+        APIView (object): Responds to POST requests with Google OAuth2 token.
+    """
     def post(self, request):
         token_str = request.data.get("access_token")
         if not token_str:
@@ -55,7 +62,10 @@ class GoogleAuthView(APIView):
         
         try:
             idinfo = id_token.verify_oauth2_token(token_str, requests.Request(), settings.GOOGLE_CLIENT_ID)
+            print(idinfo)
             email = idinfo.get("email")
+            name = idinfo.get("name")
+            picture = idinfo.get("picture")
             is_lab_admin = is_user_in_group(email)
             
             user, created = CustomUser.objects.get_or_create(
@@ -76,7 +86,13 @@ class GoogleAuthView(APIView):
                 user.save()
 
 
-            return Response({"message": "Login successful"}, 201)
+            return Response({
+                "email": email,
+                "name": name,
+                "picture": picture,
+                "is_lab_admin": is_lab_admin,
+            }, status=status.HTTP_200_OK)
+
 
         except ValueError as e:
             return Response({"error": "Invalid token", "details": str(e)}, status=status.HTTP_400_BAD_REQUEST)
