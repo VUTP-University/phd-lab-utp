@@ -1,18 +1,16 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework import generics, permissions
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from google.oauth2 import id_token, service_account
 from googleapiclient.discovery import build
 from google.auth.transport import requests
-from django.contrib.auth.models import User
-from rest_framework.authtoken.models import Token
 from django.conf import settings
-import os, requests as req
+import os
 from dotenv import load_dotenv
+from rest_framework.permissions import IsAuthenticated as isAuthenticated
 
 load_dotenv()
 
@@ -44,10 +42,14 @@ def is_user_in_group(user_email):
     service = build('admin', 'directory_v1', credentials=creds)
 
     try:
-        service.groups().list(userKey=user_email).execute()
-        return True
+        result = service.members().hasMember(
+            groupKey=TARGET_GROUP,
+            memberKey=user_email
+        ).execute()
+        return result.get('isMember', False)
     except Exception as e:
         return False
+
 
 class GoogleAuthView(APIView):
     """Google OAuth2 Authentication View.
@@ -62,11 +64,11 @@ class GoogleAuthView(APIView):
         
         try:
             idinfo = id_token.verify_oauth2_token(token_str, requests.Request(), settings.GOOGLE_CLIENT_ID)
-            print(idinfo)
             email = idinfo.get("email")
             name = idinfo.get("name")
             picture = idinfo.get("picture")
             is_lab_admin = is_user_in_group(email)
+            print(is_lab_admin)
             
             user, created = CustomUser.objects.get_or_create(
                 email=email,
