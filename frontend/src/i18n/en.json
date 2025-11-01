@@ -1,0 +1,105 @@
+{
+  "header": {
+    "title": "PhD School - VUTP",
+    "subtitle": "Mission • Information • Goals"
+  },
+  "programs": {
+    "title": "Doctoral Programs",
+    "items": [
+      {
+        "field": "3.7 Economics",
+        "specs": ["Environmental Economics", "Economics and Management"]
+      },
+      {
+        "field": "5.13 Communications",
+        "specs": ["Information Technology", "Telecommunications"]
+      },
+      {
+        "field": "5.3 Chemistry",
+        "specs": ["Organic Chemistry", "Chemical Engineering"]
+      }
+    ]
+  },
+  "requirements": {
+    "title": "Admission Requirements",
+    "items": [
+      { "title": "Rules", "link": "#" },
+      { "title": "Application Conditions", "link": "#" },
+      { "title": "For International Candidates", "link": "#" },
+      { "title": "Fees and Deadlines", "link": "#" }
+    ]
+  },
+  "resources": {
+    "title": "Electronic Resources",
+    "more": "See more →",
+    "items": [
+      {
+        "title": "VUTP Library",
+        "desc": "Access to scientific publications and electronic editions.",
+        "link": "#"
+      },
+      {
+        "title": "VUTP Articles",
+        "desc": "Scientific works of PhD students and lecturers.",
+        "link": "#"
+      },
+      {
+        "title": "PhD Student Handbook",
+        "desc": "Practical guide for PhD students.",
+        "link": "#"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact Form",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message...",
+    "send": "Send"
+  },
+
+  "documents": {
+    "title": "Documents",
+    "items": [
+      { "category": "ZVO", "link": "#" },
+      { "category": "ZRASRB", "link": "#" },
+      { "category": "Internal Documents", "link": "#" }
+    ]
+  },
+  "news": {
+    "title": "News & Events",
+    "readMore": "Read more →",
+    "items": [
+      {
+        "title": "PhD Seminar 2025",
+        "date": "October 10, 2025",
+        "desc": "Upcoming seminar on sustainable technologies and innovations."
+      },
+      {
+        "title": "New Publications",
+        "date": "October 5, 2025",
+        "desc": "The new issue of VUTP scientific journal has been released."
+      },
+      {
+        "title": "Open Applications",
+        "date": "September 1, 2025",
+        "desc": "The new PhD admission for the 2025/2026 academic year begins."
+      }
+    ]
+  },
+  "login": {
+    "title": "Login to Google Classroom",
+    "button": "Sign in with Google"
+  },
+   "footer": {
+    "rights": "All rights reserved © 2025 VUTP",
+    "linksTitle": "Useful Links",
+    "links": [
+      { "title": "Home", "link": "#" },
+      { "title": "Programs", "link": "#" },
+      { "title": "Contact", "link": "#" }
+    ],
+    "contactTitle": "Contact",
+    "email": "info@vutp.bg"
+  }
+}
