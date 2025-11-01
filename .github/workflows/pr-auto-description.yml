@@ -12,54 +12,66 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Get commits from the PR
+      # 2. Install GitHub CLI
+      - name: Install GitHub CLI
+        run: |
+          sudo apt update
+          sudo apt install gh -y
+
+      # 3. Get commits from the PR
       - name: Get commits
         id: commits
         run: |
-          COMMITS=$(gh pr view ${{ github.event.pull_request.number }} --json commits --jq '.commits[].commit.message')
+          COMMITS=$(gh pr view ${{ github.event.pull_request.number }} --json commits --jq '.commits[].commit.message' | tr '\n' ' ')
           echo "commits=$COMMITS" >> $GITHUB_OUTPUT
 
-      # 3. Generate summary using OpenAI
+      # 4. Generate PR description using OpenAI
       - name: Generate PR description
         id: generate
-        uses: peter-evans/openai-gpt-action@v2
-        with:
-          model: gpt-4
-          input: |
-            You are a helpful assistant. Create a PR description using this template:
-            ### 🧾 Summary
-            <!-- Provide a concise summary of the change. Why is this PR needed? -->
-            ---
-            ## 🧩 Issue Description
-            <!-- What is the underlying problem or task? -->
-            ---
-            ## 💡 Proposed Solution
-            <!-- Describe the solution you implemented -->
-            ---
-            ## 🧪 Testing Instructions
-            <!-- Describe how you tested your changes -->
-            ---
-            ## ✅ Checklist
-            - [ ] I have performed a self-review of my code.
-            - [ ] I have commented my code.
-            - [ ] Updated documentation (if applicable).
-            - [ ] Sufficient test coverage.
-            - [ ] No new warnings or errors.
-            ---
-            ## 🔗 Related Issue(s) (if applicable)
-            - Related to #<issue-number>
-            ---
-            ## 📝 Additional Notes (Optional)
-            <!-- Anything else reviewers should know -->
+        run: |
+          PR_COMMITS="${{ steps.commits.outputs.commits }}"
+          RESPONSE=$(curl https://api.openai.com/v1/chat/completions \
+            -s -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}" \
+            -d '{
+              "model": "gpt-4",
+              "messages": [
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": "Generate a PR description using this template:\n
+### 🧾 Summary
+<!-- Provide a concise summary of the change. Why is this PR needed? -->
+---
+## 🧩 Issue Description
+<!-- What is the underlying problem or task? -->
+---
+## 💡 Proposed Solution
+<!-- Describe the solution you implemented -->
+---
+## 🧪 Testing Instructions (have you found any testing or put - N.A.)
+<!-- Describe how you tested your changes -->
+---
+## ✅ Checklist
+- [ ] I have performed a self-review of my code.
+- [ ] I have commented my code.
+- [ ] Updated documentation (if applicable).
+- [ ] Sufficient test coverage.
+- [ ] No new warnings or errors.
+---
+## 🔗 Related Issue(s) (if applicable) (have you found any related Issues in GH or put - N.A.)
+- Related to #<issue-number>
+---
+## 📝 Additional Notes (Optional)
+<!-- Anything else reviewers should know -->
+\nThe commits included in this PR are:\n'"$PR_COMMITS"'"
+              ]
+            }')
+          DESCRIPTION=$(echo $RESPONSE | jq -r '.choices[0].message.content')
+          echo "description=$DESCRIPTION" >> $GITHUB_OUTPUT
+        shell: bash
 
-            The commits included in this PR are:
-            ${{ steps.commits.outputs.commits }}
-
-          api-key: ${{ secrets.OPENAI_API_KEY }}
-
-      # 4. Update the PR description
+      # 5. Update PR description
       - name: Update PR
-        uses: peter-evans/pull-request@v4
-        with:
-          pull-request-number: ${{ github.event.pull_request.number }}
-          body: ${{ steps.generate.outputs.completion }}
+        run: |
+          gh pr edit ${{ github.event.pull_request.number }} --body "${{ steps.generate.outputs.description }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
