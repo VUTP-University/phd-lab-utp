@@ -28,7 +28,9 @@ dist-ssr
 **__pycache__
 
 # Ignore Python venv
-venv/
+**/venv/
+**/.venv/
+
 
 # Ignore node_modules
 **node_modules/**
