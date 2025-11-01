@@ -2,6 +2,7 @@ import React from "react";
 import Sidebar from "../../components/Panel/Sidebar";
 import Topbar from "../../components/Panel/Topbar";
 import UserProfile from "../../components/Panel/UserProfile";
+import "../../index.css";
 
 export default function Dashboard() {
   return (

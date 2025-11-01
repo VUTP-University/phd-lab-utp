@@ -38,18 +38,14 @@ const Topbar = () => {
       </div>
 
       {/* Right Section: Notifications + User */}
-      <div className="flex items-center gap-6">
-        <button className="relative text-xl">
-          🔔
-          <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
-        </button>
+      <div className="flex items-center gap-6 font-primary">
         <div className="flex items-center gap-2 cursor-pointer hover:text-blue-600">
           <img
             src={user.picture}
             alt="User Avatar"
             className="rounded-full w-10 h-10"
           />
-          <span className="text-sm font-medium text-gray-700">{ user.name }</span>
+          <span className="text-sm font-medium">{ user.name }</span>
           <svg
             className="w-4 h-4 text-gray-500"
             fill="none"

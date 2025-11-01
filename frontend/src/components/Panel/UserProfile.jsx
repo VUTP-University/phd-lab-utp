@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import "../../index.css";
+import { format } from 'date-fns';
+
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -23,8 +26,8 @@ const UserProfile = () => {
   const [firstName, lastName] = user.name ? user.name.split(' ') : ['', ''];
 
   return (
-    <main className="p-6 bg-gray-50 flex-1">
-      <div className="bg-white p-6 rounded shadow">
+    <main className="p-6 flex-1 font-primary">
+      <div className="p-6 rounded shadow primary_object">
         <div className="flex items-center gap-4 mb-6">
           <img
             src={user.picture}
@@ -32,12 +35,12 @@ const UserProfile = () => {
             className="rounded-full w-24 h-24"
           />
           <div>
-            <h2 className="text-2xl font-bold">{user.name}</h2>
+            <h2 className="text-2xl font-bold font-primary">{user.name}</h2>
             <p className="text-gray-600">
               {user.email}
               {user.is_lab_admin && (
-                <span className="ml-2 text-sm text-green-600 font-semibold">
-                  (Lab Admin)
+                <span className="ml-2 text-sm text-red-600 font-semibold">
+                  (Admin)
                 </span>
               )}
             </p>
@@ -68,7 +71,7 @@ const UserProfile = () => {
                 <span className="text-green-600 font-medium">Active</span>
               </li>
               <li>
-                <strong>Last Login:</strong> {new Date().toLocaleString()}
+                <strong>Last Login:</strong> {format (new Date(), 'dd-MM-yyyy HH:mm:ss')}
               </li>
             </ul>
           </section>
