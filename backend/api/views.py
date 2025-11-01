@@ -68,7 +68,6 @@ class GoogleAuthView(APIView):
             name = idinfo.get("name")
             picture = idinfo.get("picture")
             is_lab_admin = is_user_in_group(email)
-            print(is_lab_admin)
             
             user, created = CustomUser.objects.get_or_create(
                 email=email,

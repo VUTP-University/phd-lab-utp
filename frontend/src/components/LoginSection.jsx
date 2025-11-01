@@ -21,8 +21,6 @@ export default function LoginSection() {
       const { name, email, picture, is_lab_admin } = res.data;
       localStorage.setItem('user', JSON.stringify({ name, email, picture, is_lab_admin }));
       navigate('/dashboard');
-      // console.log('Login successful:', res.data);
-      // console.log('zzzzzzzzzzzz',credentialResponse.credential,)
     } catch (error) {
       console.error('Login failed:', error.response?.data || error.message);
     }
