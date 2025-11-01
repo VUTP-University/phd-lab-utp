@@ -1,6 +1,4 @@
-from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,7 +8,7 @@ from google.auth.transport import requests
 from django.conf import settings
 import os
 from dotenv import load_dotenv
-from rest_framework.permissions import IsAuthenticated as isAuthenticated
+import logging
 
 load_dotenv()
 
@@ -96,6 +94,8 @@ class GoogleAuthView(APIView):
 
 
         except ValueError as e:
-            return Response({"error": "Invalid token", "details": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            logging.warning(f"Invalid token error: {e}")
+            return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({"error": "Server error", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            logging.exception("Server error during Google authentication")
+            return Response({"error": "Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
