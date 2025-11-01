@@ -1,7 +1,7 @@
 from django.db import models
 
 class CustomUser(models.Model):
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, null=False, blank=False)
     first_name = models.CharField(max_length=150, blank=True)
     family_name = models.CharField(max_length=150, blank=True)
     google_sub = models.CharField(max_length=255, unique=True, null=True, blank=True)
