@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -14,11 +14,12 @@ from django.conf import settings
 import os, requests as req
 from dotenv import load_dotenv
 
+from api.models import Course, DoctoralProgram
+from api.serializers import CourseSerializer, DoctoralProgramSerializer
+
 load_dotenv()
 
 from appuser.models import CustomUser
-from .models import News
-from .serializers import NewsSerializer
 
 # Create your views here.
 @api_view(['GET'])
@@ -82,3 +83,21 @@ class GoogleAuthView(APIView):
             return Response({"error": "Invalid token", "details": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": "Server error", "details": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class DoctoralProgramViewSet(viewsets.ModelViewSet):
+    queryset = DoctoralProgram.objects.all().prefetch_related("courses")
+    serializer_class = DoctoralProgramSerializer
+    permission_classes = [permissions.AllowAny] # for now
+
+    def perform_create(self, serializer):
+        user = getattr(self.request, "user", None)
+        serializer.save(created_by=user if user and user.is_authenticated else None)
