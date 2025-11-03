@@ -30,7 +30,8 @@ jobs:
         run: |
           echo "🔍 Fetching commits for PR #${{ github.event.pull_request.number }}..."
           
-          # Fetch the base branch to compare
+          # Fetch the base branch to compare (full history)
+          git fetch --unshallow || true
           git fetch origin ${{ github.event.pull_request.base.ref }}:$GITHUB_BASE_REF
           
           # Get commit messages between base branch and PR branch
