@@ -7,6 +7,7 @@ on:
 jobs:
   generate-pr-description:
     runs-on: ubuntu-latest
+
     steps:
       # 1. Checkout code
       - name: Checkout code
@@ -22,56 +23,39 @@ jobs:
       - name: Get commits
         id: commits
         run: |
-          COMMITS=$(gh pr view ${{ github.event.pull_request.number }} --json commits --jq '.commits[].commit.message' | tr '\n' ' ')
+          COMMITS=$(gh pr view ${{ github.event.pull_request.number }} \
+            --json commits --jq '.commits[].commit.message' | tr '\n' ' ')
           echo "commits=$COMMITS" >> $GITHUB_OUTPUT
 
       # 4. Generate PR description using OpenAI
       - name: Generate PR description
         id: generate
+        shell: bash
         run: |
           PR_COMMITS="${{ steps.commits.outputs.commits }}"
-          RESPONSE=$(curl https://api.openai.com/v1/chat/completions \
-            -s -H "Content-Type: application/json" \
+
+          PAYLOAD=$(jq -n --arg commits "$PR_COMMITS" '{
+            "model": "gpt-4o-mini",
+            "messages": [
+              {"role": "system", "content": "You are a helpful assistant."},
+              {"role": "user", "content": "Generate a PR description using this template:\n\n### 🧾 Summary\n<!-- Provide a concise summary of the change. Why is this PR needed? -->\n\n## 🧩 Issue Description\n<!-- What is the underlying problem or task? -->\n\n## 💡 Proposed Solution\n<!-- Describe the solution you implemented -->\n\n## 🧪 Testing Instructions\n<!-- Describe how you tested your changes -->\n\n## ✅ Checklist\n- [ ] I have performed a self-review of my code.\n- [ ] I have commented my code.\n- [ ] Updated documentation (if applicable).\n- [ ] Sufficient test coverage.\n- [ ] No new warnings or errors.\n\n## 🔗 Related Issue(s)\n- Related to #<issue-number>\n\n## 📝 Additional Notes\n<!-- Anything else reviewers should know -->\n\nThe commits included in this PR are:\n\($commits)"}
+            ]
+          }')
+
+          RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
+            -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}" \
-            -d '{
-              "model": "gpt-4",
-              "messages": [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": "Generate a PR description using this template:\n
-### 🧾 Summary
-<!-- Provide a concise summary of the change. Why is this PR needed? -->
----
-## 🧩 Issue Description
-<!-- What is the underlying problem or task? -->
----
-## 💡 Proposed Solution
-<!-- Describe the solution you implemented -->
----
-## 🧪 Testing Instructions (have you found any testing or put - N.A.)
-<!-- Describe how you tested your changes -->
----
-## ✅ Checklist
-- [ ] I have performed a self-review of my code.
-- [ ] I have commented my code.
-- [ ] Updated documentation (if applicable).
-- [ ] Sufficient test coverage.
-- [ ] No new warnings or errors.
----
-## 🔗 Related Issue(s) (if applicable) (have you found any related Issues in GH or put - N.A.)
-- Related to #<issue-number>
----
-## 📝 Additional Notes (Optional)
-<!-- Anything else reviewers should know -->
-\nThe commits included in this PR are:\n'"$PR_COMMITS"'"
-              ]
-            }')
-          DESCRIPTION=$(echo $RESPONSE | jq -r '.choices[0].message.content')
-          echo "description=$DESCRIPTION" >> $GITHUB_OUTPUT
-        shell: bash
+            -d "$PAYLOAD")
+
+          DESCRIPTION=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
+          echo "description<<EOF" >> $GITHUB_OUTPUT
+          echo "$DESCRIPTION" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       # 5. Update PR description
       - name: Update PR
         run: |
-          gh pr edit ${{ github.event.pull_request.number }} --body "${{ steps.generate.outputs.description }}"
+          gh pr edit ${{ github.event.pull_request.number }} \
+            --body "${{ steps.generate.outputs.description }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
