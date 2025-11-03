@@ -1,0 +1,57 @@
+name: Build & Deploy to Azure (staging)
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Checkout repo
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # 2. Login to Azure Container Registry
+    - name: Login to Azure Container Registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.AZURE_ACR_NAME }}.azurecr.io
+        username: ${{ secrets.AZURE_ACR_USERNAME }}
+        password: ${{ secrets.AZURE_ACR_PASSWORD }}
+
+    # 3. Build backend image
+    - name: Build backend Docker image
+      run: |
+        docker build -t ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/myapp-backend:latest -f Dockerfile.backend .
+
+    # 4. Build frontend image
+    - name: Build frontend Docker image
+      run: |
+        docker build -t ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/myapp-frontend:latest -f Dockerfile.frontend .
+
+    # 5. Push images to ACR
+    - name: Push backend image
+      run: docker push ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/myapp-backend:latest
+
+    - name: Push frontend image
+      run: docker push ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/myapp-frontend:latest
+
+    # 6. Deploy to VM via SSH
+    - name: Deploy to VM
+      uses: appleboy/ssh-action@v0.1.8
+      with:
+        host: ${{ secrets.DEPLOY_VM_HOST }}
+        username: ${{ secrets.DEPLOY_VM_USER }}
+        key: ${{ secrets.DEPLOY_VM_SSH_KEY }}
+        script: |
+          docker pull ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/myapp-backend:latest
+          docker pull ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/myapp-frontend:latest
+          docker stop myapp-backend || true
+          docker stop myapp-frontend || true
+          docker rm myapp-backend || true
+          docker rm myapp-frontend || true
+          docker run -d --name myapp-backend -p 8000:8000 ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/myapp-backend:latest
+          docker run -d --name myapp-frontend -p 80:80 ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/myapp-frontend:latest
