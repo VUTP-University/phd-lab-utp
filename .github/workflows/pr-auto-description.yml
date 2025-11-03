@@ -3,7 +3,7 @@ name: Auto-generate PR Description
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    
+
 permissions:
   contents: write
   pull-requests: write
@@ -16,27 +16,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y jq gh
+
       - name: Get PR commits
         id: commits
         run: |
-          COMMITS=$(gh pr view ${{ github.event.pull_request.number }} --json commits --jq '.commits[].message')
+          COMMITS=$(gh pr view ${{ github.event.pull_request.number }} --json commits --jq '.commits[].message' | tr '\n' '\n')
           echo "COMMITS<<EOF" >> $GITHUB_ENV
           echo "$COMMITS" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate AI-based PR description
-        id: ai
+      - name: Generate PR description with OpenAI
+        id: generate
         run: |
-          # Create the prompt for the AI model using your structured template
-          cat > prompt.txt <<'EOF'
-          You are a senior developer assistant.
-          Generate a **Pull Request description** using the following Markdown template.
-          Fill in each section based on the commit messages provided below.
-          Be professional, concise, and use Markdown formatting.
+          echo "🧠 Generating PR description..."
+          echo "${COMMITS}" > commits.txt
 
-          TEMPLATE:
+          cat > prompt.txt <<'EOF'
+          You are a senior software engineer tasked with generating a structured and professional Pull Request (PR) description.
+
+          Use the following Markdown template to produce the PR description.
+          Fill in each section appropriately based on the commit messages provided.
+
           ### 🧾 Summary
           <!-- Provide a concise summary of the change. Why is this PR needed? -->
 
@@ -81,24 +85,33 @@ jobs:
 
           ---
 
-          The commit messages are:
+          Commit messages for this PR:
           EOF
 
-          echo "${COMMITS}" >> prompt.txt
+          cat commits.txt >> prompt.txt
 
-          # Generate description using OpenAI
           RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}" \
-            -d '{
-              "model": "gpt-4o-mini",
-              "messages": [{"role": "user", "content": "'"$(cat prompt.txt | sed 's/"/\\"/g')"'" }],
-              "max_tokens": 1200
-            }' | jq -r '.choices[0].message.content')
+            -d "{
+              \"model\": \"gpt-4o-mini\",
+              \"messages\": [
+                {\"role\": \"user\", \"content\": \"$(cat prompt.txt | sed 's/\"/\\\"/g')\"}
+              ],
+              \"max_tokens\": 1200
+            }")
 
-          echo "$RESPONSE" > pr_body.md
+          DESCRIPTION=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty')
 
-      - name: Update PR Description
+          if [ -z "$DESCRIPTION" ]; then
+            echo "⚠️ OpenAI did not return a valid description. Using fallback."
+            DESCRIPTION="### 🧾 Summary\nAuto-generated PR description could not be generated.\n\nCommits:\n${COMMITS}"
+          fi
+
+          echo "$DESCRIPTION" > pr_body.md
+          echo "$DESCRIPTION"
+
+      - name: Update PR description
         run: gh pr edit ${{ github.event.pull_request.number }} --body-file pr_body.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
