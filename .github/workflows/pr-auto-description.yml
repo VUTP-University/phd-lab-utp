@@ -59,7 +59,6 @@ jobs:
       # 5. Update PR description
       - name: Update PR
         run: |
-          gh pr edit ${{ github.event.pull_request.number }} \
-            --body "${{ steps.generate.outputs.description }}"
+          gh pr edit ${{ github.event.pull_request.number }} --body-file <(cat <<'EOF' ${{ steps.generate.outputs.description }} EOF)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
