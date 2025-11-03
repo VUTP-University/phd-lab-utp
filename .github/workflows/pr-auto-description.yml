@@ -14,24 +14,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      # Checkout PR branch
+      - name: Checkout PR branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
+      # Install dependencies
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y jq gh
+        run: sudo apt-get update && sudo apt-get install -y jq curl
 
-      # Authenticate GH CLI explicitly
-      - name: Authenticate GH CLI
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
-
+      # Get commit messages using git log
       - name: Get PR commits
         id: commits
         run: |
-          PR_NUMBER=${{ github.event.pull_request.number }}
-          echo "🔍 Fetching commits for PR #$PR_NUMBER..."
+          echo "🔍 Fetching commits for PR #${{ github.event.pull_request.number }}..."
           
-          # Fetch commits safely
-          COMMITS=$(gh pr view "$PR_NUMBER" --json commits --jq '.commits[].commit.message' || true)
+          # Fetch the base branch to compare
+          git fetch origin ${{ github.event.pull_request.base.ref }}:$GITHUB_BASE_REF
+          
+          # Get commit messages between base branch and PR branch
+          COMMITS=$(git log $GITHUB_BASE_REF..HEAD --pretty=format:"%s")
           
           if [ -z "$COMMITS" ]; then
             echo "❌ No commits found for this PR."
@@ -44,6 +47,7 @@ jobs:
             echo "EOF" >> $GITHUB_ENV
           fi
 
+      # Generate PR description with OpenAI
       - name: Generate PR description with OpenAI
         id: generate
         env:
@@ -56,12 +60,11 @@ jobs:
 
           echo "🧠 Generating PR description..."
 
-          # Build prompt (avoid leading spaces)
+          # Build prompt with template + commits
           cat > prompt.txt <<'EOF'
           You are a senior software engineer tasked with generating a structured and professional Pull Request (PR) description.
           
-          Use the following Markdown template to produce the PR description.
-          Fill in each section appropriately based on the commit messages provided.
+          Use the following Markdown template to produce the PR description. Fill in each section appropriately based on the commit messages provided.
           
           ### 🧾 Summary
           <!-- Provide a concise summary of the change. Why is this PR needed? -->
@@ -110,12 +113,14 @@ jobs:
           Commit messages for this PR:
           EOF
 
+          # Append commit messages
           echo "$COMMITS" >> prompt.txt
 
-          # Create JSON payload safely
+          # Prepare JSON safely for OpenAI API
           BODY=$(jq -Rs --arg model "gpt-4o-mini" \
             '{model: $model, messages: [{role: "user", content: .}], max_tokens: 1200}' < prompt.txt)
 
+          # Call OpenAI API
           RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $OPENAI_API_KEY" \
@@ -131,6 +136,7 @@ jobs:
           echo "$DESCRIPTION" > pr_body.md
           echo "$DESCRIPTION"
 
+      # Update PR description
       - name: Update PR description
         run: gh pr edit ${{ github.event.pull_request.number }} --body-file pr_body.md
         env:
