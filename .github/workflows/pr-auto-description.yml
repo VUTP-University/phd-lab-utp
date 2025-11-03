@@ -3,6 +3,7 @@ name: Auto-generate PR Description
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -22,18 +23,29 @@ jobs:
       - name: Get PR commits
         id: commits
         run: |
+          echo "🔍 Fetching commits for PR #${{ github.event.pull_request.number }}..."
           COMMITS=$(gh pr view ${{ github.event.pull_request.number }} --json commits --jq '.commits[].message' | tr '\n' '\n')
           echo "COMMITS<<EOF" >> $GITHUB_ENV
           echo "$COMMITS" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+          echo "🧩 Captured commits:"
+          echo "$COMMITS"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate PR description with OpenAI
         id: generate
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           echo "🧠 Generating PR description..."
           echo "${COMMITS}" > commits.txt
+
+          if [ ! -s commits.txt ]; then
+            echo "❌ No commits found — skipping AI generation."
+            echo "### 🧾 Summary\nNo commits found for this PR." > pr_body.md
+            exit 0
+          fi
 
           cat > prompt.txt <<'EOF'
           You are a senior software engineer tasked with generating a structured and professional Pull Request (PR) description.
@@ -90,9 +102,12 @@ jobs:
 
           cat commits.txt >> prompt.txt
 
+          echo "🧩 Prompt sent to OpenAI:"
+          head -n 20 prompt.txt || true
+
           RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
             -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}" \
+            -H "Authorization: Bearer ${OPENAI_API_KEY}" \
             -d "{
               \"model\": \"gpt-4o-mini\",
               \"messages\": [
@@ -100,6 +115,9 @@ jobs:
               ],
               \"max_tokens\": 1200
             }")
+
+          echo "🧩 Raw response:"
+          echo "$RESPONSE" | jq '.'
 
           DESCRIPTION=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty')
 
