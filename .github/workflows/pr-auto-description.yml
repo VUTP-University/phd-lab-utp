@@ -39,96 +39,87 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           echo "🧠 Generating PR description..."
-          echo "${COMMITS}" > commits.txt
 
-          if [ ! -s commits.txt ]; then
-            echo "❌ No commits found — skipping AI generation."
-            echo "### 🧾 Summary\nNo commits found for this PR." > pr_body.md
-            exit 0
-          fi
-
+          # Combine template + commit messages into one prompt
           cat > prompt.txt <<'EOF'
           You are a senior software engineer tasked with generating a structured and professional Pull Request (PR) description.
-
-          Use the following Markdown template to produce the PR description.
-          Fill in each section appropriately based on the commit messages provided.
-
+          
+          Use the following Markdown template to produce the PR description. Fill in each section appropriately based on the commit messages provided.
+          
           ### 🧾 Summary
           <!-- Provide a concise summary of the change. Why is this PR needed? -->
-
+          
           ---
-
+          
           ## 🧩 Issue Description
           <!-- What is the underlying problem or task? Include context and background if necessary. -->
-
+          
           ---
-
+          
           ## 💡 Proposed Solution
           <!-- Describe the solution you implemented to resolve the issue. What approach did you take and why? -->
-
+          
           ---
-
+          
           ## 🧪 Testing Instructions
           <!-- Describe how you tested your changes. Include specific test cases, environments, or commands used. -->
-
+          
           - [ ] Tested locally
           - [ ] Unit tests added or updated
           - [ ] Integration tests performed
           - [ ] Verified on staging environment
-
+          
           ---
-
+          
           ## ✅ Checklist
           - [ ] I have performed a self-review of my code.
           - [ ] I have commented my code, especially in hard-to-understand areas.
           - [ ] I have updated documentation (if applicable).
           - [ ] The feature has sufficient test coverage.
           - [ ] No new warnings or errors introduced.
-
+          
           ---
-
+          
           ## 🔗 Related Issue(s) (if applicable)
           - Related to #<issue-number>
-
+          
           ---
-
+          
           ## 📝 Additional Notes (Optional)
           <!-- Anything else reviewers should know (e.g., known issues, deployment notes, migrations)? -->
-
+          
           ---
-
+          
           Commit messages for this PR:
           EOF
 
-          cat commits.txt >> prompt.txt
+          # Append commit messages
+          echo "${COMMITS}" >> prompt.txt
+
+          # Escape JSON safely and send request
+          BODY=$(jq -Rs --arg model "gpt-4o-mini" \
+            '{model: $model, messages: [{role: "user", content: .}], max_tokens: 1200}' < prompt.txt)
 
           echo "🧩 Prompt sent to OpenAI:"
-          head -n 20 prompt.txt || true
+          head -n 30 prompt.txt
 
           RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
             -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${OPENAI_API_KEY}" \
-            -d "{
-              \"model\": \"gpt-4o-mini\",
-              \"messages\": [
-                {\"role\": \"user\", \"content\": \"$(cat prompt.txt | sed 's/\"/\\\"/g')\"}
-              ],
-              \"max_tokens\": 1200
-            }")
+            -H "Authorization: Bearer $OPENAI_API_KEY" \
+            -d "$BODY")
 
           echo "🧩 Raw response:"
-          echo "$RESPONSE" | jq '.'
+          echo "$RESPONSE" | jq
 
           DESCRIPTION=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // empty')
 
           if [ -z "$DESCRIPTION" ]; then
             echo "⚠️ OpenAI did not return a valid description. Using fallback."
-            DESCRIPTION="### 🧾 Summary\nAuto-generated PR description could not be generated.\n\nCommits:\n${COMMITS}"
+            DESCRIPTION=`### 🧾 Summary\nAuto-generated PR description could not be generated.\n\nCommits:\n${COMMITS}`
           fi
 
           echo "$DESCRIPTION" > pr_body.md
           echo "$DESCRIPTION"
-
       - name: Update PR description
         run: gh pr edit ${{ github.event.pull_request.number }} --body-file pr_body.md
         env:
