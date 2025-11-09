@@ -1,3 +1,4 @@
+import logging
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -33,4 +34,5 @@ class ClassroomCoursesView(APIView):
             return Response(courses, status=status.HTTP_200_OK)
 
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            logging.exception("An error occurred in ClassroomCoursesView.get: %s", e)
+            return Response({"error": "An internal error has occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
