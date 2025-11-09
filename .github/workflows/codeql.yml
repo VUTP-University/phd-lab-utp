@@ -1,4 +1,6 @@
 name: "CodeQL Scan"
+permissions:
+  contents: read
 
 on:
   push:
