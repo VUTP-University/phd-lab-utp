@@ -12,7 +12,7 @@ export default function LoginSection() {
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const res = await axios.post(API_URL, {
+      const res = await axios.post(`${API_URL}/auth/google/`, {
         access_token: credentialResponse.credential,
         
       }, {

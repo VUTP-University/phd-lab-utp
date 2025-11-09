@@ -1,3 +1,5 @@
+import os, logging
+from dotenv import load_dotenv
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -6,9 +8,6 @@ from google.oauth2 import id_token, service_account
 from googleapiclient.discovery import build
 from google.auth.transport import requests
 from django.conf import settings
-import os
-from dotenv import load_dotenv
-import logging
 
 load_dotenv()
 
