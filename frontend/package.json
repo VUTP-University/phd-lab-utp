@@ -34,7 +34,9 @@
     "globals": "^16.4.0",
     "postcss": "^8.5.6",
     "react-router-dom": "^7.9.4",
+    "react-ui-cards": "^3.1.0",
     "tailwindcss": "^4.1.14",
+    "ui-button": "^2.1.12",
     "vite": "^7.2.2"
   }
 }

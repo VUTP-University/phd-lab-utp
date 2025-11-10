@@ -1,9 +1,12 @@
 import { useState } from "react";
 import React from "react";
 import Sidebar from "../../components/Dashboard/Sidebar";
-import MyPhDLab from "./PhdLab";
-import Topbar from "../../components/Dashboard/Topbar";
-import UserProfile from "./UserProfile";
+// User Profile components
+import UserProfile from "../../components/Dashboard/UserProfile";
+import MyPhDLab from "../../components/Dashboard/PhdLab";
+// Admin components
+import ContentManagement from "../../components/Dashboard/ContentManagement/ContentManagement";
+
 import "../../index.css";
 
 export default function Dashboard() {
@@ -15,6 +18,8 @@ export default function Dashboard() {
         return <UserProfile />;
       case "phdlab":
         return <MyPhDLab />;
+      case 'contentManagement':
+        return <ContentManagement />;
       default:
         return <UserProfile />;
     }

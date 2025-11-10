@@ -42,9 +42,9 @@ export default function Sidebar({ activePage, setActivePage }) {
           Управление на потребители
         </button>
         <button
-          onClick={() => setActivePage("settings")}
+          onClick={() => setActivePage("contentManagement")}
           className={`text-left px-4 py-2 rounded-lg transition ${
-            activePage === "settings"
+            activePage === "contentManagement"
               ? "bg-gray-700"
               : "hover:bg-gray-700 hover:text-white"
           }`}
