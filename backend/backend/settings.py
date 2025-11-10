@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'appuser'
+    'appuser',
+    'classroom',
 ]
 
 SITE_ID = 1
@@ -169,7 +170,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
-
+GOOGLE_ADMIN_EMAIL = os.getenv('GOOGLE_ADMIN_EMAIL')
+SERVICE_ACCOUNT_FILE = os.path.join(BASE_DIR, 'appuser', 'service_account.json')
 
 
 

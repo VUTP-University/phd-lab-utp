@@ -20,6 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('appuser.urls')),
+    path('classroom/', include('classroom.urls')),
     
     # Google OAuth2 authentication endpoints
     path('api/auth/', include('dj_rest_auth.urls')),
