@@ -1,4 +1,4 @@
-import { useState } from 'react'
+
 import './App.css'
 import "./i18n.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -12,7 +12,8 @@ import News from "./components/News";
 import LoginSection from "./components/LoginSection";
 import Footer from "./components/Footer";
 import Dashboard from "./pages/Panel/Dashboard";
-
+import ApplyProcedureButton from './components/ApplyProcedureButton.jsx';
+import PhdAdmission from './pages/Panel/PhdAdmission.jsx';
 
 // import { Dashboard } from "./components/Panel/Dashboard";
 
@@ -28,6 +29,7 @@ export default function App() {
               <Header />
               <main className="space-y-16">
                 <Programs />
+                <ApplyProcedureButton />
                 <Requirements />
                 <LoginSection />
                 <Resources />
@@ -41,6 +43,7 @@ export default function App() {
 
         {/* Dashboard / Panel */}
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/phd-admission" element={<PhdAdmission />} />
       </Routes>
     </Router>
   );
