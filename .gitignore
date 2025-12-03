@@ -43,3 +43,7 @@ dist-ssr
 
 # Ignore dev database
 **/db.sqlite3
+
+
+# Ignore docs directories
+**/conspects

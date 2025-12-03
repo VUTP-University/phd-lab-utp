@@ -1,0 +1,16 @@
+{
+  "contact": {
+    "address": "гр. София, ул. “Академик Стефан Младенов” 1",
+    "office": "Висше училище по телекомуникации и пощи, стая 202",
+    "phone": "(02) 86 21 034"
+  },
+  "academicYear": "2024–2025",
+  "applicationFee": 110,
+  "deadline": "21.05.2025",
+  "pdfs": {
+    "applicationForm": "po-obrazec.docx",
+    "consentForm": "/pdfs/consent-form.pdf",
+    "declarationForm": "dostovernost.docx",
+    "number_5" : "chl-91.docx"
+  }
+}
