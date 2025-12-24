@@ -3,22 +3,65 @@
     "title": "PhD School - VUTP",
     "subtitle": "Mission • Information • Goals"
   },
-  "programs": {
-    "title": "Doctoral Programs",
-    "items": [
-      {
-        "field": "3.7 Economics",
-        "specs": ["Environmental Economics", "Economics and Management"]
-      },
-      {
-        "field": "5.13 Communications",
-        "specs": ["Information Technology", "Telecommunications"]
-      },
-      {
-        "field": "5.3 Chemistry",
-        "specs": ["Organic Chemistry", "Chemical Engineering"]
+"programs": {
+  "title": "PhD Programs",
+  "full": "Full-time",
+  "part": "Part-time",
+  "download": "Download syllabus",
+  "applyProcedure": "Application Procedure",
+  "items": [
+    {
+      "field": "5.3 Communication and Computer Engineering",
+      "program": "Theoretical Foundations of Communication Engineering",
+      "file": "kandidatdoktoranti-teoretichni.pdf",
+      "education": {
+        "full": 2,
+        "part": 2
       }
-    ]
+    },
+    {
+      "field": "5.3 Communication and Computer Engineering",
+      "program": "Information Technologies, Communication Networks and Cybersecurity",
+      "file": "komunikacionnat.pdf",
+      "education": {
+        "full": 3,
+        "part": 2
+      }
+    },
+    {
+      "field": "5.13 General Engineering",
+      "program": "Industrial Engineering",
+      "file": "injenering.pdf",
+      "education": {
+        "full": 1,
+        "part": 1
+      }
+    }
+  ]
+},
+"phdAdmission": {
+    "title": "PhD Admission Procedure",
+    "subtitle": "Applicants submit the following documents to the Rector of the University of Telecommunications and Posts:",
+    "documents": {
+      "1": "Application form;",
+      "2": "Master's degree diploma and its supplement;",
+      "3": "Curriculum vitae (European format);",
+      "4": "Proof of paid application fee – 110 BGN (for the program exam and foreign language);",
+      "5": "Declaration according to Art. 91, para. 7, item 2 of HEA – contains personal data and confirmation that the applicant:",
+      "5_sub": [
+        "is a new PhD student (not previously enrolled);",
+        "has not obtained a PhD degree;",
+        "has not been expelled with/without right to defend;"
+      ],
+      "6": "Documents proving competence – publications, project participation, trainings, patents, memberships, language skills, etc.;",
+      "7": "Consent form for personal data processing;",
+      "8": "Declaration of authenticity of submitted documents;"
+    },
+    "announcementTitle": "Admission Announcement",
+    "announcementText": "The University of Telecommunications and Posts announces a competition for admission of full-time and part-time PhD students for the academic year 2024–2025, according to Council of Ministers Decision № 478 / 4.7.2024, published in State Gazette no. 24 of 21.3.2025.",
+    "deadline": "Application deadline: 21.05.2025",
+    "contactTitle": "Contacts",
+    "backButton": "← Back to PhD Programs"
   },
   "requirements": {
     "title": "Admission Requirements",
