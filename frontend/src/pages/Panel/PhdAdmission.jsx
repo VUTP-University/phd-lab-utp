@@ -77,24 +77,6 @@ export default function PhdAdmission() {
           </ol>
         </div>
 
-        {/* Announcement */}
-        <div className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-xl mt-10 text-blue-900 shadow-sm">
-          <h2 className="font-semibold text-xl mb-2">{t("phdAdmission.announcementTitle")}</h2>
-          <p>
-            {t("phdAdmission.announcementText").replace("2024–2025", data.academicYear)}
-          </p>
-          <p className="mt-2 font-semibold">
-            {t("phdAdmission.deadline").replace("21.05.2025", data.deadline)}
-          </p>
-        </div>
-
-        {/* Contact */}
-        <div className="bg-gray-50 p-6 rounded-xl shadow mt-10 text-gray-800">
-          <h3 className="font-semibold text-lg mb-2 text-blue-700">{t("phdAdmission.contactTitle")}</h3>
-          <p>{data.contact.address}</p>
-          <p>{data.contact.office}</p>
-          <p><strong>{data.contact.phone}</strong></p>
-        </div>
 
         {/* Back button */}
         <div className="mt-12 w-full flex justify-center">
