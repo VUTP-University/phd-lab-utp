@@ -14,7 +14,7 @@
     /* Secondary — muted steel blue for panels, cards */
     --color-secondary: #808080;
     /* Accent — bright research cyan for highlights, buttons */
-    --color-accent: #0048d8;
+    --color-accent: #0457fe;
     /* Text colors */
     --color-text: #000000;
     /* soft light-blue for readability on dark bg */
@@ -57,10 +57,6 @@ a {
     text-decoration: none;
 }
 
-a:hover {
-    color: var(--color-accent);
-}
-
 button {
     border: none;
     border-radius: 8px;
@@ -89,22 +85,18 @@ button {
 }
 
 .primary_button {
-    background: rgba(0, 0, 0, 0.5);
-    color: var(--color-text);
+    background: var(--color-accent);
+    color: var(--color-primary);
     font-family: var(--font-primary);
 }
 
 .primary_button:hover {
-    background-color: var(--color-accent);
-    color: var(--color-primary);
-    box-shadow: 0 0 10px var(--color-accent),
-        0 0 25px var(--color-accent);
+    box-shadow: 0 0 5px var(--color-accent),
+        0 0 5px var(--color-accent);
 }
 
 /* Disabled button state */
 .primary_button:disabled {
-    background-color: var(--color-primary);
-    color: var(--color-primary-object);
     cursor: not-allowed;
 }
 

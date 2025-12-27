@@ -50,22 +50,20 @@ export default function Programs() {
               </div>
             </div>
 
-            {/* Бутон */}
+            {/* Button */}
             <a
               href={`/conspects/${prog.file}`}
               download
               className="
                 mt-6 w-full text-center 
-                bg-blue-600 
                 text-white 
                 py-3 
                 rounded-xl 
                 text-sm 
                 font-semibold 
-                hover:bg-blue-700 
                 shadow-sm 
-                hover:shadow-md 
                 transition
+                primary_button
               "
             >
               {t("programs.download")}

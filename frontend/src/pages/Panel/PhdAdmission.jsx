@@ -82,7 +82,7 @@ export default function PhdAdmission() {
         <div className="mt-12 w-full flex justify-center">
           <a
             href="/"
-            className="w-full max-w-lg bg-blue-700 text-white px-6 py-3 rounded-xl text-lg font-semibold hover:bg-blue-800 transition shadow-md hover:shadow-lg text-center"
+            className="w-full max-w-lg px-6 py-3 rounded-xl text-lg font-semibold transition shadow-md text-center primary_button"
           >
             {t("phdAdmission.backButton")}
           </a>
