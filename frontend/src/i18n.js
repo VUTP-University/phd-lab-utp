@@ -43,6 +43,9 @@ const resources = {
       documents: {
         title: "Електронни ресурси"
       },
+      news: {
+        title: "Новини и събития"
+      },
       apply: {
         download: "Изтегли файл",
         procedure: {
@@ -127,6 +130,9 @@ const resources = {
       },
       documents: {
         title: "Electronic Resources"
+      },
+      news: {
+
       },
       apply: {
         download: "Download File",

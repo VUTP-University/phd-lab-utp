@@ -11,8 +11,6 @@ export default function Documents() {
         <h2 className="text-3xl font-bold text-center primary_text mb-10">
           {t("documents.title")}
         </h2>
-
-        
       </div>
     </section>
   );
