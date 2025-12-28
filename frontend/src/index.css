@@ -1,110 +1,122 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap');
 
+@import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "tailwindcss";
 
-/* ================================
-   Global Theme Variables / Update with Caution
-=================================== */
+
+
 :root {
-    /* Primary brand color — deep academic navy */
-    --color-primary: #ffffff;
-    /* Secondary — muted steel blue for panels, cards */
-    --color-secondary: #808080;
-    /* Accent — bright research cyan for highlights, buttons */
-    --color-accent: #0457fe;
-    /* Text colors */
-    --color-text: #000000;
-    /* soft light-blue for readability on dark bg */
-    --color-text-secondary: #cbd5e1;
-    /* muted gray-blue for secondary text */
-    --color-text-link: #3b82f6;
-    /* professional vivid blue for links */
-
-    /* Object / surfaces */
-    --color-primary-object: #1e3a8a;
-    /* strong university blue for emphasis */
-    --color-primary-object-snd: #0a192f;
-    /* background — deep indigo */
-
-    /* Font */
-    --font-primary: "Open Sans", sans-serif;
-
-    /* Other base properties */
-    color-scheme: dark;
-    font-family: var(--font-primary);
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  /* Light theme */
+  --bg: #f9fafb;
+  --surface: #ffffff;
+  --text: #03319c;
+  --text-muted: #64748b;
+  --primary: #2563eb;
+  --border: #e5e7eb;
+  --shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 
-/* Base body + element resets */
-body {
-    margin: 0;
-    padding: 0;
-    color: var(--color-text);
-    background-color: var(--color-primary-object-snd);
-    font-size: 16px;
-    line-height: 1.5;
-    font-family: var(--font-primary);
+.dark {
+  /* Dark theme */
+  --bg: #0f172a;
+  --surface: #020617;
+  --text: #e5e7eb;
+  --text-muted: #a1a1aa;
+  --primary: #3b82f6;
+  --border: #1e293b;
+  --shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
+
 
 a {
-    color: var(--color-text-link);
-    text-decoration: none;
+  font-weight: 500;
+  color: #03319c;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #ffffff;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
 }
 
 button {
-    border: none;
-    border-radius: 8px;
-    padding: 0.6em 1.2em;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.25s;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: "Sofia Sans", sans-serif;
+  background-color: var(--text);
+  color: var(--bg);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  background-color: var(--primary);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* ====================================
-   Custom Classes (used in components)
-==================================== */
-.custom_background {
-    background-color: var(--color-primary-object-snd);
-    color: var(--color-text);
-    font-family: var(--font-primary);
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #0088ff;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #ffffff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+
+
+/* Custom Classes */
+
+.primary_text {
+  color: var(--text);
+  font-family: "Sofia Sans", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 48px;
+  text-shadow: 6px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.secondary_text {
+  color: var(--text);
+  font-family: "Sofia Sans", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+}
+
+.normal_text {
+  color: var(--text);
+  font-family: "Sofia Sans", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
 }
 
 .primary_object {
-    background: rgba(183, 182, 182, 0.373);
-    color: var(--color-text);
-    font-family: var(--font-primary);
-    border-radius: 8px;
-    box-shadow: 4px 6px 8px rgba(0, 0, 0, 0.2);
-    transition: box-shadow 0.3s ease-in-out;
-}
-
-.primary_button {
-    background: var(--color-accent);
-    color: var(--color-primary);
-    font-family: var(--font-primary);
-}
-
-.primary_button:hover {
-    box-shadow: 0 0 5px var(--color-accent),
-        0 0 5px var(--color-accent);
-}
-
-/* Disabled button state */
-.primary_button:disabled {
-    cursor: not-allowed;
-}
-
-
-/* Light mode */
-@media (prefers-color-scheme: light) {
-    :root {
-        color: #213547;
-        background-color: #ffffff;
-    }
+  background: linear-gradient(-125deg, #9db6d8 10%, #d3dbe7 25%);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
 }

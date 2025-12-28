@@ -1,50 +1,36 @@
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Landing from "./pages/Landing";
+import Apply from "./pages/Apply";
+import Taxes from "./pages/Taxes";
+import "./i18n";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
-import './App.css'
-import "./i18n.js";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
-import Programs from "./components/Programs";
-import Requirements from "./components/Requirements";
-import Resources from "./components/Resources";
-import Documents from "./components/Documents";
-import ContactForm from "./components/ContactForm";
-import News from "./components/News";
-import LoginSection from "./components/LoginSection";
-import Footer from "./components/Footer";
-import Dashboard from "./pages/Panel/Dashboard";
-import ApplyProcedureButton from './components/ApplyProcedureButton.jsx';
-import PhdAdmission from './pages/Panel/PhdAdmission.jsx';
+function App() {
+  const { i18n } = useTranslation();
 
-// import { Dashboard } from "./components/Panel/Dashboard";
+  // Restore language from localStorage
+  useEffect(() => {
+    const savedLang = localStorage.getItem("language");
+    if (savedLang && savedLang !== i18n.language) {
+      i18n.changeLanguage(savedLang);
+    }
+  }, [i18n]);
 
-export default function App() {
+
   return (
-    <Router>
-      <Routes>
-        {/* Main site */}
-        <Route
-          path="/"
-          element={
-            <div className="font-sans text-gray-800 bg-gray-50">
-              <Header />
-              <main className="space-y-16">
-                <Programs />
-                <ApplyProcedureButton />
-                <Requirements />
-                <LoginSection />
-                <Resources />
-                <Documents />
-                <News />
-              </main>
-              <Footer />
-            </div>
-          }
-        />
+    <Routes>
+      {/* Landing page */}
+      <Route path="/" element={<Landing />} />
+      <Route path="/apply" element={<Apply />} />
+      <Route path="/taxes" element={<Taxes />} />
 
-        {/* Dashboard / Panel */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/phd-admission" element={<PhdAdmission />} />
-      </Routes>
-    </Router>
+      {/* Future routes */}
+      {/* <Route path="/login" element={<Login />} /> */}
+      {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+    </Routes>
   );
 }
+
+export default App;
