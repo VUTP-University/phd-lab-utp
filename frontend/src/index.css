@@ -53,25 +53,7 @@ h1 {
   line-height: 1.1;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: "Sofia Sans", sans-serif;
-  background-color: var(--text);
-  color: var(--bg);
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  background-color: var(--primary);
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -119,4 +101,26 @@ button:focus-visible {
   background: linear-gradient(-125deg, #9db6d8 10%, #d3dbe7 25%);
   border-radius: 12px;
   box-shadow: var(--shadow);
+}
+
+
+
+.custom_button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: "Sofia Sans", sans-serif;
+  background-color: var(--text);
+  color: var(--bg);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+.custom_button:hover {
+  background-color: var(--primary);
+}
+.custom_button:focus,
+.custom_button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }

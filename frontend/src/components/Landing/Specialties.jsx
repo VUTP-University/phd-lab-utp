@@ -92,22 +92,22 @@ export default function Specialties() {
         <div className="mt-2 pt-8 border-t border-blue/10">
           <div className="flex flex-wrap justify-center gap-4">
             {/* Application */}
-            <button className="px-6 py-3 border rounded-lg transition" onClick={() => navigate("/apply")}>
+            <button className="px-6 py-3 transition custom_button" onClick={() => navigate("/apply")}>
               {t("specialties.application")}
             </button>
 
             {/* Higher Education Act */}
-            <button className="px-6 py-3 border rounded-lg transition">
+            <button className="px-6 py-3 transition custom_button">
               {t("specialties.law")}
             </button>
 
             {/* Academic Staff Regulations */}
-            <button className="px-6 py-3 border rounded-lg transition">
+            <button className="px-6 py-3 transition custom_button">
               {t("specialties.regulations")}
             </button>
 
             {/* Taxes */}
-            <button className="px-6 py-3 border rounded-lg transition" onClick={() => navigate("/taxes")}>
+            <button className="px-6 py-3 transition custom_button" onClick={() => navigate("/taxes")}>
               {t("specialties.taxes")}
             </button>
           </div>

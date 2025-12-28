@@ -15,6 +15,13 @@ const resources = {
         contact: "Контакти",
         login: "Вход за регистрирани потребители"
       },
+      contact: {
+        title: "Свържете се с нас",
+        mail: "Email",
+        phone: "Телефон",
+        address: "Адрес",
+        socials: "Социални мрежи"
+      },
       specialties: {
         title: "Докторантски програми",
         code: "Шифър",
@@ -101,6 +108,13 @@ const resources = {
         mission_button: "Mission",
         contact: "Contact",
         login: "Login for registered users"
+      },
+      contact: {
+        title: "Contact Us",
+        mail: "Email",
+        phone: "Phone",
+        address: "Address",
+        socials: "Social Media"
       },
       specialties: {
         title: "Doctoral Programs",

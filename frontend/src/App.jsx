@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
+import Contacts from "./pages/Contacts";
 import Apply from "./pages/Apply";
 import Taxes from "./pages/Taxes";
 import "./i18n";
@@ -23,8 +24,10 @@ function App() {
     <Routes>
       {/* Landing page */}
       <Route path="/" element={<Landing />} />
+      <Route path="/contacts" element={<Contacts />} />
       <Route path="/apply" element={<Apply />} />
       <Route path="/taxes" element={<Taxes />} />
+
 
       {/* Future routes */}
       {/* <Route path="/login" element={<Login />} /> */}

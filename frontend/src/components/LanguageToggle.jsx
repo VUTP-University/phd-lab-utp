@@ -20,7 +20,7 @@ export default function LanguageToggle() {
   return (
     <button
       onClick={() => setLanguage(language === "bg" ? "en" : "bg")}
-      className="button mb-4"
+      className="custom_button mb-4"
     >
       {language === "bg" ? "EN" : "BG"}
     </button>
