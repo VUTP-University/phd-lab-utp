@@ -1,40 +1,44 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { GoogleLogin } from "@react-oauth/google";
+// import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
 export default function Hero() {
   const { t } = useTranslation();
 
-  const handleGoogleSuccess = async (credentialResponse) => {
-    try {
-      const res = await axios.post(
-        `${API_URL}/auth/google/`,
-        {
-          access_token: credentialResponse.credential,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      const { name, email, picture, is_lab_admin } = res.data;
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ name, email, picture, is_lab_admin })
-      );
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Login failed:", error.response?.data || error.message);
-    }
-  };
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const res = await axios.post(
+          `${API_URL}/auth/google/`,
+          {
+            access_token: tokenResponse.access_token,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
 
-  const handleGoogleError = () => {
-    console.error("Google Login Failed");
-  };
+        const { name, email, picture, is_lab_admin } = res.data;
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ name, email, picture, is_lab_admin })
+        );
+
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Login failed:", error);
+      }
+    },
+    onError: () => {
+      console.error("Google Login Failed");
+    },
+  });
 
   return (
     <section className="primary_object">
-      <div className="max-w-7xl mx-auto px-6 py-24 text-center">
+      <div className="max-w-7xl mx-auto px-6 py-6 text-center">
         <h1 className="font-bold primary_text">{t("hero.phd_lab")}</h1>
         <h1 className="mt-4 text-2xl max-w-2xl mx-auto secondary_text">
           {t("hero.uni_name")}
@@ -56,7 +60,7 @@ export default function Hero() {
         </div>
 
         {/* Google Sign-In */}
-        <div className="mt-10 flex justify-center">
+        {/* <div className="mt-10 flex justify-center">
           <div className="rounded-2xl p-6 text-center">
             <h3 className="font-bold text-blue-800 mb-4">{t("hero.login")}</h3>
             <GoogleLogin
@@ -65,6 +69,24 @@ export default function Hero() {
               useOneTap
             />
           </div>
+        </div> */}
+        <div className="mt-10 flex justify-center">
+          <button
+            onClick={() => googleLogin()}
+            className="flex items-center justify-center gap-3
+             px-6 py-3 rounded-lg
+             bg-white border border-gray-300
+             shadow hover:shadow-md
+             hover:bg-gray-50 transition
+             font-medium text-gray-700"
+          >
+            <img
+              src="../../src/assets/google.png"
+              alt="Google"
+              className="w-5 h-5"
+            />
+            {t("hero.login")}
+          </button>
         </div>
       </div>
     </section>
