@@ -1,42 +1,40 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-
 export default function TaxesTable({ columns, data, title }) {
-    
-    return (
-    <section className="pb-10 pt-20 mt-10 primary_object">
-        <h2 className="text-3xl font-bold px-30 text-center primary_text">
-            {useTranslation().t("tax.BGtitle")}
-        </h2>
-      <div className="overflow-x-auto mt-6">
-        <table className="min-w-full divide-y divide-blue/10 rounded-xl border border-blue/10 bg-white/5">
-          {/* Table Head */}
+  const { t } = useTranslation();
+
+  return (
+    <section className="primary_object p-6 sm:p-8 rounded-2xl">
+      <h2 className="text-3xl font-bold text-center primary_text mb-6">
+        {t("tax.BGtitle")}
+      </h2>
+
+      <div className="overflow-x-auto">
+        <table className="w-full table-auto border-collapse rounded-lg overflow-hidden">
           <thead className="bg-white/10">
             <tr>
               {columns.map((col) => (
                 <th
                   key={col.key}
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-semibold tracking-wider secondary_text"
+                  className="px-4 py-2 text-left text-sm font-semibold tracking-wide secondary_text border-b border-blue/20"
                 >
                   {col.label}
                 </th>
               ))}
             </tr>
           </thead>
-  
-          {/* Table Body */}
-          <tbody className="divide-y divide-blue/10 normal_text">
+          <tbody>
             {data.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
-                className="transition-colors rounded-md"
+                className="hover:bg-white/5 transition-colors"
               >
                 {columns.map((col) => (
                   <td
                     key={col.key}
-                    className="px-6 py-4 font-medium text-sm"
+                    className="px-4 py-2 text-sm font-medium border-b border-blue/20"
                   >
                     {row[col.key]}
                   </td>
@@ -47,5 +45,5 @@ export default function TaxesTable({ columns, data, title }) {
         </table>
       </div>
     </section>
-    );
-  }
+  );
+}

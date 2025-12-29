@@ -20,7 +20,15 @@ const resources = {
         mail: "Email",
         phone: "Телефон",
         address: "Адрес",
-        socials: "Социални мрежи"
+        socials: "Социални мрежи",
+        back_button: "Назад",
+        send_message: "Изпратете съобщения",
+        placeholder_name: 'Име',
+        placeholder_email: 'Имейл',
+        email_subject: "Запитване от сайта",
+        message: "Съобщение"
+      
+
       },
       specialties: {
         title: "Докторантски програми",
@@ -114,7 +122,13 @@ const resources = {
         mail: "Email",
         phone: "Phone",
         address: "Address",
-        socials: "Social Media"
+        socials: "Social Media",
+        back_button: "Back",
+        send_message: "Send message",
+        placeholder_name: 'Name',
+        placeholder_email: 'Email',
+        email_subject: "Subject",
+        message: "Message"
       },
       specialties: {
         title: "Doctoral Programs",

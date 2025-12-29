@@ -2,7 +2,25 @@ export default {
   darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
+     container: {
+      center: true,
+      padding: "1rem",
+      screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+      },
+    },
     extend: {
+      screens: {
+      xs: "475px", 
+      sm: "640px", 
+      md: "768px",
+      lg: "1024px", 
+      xl: "1280px",
+      "2xl": "1536px",
+    },
       colors: {
         /* Brand */
         primary: {

@@ -9,6 +9,7 @@ const specialties = [
     program: "theoretical_foundations_communication_tech",
     fullTime: 2,
     partTime: 2,
+    pdf: "#", //link for pdf
   },
   {
     code: "5.3",
@@ -16,6 +17,7 @@ const specialties = [
     program: "it_networks_cybersecurity",
     fullTime: 3,
     partTime: 2,
+    pdf: "#",
   },
   {
     code: "5.13",
@@ -23,30 +25,29 @@ const specialties = [
     program: "industrial_engineering",
     fullTime: 1,
     partTime: 1,
+    pdf: "#",
   },
 ];
 
 export default function Specialties() {
-  
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
-    <section className="pb-10 pt-10 mt-10 primary_object">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Specialties */}
-        <h2 className="text-3xl font-bold text-center primary_text mb-10">
+    <section className="primary_object py-12 sm:py-6 mt-5">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center primary_text mb-10">
           {t("specialties.title")}
         </h2>
         <ul role="list" className="divide-y divide-blue/10">
           {specialties.map((spec, index) => (
             <li
-              key={index}
-              className="flex flex-col sm:flex-row justify-between gap-6 py-4"
-            >
-              {/* Left side */}
+  key={index}
+  className="flex flex-col sm:flex-row justify-between gap-6 py-6 px-4 sm:px-6 rounded-lg shadow-sm bg-surface-light dark:bg-surface-dark"
+>
+              {/* Лява част */}
               <div className="flex-1">
-                <p className="mt-1 secondary_text">
+                <p className="secondary_text">
                   {t(`specialties.programs.${spec.program}`)}
                 </p>
 
@@ -55,30 +56,26 @@ export default function Specialties() {
                   {t(`specialties.fields.${spec.field}`)}
                 </p>
 
-                <a
-                  href={spec.pdf}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-4 px-4 py-2
-                              text-red-500
-                              rounded-md text-sm font-semibold
-                              hover:bg-red-500
-                              transition"
-                >
-                  <span className="px-2 py-0.5 bg-red-500 text-white rounded text-xs font-bold">
-                    PDF
-                  </span>
-                  {t("specialties.download")}
-                </a>
+                {spec.pdf && (
+                 <a
+    href={spec.pdf}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-flex w-full sm:w-auto flex-col sm:flex-row items-center sm:items-center gap-2 mt-4 rounded-md text-sm font-semibold transition"
+  >
+                    <span className="px-2 py-1 bg-red-500 text-white rounded text-xs font-bold">
+                      PDF
+                    </span>
+                    <span className="sm:ml-2">{t("specialties.download")}</span>
+                  </a>
+                )}
               </div>
-
-              {/* Right side */}
-              <div className="flex gap-6 normal_text">
-                <div>
+              <div className="flex gap-6 sm:mt-0 normal_text justify-center sm:justify-end">
+                <div className="text-center">
                   <p className="font-semibold">{t("specialties.fullTime")}</p>
                   <p>{spec.fullTime}</p>
                 </div>
-                <div>
+                <div className="text-center">
                   <p className="font-semibold">{t("specialties.partTime")}</p>
                   <p>{spec.partTime}</p>
                 </div>
@@ -87,31 +84,32 @@ export default function Specialties() {
           ))}
         </ul>
 
+        <div className="mt-8 pt-8 border-t border-blue/10">
+  <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
+    <button
+      className="custom_button w-full sm:w-auto px-6 py-3 transition"
+      onClick={() => navigate("/apply")}
+    >
+      {t("specialties.application")}
+    </button>
 
-        {/* Administrative documents */}
-        <div className="mt-2 pt-8 border-t border-blue/10">
-          <div className="flex flex-wrap justify-center gap-4">
-            {/* Application */}
-            <button className="px-6 py-3 transition custom_button" onClick={() => navigate("/apply")}>
-              {t("specialties.application")}
-            </button>
+    <button className="custom_button w-full sm:w-auto px-6 py-3 transition">
+      {t("specialties.law")}
+    </button>
 
-            {/* Higher Education Act */}
-            <button className="px-6 py-3 transition custom_button">
-              {t("specialties.law")}
-            </button>
+    <button className="custom_button w-full sm:w-auto px-6 py-3 transition">
+      {t("specialties.regulations")}
+    </button>
 
-            {/* Academic Staff Regulations */}
-            <button className="px-6 py-3 transition custom_button">
-              {t("specialties.regulations")}
-            </button>
+    <button
+      className="custom_button w-full sm:w-auto px-6 py-3 transition"
+      onClick={() => navigate("/taxes")}
+    >
+      {t("specialties.taxes")}
+    </button>
+  </div>
+</div>
 
-            {/* Taxes */}
-            <button className="px-6 py-3 transition custom_button" onClick={() => navigate("/taxes")}>
-              {t("specialties.taxes")}
-            </button>
-          </div>
-        </div>
       </div>
     </section>
   );

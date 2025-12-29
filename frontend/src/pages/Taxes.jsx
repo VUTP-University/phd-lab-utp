@@ -4,7 +4,7 @@ import ThemeToggle from "../components/ThemeToggle";
 import LanguageToggle from "../components/LanguageToggle";
 import Footer from "../components/Footer";
 import TaxesTables from "../components/Taxes/TaxesTables";
-
+import BackButton from "../components/BackButton";
 
 export default function Taxes() {
   const { t } = useTranslation();
@@ -50,13 +50,16 @@ export default function Taxes() {
   
     return (
       <>
-        <header className="flex justify-end p-4">
+        <header className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20 mt-6">
           <div className="space-x-2">
             <LanguageToggle />
             <ThemeToggle />
           </div>
         </header>
+        <main className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
             <TaxesTables title={titleBG} columns={columnsBG} data={dataBG} />
+            <BackButton/>
+            </main>
             {/* <TaxesTables columns={columnsNonBG} data={dataNonBG}/> */}
         <footer>
             <Footer />
