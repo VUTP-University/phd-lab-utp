@@ -33,54 +33,42 @@ export default function Hero() {
 
 
   return (
-    <section className="primary_object">
-      <div className="max-w-7xl mx-auto px-6 py-6 text-center">
-        <h1 className="font-bold primary_text">{t("hero.phd_lab")}</h1>
-        <h1 className="mt-4 text-2xl max-w-2xl mx-auto secondary_text">
-          {t("hero.uni_name")}
-        </h1>
-        <p className="mt-6 text-xl max-w-3xl mx-auto normal_text">
-          {t("hero.description")}
-        </p>
+    <section className="primary_object py-6">
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 className="font-bold primary_text">{t("hero.phd_lab")}</h1>
+    <h2 className="mt-4 secondary_text max-w-2xl mx-auto">
+      {t("hero.uni_name")}
+    </h2>
+    <p className="mt-6 normal_text max-w-3xl mx-auto">
+      {t("hero.description")}
+    </p>
 
-        <div className="mt-10 flex justify-center gap-4">
-          <button className="px-6 py-3 shadow transition custom_button">
-            {t("hero.info_button")}
-          </button>
-          <button className="px-6 py-3 transition custom_button">
-            {t("hero.mission_button")}
-          </button>
-          <button className="px-6 py-3 transition custom_button" onClick={() => navigate("/contacts")}>
-            {t("hero.contact")}
-          </button>
-        </div>
+    <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+      <button className="custom_button px-6 py-3 shadow transition">
+        {t("hero.info_button")}
+      </button>
+      <button className="custom_button px-6 py-3 transition">
+        {t("hero.mission_button")}
+      </button>
+      <button
+        className="custom_button px-6 py-3 transition"
+        onClick={() => navigate("/contacts")}
+      >
+        {t("hero.contact")}
+      </button>
+    </div>
 
-        {/* Google Sign-In */}
-        <div className="mt-10 flex justify-center">
-          <div className="rounded-2xl p-6 text-center">
-            <h3 className="font-bold text-blue-800 mb-4">{t("hero.login")}</h3>
-            <GoogleLogin
-              onSuccess={handleGoogleSuccess}
-              onError={handleGoogleError}
-              useOneTap
-            />
-          </div>
-        </div>
-        {/* <div className="mt-10 flex justify-center">
-          <button
-            onClick={() => handleGoogleSuccess()}
-            className="flex items-center justify-center gap-3
-             px-6 py-3 transition custom_button"
-          >
-            <img
-              src="../../src/assets/google.png"
-              alt="Google"
-              className="w-5 h-5"
-            />
-            {t("hero.login")}
-          </button>
-        </div> */}
+    <div className="mt-10 flex justify-center">
+      <div className="rounded-2xl p-6 text-center">
+        <h3 className="font-bold text-blue-800 mb-4">{t("hero.login")}</h3>
+        <GoogleLogin
+          onSuccess={handleGoogleSuccess}
+          onError={handleGoogleError}
+          useOneTap
+        />
       </div>
-    </section>
+    </div>
+  </div>
+</section>
   );
 }

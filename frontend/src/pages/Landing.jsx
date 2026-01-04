@@ -10,17 +10,20 @@ import Footer from "../components/Footer";
 export default function Landing() {
   return (
     <>
-      <header className="flex justify-end p-4">
-        <div className="space-x-2">
+      <header className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20 mt-6">
+        <div className="flex items-center gap-3">
           <LanguageToggle />
           <ThemeToggle />
         </div>
       </header>
-      <Hero />
-      <Specialties />
-      <Documents />
-      <NewsEvents />
-      <footer>
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+        <Hero />
+        <Specialties />
+        <Documents />
+        <NewsEvents />
+      </main>
+
+      <footer className="mt-20">
         <Footer />
       </footer>
     </>
