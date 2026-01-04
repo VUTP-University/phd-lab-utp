@@ -12,7 +12,7 @@ export default function TaxesTable({ columns, data, title }) {
 
       <div className="overflow-x-auto">
         <table className="w-full table-auto border-collapse rounded-lg overflow-hidden">
-          <thead className="bg-white/10">
+          <thead className="">
             <tr>
               {columns.map((col) => (
                 <th
