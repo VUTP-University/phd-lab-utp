@@ -4,6 +4,7 @@ import Landing from "./pages/Landing";
 import Contacts from "./pages/Contacts";
 import Apply from "./pages/Apply";
 import Taxes from "./pages/Taxes";
+import Dashboard from "./pages/Dashboard";
 import "./i18n";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -27,7 +28,7 @@ function App() {
       <Route path="/contacts" element={<Contacts />} />
       <Route path="/apply" element={<Apply />} />
       <Route path="/taxes" element={<Taxes />} />
-
+      <Route path="/dashboard" element={<Dashboard />} />
 
       {/* Future routes */}
       {/* <Route path="/login" element={<Login />} /> */}
