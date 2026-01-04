@@ -61,7 +61,7 @@ export default function Specialties() {
                     href={spec.pdf}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex w-full sm:w-auto flex-col sm:flex-row items-center sm:items-center gap-2 mt-4 rounded-md text-sm font-semibold transition"
+                    className="mt-4 px-4 py-2 inline-flex w-full sm:w-auto flex-col text-red-500 hover:bg-red-500 sm:flex-row items-center sm:items-center gap-2 mt-4 rounded-md text-sm font-semibold transition"
                   >
                     <span className="px-2 py-1 bg-red-500 text-white rounded text-xs font-bold">
                       PDF
