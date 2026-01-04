@@ -36,15 +36,15 @@ export default function Specialties() {
   return (
     <section className="primary_object py-12 sm:py-6 mt-5">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center primary_text mb-10">
+        <h2 className="text-3xl mb-10 sm:text-4xl font-bold text-center primary_text ">
           {t("specialties.title")}
         </h2>
         <ul role="list" className="divide-y divide-blue/10">
           {specialties.map((spec, index) => (
             <li
-  key={index}
-  className="flex flex-col sm:flex-row justify-between gap-6 py-6 px-4 sm:px-6 rounded-lg shadow-sm bg-surface-light dark:bg-surface-dark"
->
+              key={index}
+              className="flex flex-col sm:flex-row justify-between gap-6 py-6 px-4 sm:px-6"
+            >
               {/* Лява част */}
               <div className="flex-1">
                 <p className="secondary_text">
@@ -57,12 +57,12 @@ export default function Specialties() {
                 </p>
 
                 {spec.pdf && (
-                 <a
-    href={spec.pdf}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="inline-flex w-full sm:w-auto flex-col sm:flex-row items-center sm:items-center gap-2 mt-4 rounded-md text-sm font-semibold transition"
-  >
+                  <a
+                    href={spec.pdf}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex w-full sm:w-auto flex-col sm:flex-row items-center sm:items-center gap-2 mt-4 rounded-md text-sm font-semibold transition"
+                  >
                     <span className="px-2 py-1 bg-red-500 text-white rounded text-xs font-bold">
                       PDF
                     </span>
@@ -85,31 +85,30 @@ export default function Specialties() {
         </ul>
 
         <div className="mt-8 pt-8 border-t border-blue/10">
-  <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
-    <button
-      className="custom_button w-full sm:w-auto px-6 py-3 transition"
-      onClick={() => navigate("/apply")}
-    >
-      {t("specialties.application")}
-    </button>
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
+            <button
+              className="custom_button w-full sm:w-auto px-6 py-3 transition"
+              onClick={() => navigate("/apply")}
+            >
+              {t("specialties.application")}
+            </button>
 
-    <button className="custom_button w-full sm:w-auto px-6 py-3 transition">
-      {t("specialties.law")}
-    </button>
+            <button className="custom_button w-full sm:w-auto px-6 py-3 transition">
+              {t("specialties.law")}
+            </button>
 
-    <button className="custom_button w-full sm:w-auto px-6 py-3 transition">
-      {t("specialties.regulations")}
-    </button>
+            <button className="custom_button w-full sm:w-auto px-6 py-3 transition">
+              {t("specialties.regulations")}
+            </button>
 
-    <button
-      className="custom_button w-full sm:w-auto px-6 py-3 transition"
-      onClick={() => navigate("/taxes")}
-    >
-      {t("specialties.taxes")}
-    </button>
-  </div>
-</div>
-
+            <button
+              className="custom_button w-full sm:w-auto px-6 py-3 transition"
+              onClick={() => navigate("/taxes")}
+            >
+              {t("specialties.taxes")}
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );
