@@ -6,7 +6,7 @@ charset-normalizer==3.4.4
 cryptography==46.0.3
 dj-rest-auth==7.0.1
 Django
-django-allauth==65.12.1
+django-allauth==65.13.1
 django-cors-headers==4.9.0
 djangorestframework==3.16.1
 dotenv==0.9.9
