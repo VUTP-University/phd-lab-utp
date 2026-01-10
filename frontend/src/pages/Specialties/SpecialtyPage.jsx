@@ -49,10 +49,7 @@ export default function SpecialtyPage() {
           <div className="text-center py-20">
             <h2 className="text-2xl font-bold mb-4">404</h2>
             <p className="mb-6">{t("specialties.notFound")}</p>
-            <button
-              className="custom_button"
-              onClick={() => navigate("/")}
-            >
+            <button className="custom_button" onClick={() => navigate("/")}>
               {t("common.back")}
             </button>
           </div>
@@ -68,22 +65,34 @@ export default function SpecialtyPage() {
             </p>
 
             {loading ? (
-              <p className="italic opacity-70">
-                {t("common.loading")}
-              </p>
+              <p className="italic opacity-70">{t("common.loading")}</p>
             ) : (
               <div className="leading-relaxed w-full normal_text">
                 {content}
               </div>
             )}
 
-            <div className="mt-10">
+            <div className="mt-10 flex flex-col sm:flex-row gap-4">
               <button
-                className="custom_button"
+                className="custom_button w-full sm:w-auto px-6 py-3 transition text-center"
                 onClick={() => navigate("/apply")}
               >
                 {t("specialties.application")}
               </button>
+
+              {specialty.pdf && (
+                <a
+                  href={specialty.pdf}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="custom_button w-full sm:w-auto px-6 py-3 transition flex justify-center items-center"
+                >
+                  <span className="px-2 py-1 bg-red-500 text-white rounded text-xs font-bold mr-2">
+                    PDF
+                  </span>
+                  {t("specialties.download")}
+                </a>
+              )}
             </div>
           </>
         )}

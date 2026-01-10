@@ -2,7 +2,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-const AZURE_BLOB_BASE_URL = import.meta.env.VITE_AZURE_BLOB_URL;
 
 const specialties = [
   {
@@ -12,7 +11,6 @@ const specialties = [
     fullTime: 2,
     partTime: 2,
     page: "tfct",
-    descriptionKey: "tfct_description",
   },
   {
     code: "5.3",
@@ -21,7 +19,6 @@ const specialties = [
     fullTime: 3,
     partTime: 2,
     page: "itnc",
-    descriptionKey: "itnc_description",
   },
   {
     code: "5.13",
@@ -30,7 +27,6 @@ const specialties = [
     fullTime: 1,
     partTime: 1,
     page: "ie",
-    descriptionKey: "ie_description",
   },
   {
     code: "3.7",
@@ -39,9 +35,9 @@ const specialties = [
     fullTime: 2,
     partTime: 2,
     page: "omtp",
-    descriptionKey: "omtp_description",
   }
 ];
+
 
 export default function Specialties() {
   const { t } = useTranslation();
@@ -75,20 +71,6 @@ export default function Specialties() {
                 >
                   {t("specialties.moreinfo")}
                 </button>
-
-                {/* {spec.pdf && (
-                  <a
-                    href={spec.pdf}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 px-4 py-2 inline-flex w-full sm:w-auto flex-col text-red-500 hover:bg-red-500 sm:flex-row items-center sm:items-center gap-2 mt-4 rounded-md text-sm font-semibold transition"
-                  >
-                    <span className="px-2 py-1 bg-red-500 text-white rounded text-xs font-bold">
-                      PDF
-                    </span>
-                    <span className="sm:ml-2">{t("specialties.download")}</span>
-                  </a>
-                )} */}
               </div>
             </li>
           ))}
