@@ -37,10 +37,12 @@ const resources = {
         program: "Докторска програма",
         fullTime: "Редовна",
         partTime: "Задочна",
+        moreinfo: "Повече информация",
 
         fields: {
           communication_computer_engineering: "Комуникационна и компютърна техника",
           general_engineering: "Общо инженерство",
+          administration_management: "Администрация и управление",
         },
         programs: {
           theoretical_foundations_communication_tech:
@@ -48,6 +50,8 @@ const resources = {
           it_networks_cybersecurity:
             "Информационни технологии, комуникационни мрежи и киберсигурност",
           industrial_engineering: "Индустриален инженеринг",
+          organization_and_management_of_telecommunication_and_post:
+            "Организация и управление в телекомуникациите и пощите"
         },
         download: "Изтегли конспект",
         application: "Кандидатстване",
@@ -137,18 +141,21 @@ const resources = {
         program: "Doctoral Program",
         fullTime: "Full-time",
         partTime: "Part-time",
+        moreinfo: "More Info",
 
         fields: {
-          communication_computer_engineering:
-            "Communication and Computer Engineering",
+          communication_computer_engineering: "Communication and Computer Engineering",
           general_engineering: "General Engineering",
+          administration_management: "Administration and Management"
         },
         programs: {
           theoretical_foundations_communication_tech:
             "Theoretical Foundations of Communication Technology",
           it_networks_cybersecurity:
             "Information Technologies, Communication Networks and Cybersecurity",
-          industrial_engineering: "Industrial Engineering"
+          industrial_engineering: "Industrial Engineering",
+          organization_and_management_of_telecommunication_and_post:
+            "Organization and Management of Telecommunications and Post"
         },
         download: "Download Synopsis",
         application: "Apply",

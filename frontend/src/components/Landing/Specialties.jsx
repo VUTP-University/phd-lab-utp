@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
+
 const specialties = [
   {
     code: "5.3",
@@ -9,7 +10,7 @@ const specialties = [
     program: "theoretical_foundations_communication_tech",
     fullTime: 2,
     partTime: 2,
-    pdf: "#", //link for pdf
+    page: "tfct",
   },
   {
     code: "5.3",
@@ -17,7 +18,7 @@ const specialties = [
     program: "it_networks_cybersecurity",
     fullTime: 3,
     partTime: 2,
-    pdf: "#",
+    page: "itnc",
   },
   {
     code: "5.13",
@@ -25,9 +26,18 @@ const specialties = [
     program: "industrial_engineering",
     fullTime: 1,
     partTime: 1,
-    pdf: "#",
+    page: "ie",
   },
+  {
+    code: "3.7",
+    field: "administration_management",
+    program: "organization_and_management_of_telecommunication_and_post",
+    fullTime: 2,
+    partTime: 2,
+    page: "omtp",
+  }
 ];
+
 
 export default function Specialties() {
   const { t } = useTranslation();
@@ -45,46 +55,28 @@ export default function Specialties() {
               key={index}
               className="flex flex-col sm:flex-row justify-between gap-6 py-6 px-4 sm:px-6"
             >
-              {/* Лява част */}
               <div className="flex-1">
                 <p className="secondary_text">
                   {t(`specialties.programs.${spec.program}`)}
                 </p>
 
-                <p className="mt-2 normal_text">
+                <p className="mt-2 mb-2 normal_text">
                   {t("specialties.field")}: {spec.code} -{" "}
                   {t(`specialties.fields.${spec.field}`)}
                 </p>
 
-                {spec.pdf && (
-                  <a
-                    href={spec.pdf}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 px-4 py-2 inline-flex w-full sm:w-auto flex-col text-red-500 hover:bg-red-500 sm:flex-row items-center sm:items-center gap-2 mt-4 rounded-md text-sm font-semibold transition"
-                  >
-                    <span className="px-2 py-1 bg-red-500 text-white rounded text-xs font-bold">
-                      PDF
-                    </span>
-                    <span className="sm:ml-2">{t("specialties.download")}</span>
-                  </a>
-                )}
-              </div>
-              <div className="flex gap-6 sm:mt-0 normal_text justify-center sm:justify-end">
-                <div className="text-center">
-                  <p className="font-semibold">{t("specialties.fullTime")}</p>
-                  <p>{spec.fullTime}</p>
-                </div>
-                <div className="text-center">
-                  <p className="font-semibold">{t("specialties.partTime")}</p>
-                  <p>{spec.partTime}</p>
-                </div>
+                <button
+                  className="w-full sm:w-auto px-6 py-2 transition custom_button"
+                  onClick={() => navigate(`/specialties/${spec.page}`)}
+                >
+                  {t("specialties.moreinfo")}
+                </button>
               </div>
             </li>
           ))}
         </ul>
 
-        <div className="mt-8 pt-8 border-t border-blue/10">
+        <div className="mt-2 pt-8 border-t border-blue/10">
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
             <button
               className="custom_button w-full sm:w-auto px-6 py-3 transition"

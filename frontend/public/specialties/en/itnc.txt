@@ -1,0 +1,15 @@
+Information Technology, Communication Networks, and Cybersecurity is an interdisciplinary 
+field that combines principles from computer science, communication engineering, 
+and information security. Its main goal is the design, development, 
+and management of modern information and communication systems with high reliability, 
+efficiency, and protection against cyber threats.
+
+Within Professional Field 5.3 – Communication and Computer Engineering, 
+research areas include computer network design and optimization, protocol analysis,
+network resource management, cloud and distributed systems, cryptography, cybersecurity and data protection, 
+as well as the implementation of technologies for detecting and preventing cyberattacks.
+
+PhD training in this field aims to develop highly qualified researchers 
+capable of conducting independent scientific research, designing innovative solutions 
+for the protection of information systems, and contributing to the advancement 
+of modern technologies in information technology, communication networks, and cybersecurity.

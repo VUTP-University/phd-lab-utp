@@ -1,0 +1,15 @@
+Industrial Engineering is an interdisciplinary engineering field focused on the design, analysis, 
+optimization, and management of complex industrial and organizational systems. 
+It combines engineering principles with methods from mathematics, economics, 
+and management to improve efficiency, productivity, quality, and sustainability in industrial 
+and service-oriented environments.
+
+Within the PhD Study Program in General Engineering (Professional Field 5.13), 
+research in Industrial Engineering covers a broad range of topics, including optimization of production 
+and logistics systems, supply chain management, industrial information systems, 
+process automation and digitalization, modeling and simulation, quality management, 
+as well as the application of artificial intelligence and data analytics in industrial contexts.
+
+The program aims to educate highly qualified researchers capable of 
+conducting independent scientific research, developing innovative solutions to modern industrial challenges, 
+and contributing to the advancement of both theory and practice in the field of Industrial Engineering.

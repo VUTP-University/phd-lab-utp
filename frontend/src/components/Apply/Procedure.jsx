@@ -1,16 +1,18 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+
+
+const DO_SPACE_BASE_URL = import.meta.env.VITE_DO_SPACES_ENDPOINT;
 
 const procedureSteps = [
-  { key: "step1", file: "/" },
+  { key: "step1", file: DO_SPACE_BASE_URL + "apply_procedure_docs/zayavlenie-po-obrazec-redovna-zadochna-doktorantura.pdf" },
   { key: "step2" },
-  { key: "step3"},
+  { key: "step3" },
   { key: "step4" },
-  { key: "step5", file: "/" },
+  { key: "step5", file: DO_SPACE_BASE_URL + "apply_procedure_docs/deklaraciya-po-chl-91.pdf" },
   { key: "step6" },
-  { key: "step7", file: "/" },
-  { key: "step8", file: "/" },
+  { key: "step7", file: DO_SPACE_BASE_URL + "apply_procedure_docs/formulyar-saglasie-sabirane-obrabotka-ld-kopie.pdf" },
+  { key: "step8", file: DO_SPACE_BASE_URL + "apply_procedure_docs/deklaraciya-dostovernost-predstavenite-dokumenti.pdf" },
 ];
 
 export default function Procedure() {
@@ -34,27 +36,29 @@ export default function Procedure() {
               {/* PDF Button (optional) */}
               {step.file && (
                 <a
-                href={step.file}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 py-2 px-4
-                            text-red-500
-                            rounded-md text-sm font-semibold
-                            hover:bg-red-500
-                            transition w-45"
-              >
-                <span className="px-2 py-0.5 bg-red-500 text-white rounded text-xs font-bold">
-                  PDF
-                </span>
-                {t("apply.download")}
-              </a>
+                  href={step.file}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                    inline-flex items-center gap-2
+                    px-3 py-1.5
+                    border border-red-500
+                    text-red-600
+                    rounded-md
+                    text-sm font-medium
+                    hover:bg-red-500 hover:text-white
+                    transition
+                    w-fit">
+                  <span className="px-1.5 py-0.5 bg-red-500 text-white rounded text-xs font-bold">
+                    PDF
+                  </span>
+                  {t("apply.download")}
+                </a>
               )}
             </div>
           ))}
         </div>
-        
       </div>
-     
     </section>
   );
 }

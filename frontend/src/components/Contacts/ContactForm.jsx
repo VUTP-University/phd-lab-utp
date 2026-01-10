@@ -7,7 +7,7 @@ export default function ContactForm() {
 
   return (
     <section>
-     <div className="w-full grid lg:grid-cols-2 items-start gap-16 p-6 mx-auto max-w-full rounded-2xl shadow-sm primary_object">
+      <div className="w-full grid lg:grid-cols-2 items-start gap-16 p-6 mx-auto max-w-full rounded-2xl shadow-sm primary_object">
         {/* LEFT SIDE */}
         <div>
           <h2 className="text-3xl font-bold secondary_text">
@@ -106,24 +106,24 @@ export default function ContactForm() {
         <form className="lg:ml-auto space-y-4">
           <input
             type="text"
-            placeholder= {t("contact.placeholder_name")}
+            placeholder={t("contact.placeholder_name")}
             className="w-full rounded-md py-3 px-4 bg-slate-100 text-slate-900 text-sm border border-gray-200 focus:border-slate-900 focus:bg-transparent outline-none"
           />
 
           <input
             type="email"
-            placeholder= {t("contact.placeholder_email")}
+            placeholder={t("contact.placeholder_email")}
             className="w-full rounded-md py-3 px-4 bg-slate-100 text-slate-900 text-sm border border-gray-200 focus:border-slate-900 focus:bg-transparent outline-none"
           />
 
           <input
             type="text"
-            placeholder= {t("contact.email_subject")}
+            placeholder={t("contact.email_subject")}
             className="w-full rounded-md py-3 px-4 bg-slate-100 text-slate-900 text-sm border border-gray-200 focus:border-slate-900 focus:bg-transparent outline-none"
           />
 
           <textarea
-            placeholder= {t("contact.message")}
+            placeholder={t("contact.message")}
             rows="6"
             className="w-full rounded-md px-4 pt-3 bg-slate-100 text-slate-900 text-sm border border-gray-200 focus:border-slate-900 focus:bg-transparent outline-none"
           />
@@ -132,19 +132,19 @@ export default function ContactForm() {
             type="submit"
             className="w-full tracking-wide rounded-md px-4 py-3 transition custom_button"
           >
-             {t("contact.send_message")}
+            {t("contact.send_message")}
           </button>
         </form>
       </div>
       <div className="mt-12 text-center">
-  <Link
-    to="/"
-    className="primary_object w-full block px-4 py-3 rounded-lg text-center hover:bg-blue-100 transition"
-  >
-    {t("contact.back_button")}
-  </Link>
-</div>
-{/* 
+        <Link
+          to="/"
+          className="primary_object w-full block px-4 py-3 rounded-lg text-center hover:bg-blue-100 transition"
+        >
+          {t("contact.back_button")}
+        </Link>
+      </div>
+      {/* 
       <div className="mt-12 text-center text-sm text-slate-500 primary_object">
         <h1 className="primary_text">Екип</h1>
       </div> */}
