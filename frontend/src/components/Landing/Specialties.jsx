@@ -2,6 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
+const AZURE_BLOB_BASE_URL = import.meta.env.VITE_AZURE_BLOB_URL;
+
 const specialties = [
   {
     code: "5.3",
@@ -9,7 +11,8 @@ const specialties = [
     program: "theoretical_foundations_communication_tech",
     fullTime: 2,
     partTime: 2,
-    pdf: "#", //link for pdf
+    page: "tfct",
+    descriptionKey: "tfct_description",
   },
   {
     code: "5.3",
@@ -17,7 +20,8 @@ const specialties = [
     program: "it_networks_cybersecurity",
     fullTime: 3,
     partTime: 2,
-    pdf: "#",
+    page: "itnc",
+    descriptionKey: "itnc_description",
   },
   {
     code: "5.13",
@@ -25,8 +29,18 @@ const specialties = [
     program: "industrial_engineering",
     fullTime: 1,
     partTime: 1,
-    pdf: "#",
+    page: "ie",
+    descriptionKey: "ie_description",
   },
+  {
+    code: "3.7",
+    field: "administration_management",
+    program: "organization_and_management_of_telecommunication_and_post",
+    fullTime: 2,
+    partTime: 2,
+    page: "omtp",
+    descriptionKey: "omtp_description",
+  }
 ];
 
 export default function Specialties() {
@@ -45,18 +59,24 @@ export default function Specialties() {
               key={index}
               className="flex flex-col sm:flex-row justify-between gap-6 py-6 px-4 sm:px-6"
             >
-              {/* Лява част */}
               <div className="flex-1">
                 <p className="secondary_text">
                   {t(`specialties.programs.${spec.program}`)}
                 </p>
 
-                <p className="mt-2 normal_text">
+                <p className="mt-2 mb-2 normal_text">
                   {t("specialties.field")}: {spec.code} -{" "}
                   {t(`specialties.fields.${spec.field}`)}
                 </p>
 
-                {spec.pdf && (
+                <button
+                  className="w-full sm:w-auto px-6 py-2 transition custom_button"
+                  onClick={() => navigate(`/specialties/${spec.page}`)}
+                >
+                  {t("specialties.moreinfo")}
+                </button>
+
+                {/* {spec.pdf && (
                   <a
                     href={spec.pdf}
                     target="_blank"
@@ -68,23 +88,13 @@ export default function Specialties() {
                     </span>
                     <span className="sm:ml-2">{t("specialties.download")}</span>
                   </a>
-                )}
-              </div>
-              <div className="flex gap-6 sm:mt-0 normal_text justify-center sm:justify-end">
-                <div className="text-center">
-                  <p className="font-semibold">{t("specialties.fullTime")}</p>
-                  <p>{spec.fullTime}</p>
-                </div>
-                <div className="text-center">
-                  <p className="font-semibold">{t("specialties.partTime")}</p>
-                  <p>{spec.partTime}</p>
-                </div>
+                )} */}
               </div>
             </li>
           ))}
         </ul>
 
-        <div className="mt-8 pt-8 border-t border-blue/10">
+        <div className="mt-2 pt-8 border-t border-blue/10">
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
             <button
               className="custom_button w-full sm:w-auto px-6 py-3 transition"
