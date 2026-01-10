@@ -39,7 +39,7 @@ export default function Hero() {
     <h2 className="mt-4 secondary_text max-w-2xl mx-auto">
       {t("hero.uni_name")}
     </h2>
-    <p className="mt-6 normal_text max-w-3xl mx-auto">
+    <p className="mt-6 normal_text max-w-3xl mx-auto text-center">
       {t("hero.description")}
     </p>
 

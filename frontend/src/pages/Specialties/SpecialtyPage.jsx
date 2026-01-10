@@ -67,7 +67,7 @@ export default function SpecialtyPage() {
             {loading ? (
               <p className="italic opacity-70">{t("common.loading")}</p>
             ) : (
-              <div className="leading-relaxed w-full normal_text">
+              <div className="leading-relaxed w-full text-justify normal_text">
                 {content}
               </div>
             )}
