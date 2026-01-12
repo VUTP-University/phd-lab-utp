@@ -7,7 +7,11 @@ const resources = {
   bg: {
     translation: {
       navbar: {
-        brand: "Смарт PhD Lab 3.0"
+        brand: "Смарт PhD Lab 3.0",
+        theme: {
+          light: "Светла тема",
+          dark: "Тъмна тема"
+        }
       },
       hero: {
         uni_name: "Висше училище по телекомуникации и пощи",
@@ -116,7 +120,11 @@ const resources = {
   en: {
     translation: {
       navbar: {
-        brand: "Smart PhD Lab 3.0"
+        brand: "Smart PhD Lab 3.0",
+        theme: {
+          light: "Light Theme",
+          dark: "Dark Theme"
+        }
       },
       hero: {
         uni_name: "University of Telecommunications and Posts",
