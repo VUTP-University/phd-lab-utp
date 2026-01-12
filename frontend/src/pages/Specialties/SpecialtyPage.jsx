@@ -36,15 +36,15 @@ export default function SpecialtyPage() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="container mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+      {/* <header className="container mx-auto px-4 sm:px-6 lg:px-8 mt-6">
         <div className="flex items-center space-x-2">
           <LanguageToggle />
           <ThemeToggle />
         </div>
-      </header>
+      </header> */}
 
       {/* Main */}
-      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-8 primary_object">
+      <main className="flex-1 container mt-10 mx-auto px-4 sm:px-6 lg:px-8 py-8 primary_object">
         {!specialty ? (
           <div className="text-center py-20">
             <h2 className="text-2xl font-bold mb-4">404</h2>
