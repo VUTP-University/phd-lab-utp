@@ -10,15 +10,15 @@ export default function Apply() {
   return (
     <div className="min-h-screen flex flex-col bg-background-light dark:bg-background-dark">
       {/* Header */}
-      <header className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20 mt-6">
+      {/* <header className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20 mt-6">
         <div className="flex items-center space-x-2">
           <LanguageToggle />
           <ThemeToggle />
         </div>
-      </header>
+      </header> */}
 
       {/* Main Content */}
-      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+      <main className="flex-1 mt-10 container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         <Procedure />
         <BackButton />
       </main>

@@ -50,13 +50,13 @@ export default function Taxes() {
   
     return (
       <>
-        <header className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20 mt-6">
+        {/* <header className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20 mt-6">
           <div className="space-x-2">
             <LanguageToggle />
             <ThemeToggle />
           </div>
-        </header>
-        <main className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+        </header> */}
+        <main className="container mt-10 mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
             <TaxesTables title={titleBG} columns={columnsBG} data={dataBG} />
             <BackButton/>
             </main>
