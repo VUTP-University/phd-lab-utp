@@ -124,3 +124,18 @@ h1 {
 .custom_button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+
+/* Language dropdown button */
+.lang_toggle_button {
+  @apply flex items-center gap-2
+         px-3 py-1.5
+         text-xs font-semibold tracking-wide uppercase
+         rounded-md
+         border border-blue-300 dark:border-blue-700
+         bg-white dark:bg-blue-900
+         text-blue-700 dark:text-gray-200
+         hover:bg-blue-100 dark:hover:bg-blue-800
+         transition
+         shadow-sm;
+}

@@ -1,11 +1,16 @@
 import React from "react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
 
+
 export default function NavbarTailwind() {
+    
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
 
   return (
     <nav className="sticky top-0 z-50 shadow bg-gray-100 border-b border-gray-200">
@@ -21,7 +26,7 @@ export default function NavbarTailwind() {
                 className="h-16 w-auto object-contain"
               />
 
-              <h1 className="text-sm normal_text">Смарт PhD Lab 3.0</h1>
+              <h1 className="text-sm normal_text">{t("navbar.brand")}</h1>
             </a>
           </div>
 
