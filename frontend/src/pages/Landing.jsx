@@ -1,6 +1,5 @@
 import React from "react";
-import ThemeToggle from "../components/ThemeToggle";
-import LanguageToggle from "../components/LanguageToggle";
+import YouTubeLiveWrapper from "../components/Landing/YouTubeLiveWrapper";
 import Hero from "../components/Landing/Hero";
 import Specialties from "../components/Landing/Specialties";
 import Documents from "../components/Landing/Documents";
@@ -10,12 +9,11 @@ import Footer from "../components/Footer";
 export default function Landing() {
   return (
     <>
-      {/* <header className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20 mt-6">
-        <div className="flex items-center gap-3">
-          <LanguageToggle />
-          <ThemeToggle />
+      <div className="mt-10 px-4">
+        <div className="max-w-4xl mx-auto">
+          <YouTubeLiveWrapper />
         </div>
-      </header> */}
+      </div>
       <main className="container mt-10 mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
         <Hero />
         <Specialties />
