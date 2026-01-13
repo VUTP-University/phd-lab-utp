@@ -22,6 +22,9 @@ urlpatterns = [
     path('', include('appuser.urls')),
     path('classroom/', include('classroom.urls')),
     
+    # YoutUbe API endpoints
+    path('api/youtube-live/', include('youtube_api.urls')),
+    
     # Google OAuth2 authentication endpoints
     path('api/auth/', include('dj_rest_auth.urls')),
     path('api/auth/', include('dj_rest_auth.registration.urls')),
