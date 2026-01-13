@@ -12,7 +12,6 @@ def is_channel_live():
     
     # DEV / testing override
     if getattr(settings, "FORCE_YOUTUBE_LIVE", False):
-        print("FORCE_YOUTUBE_LIVE is enabled → returning True")
         return True
 
     now = time.time()
@@ -25,8 +24,6 @@ def is_channel_live():
         "key": os.getenv("YOUTUBE_API_KEY"),
     }
 
-    print("Checking YouTube live status...")
-    print("Params:", params)
     
     try:
         res = requests.get(
@@ -45,7 +42,6 @@ def is_channel_live():
             _cached_is_live = status == "live"
 
     except Exception as e:
-        print("YouTube check failed:", e)
         _cached_is_live = False
 
     _last_check = now

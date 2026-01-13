@@ -14,7 +14,6 @@ export default function YouTubeLiveWrapper() {
         const res = await fetch(`${API_URL}/api/youtube-live/is-live/`);
         const data = await res.json();
         setIsLive(data.isLive);
-        console.log("Live check:", data.isLive);
       } catch (e) {
         console.error("Live check failed", e);
       } finally {
