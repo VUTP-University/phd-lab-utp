@@ -1,32 +1,45 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import YouTubeLiveEmbed from "./YouTubeLiveEmbed";
 
 export default function YouTubeLiveWrapper() {
-  const [isLive, setIsLive] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  const API_URL = import.meta.env.VITE_API_URL
+  const [videoId, setVideoId] = useState(null);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    const check = async () => {
+    const fetchLiveStatus = async () => {
       try {
         const res = await fetch(`${API_URL}/api/youtube-live/is-live/`);
         const data = await res.json();
-        setIsLive(data.isLive);
-      } catch (e) {
-        console.error("Live check failed", e);
-      } finally {
-        setLoading(false);
+
+        if (data.is_live && data.video_id) {
+          setVideoId(data.video_id);
+        } else {
+          setVideoId(null);
+        }
+      } catch (err) {
+        console.error("Failed to fetch live status:", err);
+        setVideoId(null);
       }
     };
 
-    check();
-    const interval = setInterval(check, 5 * 60_000); // 5 minutes
+    fetchLiveStatus();
+    const interval = setInterval(fetchLiveStatus, 60_000); // optional: refresh every minute
     return () => clearInterval(interval);
   }, []);
 
-  if (loading || !isLive) return null;
+  if (!videoId) return null; // nothing to show if not live
 
-  return <YouTubeLiveEmbed />;
+  return (
+    <div className="youtube-live">
+      <iframe
+        width="100%"
+        height="480"
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+        title="YouTube Live Stream"
+        frameBorder="0"
+        allow="autoplay; encrypted-media"
+        allowFullScreen
+      />
+    </div>
+  );
 }

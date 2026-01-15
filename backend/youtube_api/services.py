@@ -1,48 +1,60 @@
-import time
-import requests
-from django.conf import settings
 import os
+import requests
+from django.core.cache import cache
 
-CACHE_TTL = 300  # 5 minutes
-_last_check = 0
-_cached_is_live = False
-
-def is_channel_live():
-    global _last_check, _cached_is_live
+def check_youtube_live_with_video(channel_id: str):
+    """
+    Check if a YouTube channel is currently live and return video_id if so.
+    Uses caching to reduce API calls and avoid quota waste.
+    """
     
-    # DEV / testing override
-    if getattr(settings, "FORCE_YOUTUBE_LIVE", False):
-        return True
+    YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search"
+    
+    cache_key = f"youtube_live_status:{channel_id}"
+    cached = cache.get(cache_key)
+    
+    if cached is not None:
+        return cached
 
-    now = time.time()
-    if now - _last_check < CACHE_TTL:
-        return _cached_is_live
+    result = {
+        "is_live": False,
+        "video_id": None,
+    }
+
+    api_key = os.getenv("YOUTUBE_API_KEY")
+    if not api_key:
+        cache.set(cache_key, result, timeout=60)
+        return result
 
     params = {
         "part": "snippet",
-        "id": os.getenv("YOUTUBE_CHANNEL_ID"),
-        "key": os.getenv("YOUTUBE_API_KEY"),
+        "channelId": channel_id,
+        "eventType": "live",
+        "type": "video",
+        "maxResults": 1,
+        "key": api_key,
     }
 
-    
-    try:
-        res = requests.get(
-            "https://www.googleapis.com/youtube/v3/channels",
-            params=params,
-            timeout=5,
-        )
-        res.raise_for_status()
-        data = res.json()
+    # try:
+    #     print("Making YouTube API request for live status...")
+    #     response = requests.get(YOUTUBE_SEARCH_URL, params=params, timeout=8)
+    #     response.raise_for_status()
+    #     items = response.json().get("items", [])
 
-        items = data.get("items", [])
-        if not items:
-            _cached_is_live = False
-        else:
-            status = items[0]["snippet"].get("liveBroadcastContent")
-            _cached_is_live = status == "live"
+    #     if items:
+    #         video_id = items[0]["id"]["videoId"]
+    #         result = {
+    #             "is_live": True,
+    #             "video_id": video_id,
+    #         }
+    #         # Live stream → short cache (60s)
+    #         cache.set(cache_key, result, timeout=60)
+    #     else:
+    #         # No live stream → cache longer to save quota
+    #         cache.set(cache_key, result, timeout=300)
 
-    except Exception as e:
-        _cached_is_live = False
+    # except requests.RequestException as e:
+    #     # API error → cache a short time to retry soon
+    #     cache.set(cache_key, result, timeout=60)
 
-    _last_check = now
-    return _cached_is_live
+    return result
