@@ -36,7 +36,6 @@ def check_youtube_live_with_video(channel_id: str):
     }
 
     # try:
-    #     print("Making YouTube API request for live status...")
     #     response = requests.get(YOUTUBE_SEARCH_URL, params=params, timeout=8)
     #     response.raise_for_status()
     #     items = response.json().get("items", [])
