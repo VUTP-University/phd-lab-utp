@@ -36,7 +36,7 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  color: #ffffff;
+  color: #0062ff;
 }
 
 /* body {
@@ -97,12 +97,19 @@ h1 {
   font-size: 18px;
 }
 
+.normal_text_footer {
+  color: var(--text);
+  font-family: "Sofia Sans", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+}
+
 .primary_object {
   background: linear-gradient(-125deg, #9db6d8 10%, #d3dbe7 25%);
   border-radius: 12px;
   box-shadow: var(--shadow);
 }
-
 
 
 .custom_button {

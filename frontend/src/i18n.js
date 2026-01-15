@@ -115,6 +115,13 @@ const resources = {
           anual_fees5_1: "Такса за предварително обсъждане пред катедрен съвет, в т. ч. разширен катедрен съвет",
           anual_fees5_2: "Такса за защита пред научно жури, в т. ч. и издаване на диплома за придобиване на ОНС „Доктор“"
         }
+      },
+      footer: {
+        resources: "Ресурси",
+        about: "За нас",
+        scope: "Цели",
+        contact: "Контакти",
+        utp: "Висше училище по телекомуникации и пощи",
       }
     }
   },
@@ -227,6 +234,13 @@ const resources = {
           anual_fees5_1: "Fee for preliminary discussion before the departmental council, including extended departmental council",
           anual_fees5_2: "Fee for defense before a scientific jury, including issuance of a diploma for obtaining a PhD degree"
         }
+      },
+      footer: {
+        resources: "Resources",
+        about: "About",
+        scope: "Scope",
+        contact: "Contacts",
+        utp: "University of Telecommunications and Posts",
       }
     }
   }
