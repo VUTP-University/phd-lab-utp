@@ -11,6 +11,7 @@ class ClassroomCoursesView(APIView):
     """
 
     def get(self, request):
+        print(request)
         user_email = request.query_params.get("email")
         course_id = request.query_params.get("course_id")
 

@@ -6,10 +6,12 @@ import Contacts from "./pages/Contacts";
 import Apply from "./pages/Apply";
 import Taxes from "./pages/Taxes";
 import SpecialtyPage from "./pages/Specialties/SpecialtyPage";
+import Dashboard from "./pages/Dashboard";
 
 import "./i18n";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const { i18n } = useTranslation();
@@ -32,10 +34,17 @@ function App() {
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/apply" element={<Apply />} />
         <Route path="/taxes" element={<Taxes />} />
+        <Route path="/dashboard"
+          element={
+            <ProtectedRoute>
+               <Dashboard/>
+            </ProtectedRoute>
+          }/>
+
 
         {/* Future routes */}
         {/* <Route path="/login" element={<Login />} /> */}
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+        
       </Routes>
     </>
   );
