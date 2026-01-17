@@ -18,7 +18,7 @@ function UserCard({ user }) {
           <div className="flex flex-col items-center text-center">
             <h2 className="primary_text text-2xl mb-2">{user.name}</h2>
             <p className="normal_text mb-1">{user.email}</p>
-        
+            
           </div>
         </div>
       </div>

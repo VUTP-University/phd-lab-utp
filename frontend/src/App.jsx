@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Landing from "./pages/Landing";
@@ -9,7 +9,6 @@ import SpecialtyPage from "./pages/Specialties/SpecialtyPage";
 import Dashboard from "./pages/Dashboard";
 
 import "./i18n";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -23,28 +22,43 @@ function App() {
       i18n.changeLanguage(savedLang);
     }
   }, [i18n]);
+  
+
+  // User state
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    window.location.href = "/";
+  };
 
   return (
     <>
-      <Navbar />
+      <Navbar user={user} onLogout={handleLogout} />
+
       <Routes>
         {/* Landing page */}
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={<Landing user={user} setUser={setUser} />} />
         <Route path="/specialties/:page" element={<SpecialtyPage />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/apply" element={<Apply />} />
         <Route path="/taxes" element={<Taxes />} />
-        <Route path="/dashboard"
+
+        <Route
+          path="/dashboard"
           element={
             <ProtectedRoute>
-               <Dashboard/>
+              <Dashboard user={user} />
             </ProtectedRoute>
-          }/>
-
+          }
+        />
 
         {/* Future routes */}
         {/* <Route path="/login" element={<Login />} /> */}
-        
       </Routes>
     </>
   );
