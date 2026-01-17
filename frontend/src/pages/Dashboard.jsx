@@ -6,11 +6,16 @@ function Dashboard() {
  const user = JSON.parse(localStorage.getItem("user"));
 
   return (
-    <div >
-      <UserCard user={user}/>
-      <CoursesList />
-      <Footer />
-    </div>
+     <div className="flex flex-col min-h-screen">
+  <main className="container mt-10 mx-auto px-4 sm:px-6 lg:px-8 space-y-20 flex-grow">
+    <UserCard user={user} />
+    <CoursesList />
+  </main>
+
+  <footer className="w-full">
+    <Footer />
+  </footer>
+</div>
   );
 }
 

@@ -33,42 +33,48 @@ function CoursesList() {
     fetchCourses();
   }, []);
 
-  if (loading) return <p className="normal_text text-center mt-10">Loading courses...</p>;
-  if (error) return <p className="normal_text text-center mt-10 text-red-500">{error}</p>;
+  if (loading)
+    return <p className="normal_text text-center mt-10">Loading courses...</p>;
+  if (error)
+    return (
+      <p className="normal_text text-center mt-10 text-red-500">{error}</p>
+    );
 
   return (
-    <div className="flex flex-col items-center mb-8">
-      <h2 className="secondary_text mb-8 text-center">My Courses</h2>
+    <section className="primary_object py-6 mt-8 mb-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="secondary_text mb-8 text-center">My Courses</h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full max-w-6xl px-4">
-        {courses.map((course) => (
-          <div
-            key={course.id}
-            className="primary_object p-6 hover:shadow-xl transition-shadow flex flex-col justify-between w-full"
-          >
-            <div className="flex flex-col items-center text-center">
-              <h3 className="primary_text mb-2 text-xl">{course.name}</h3>
-              <p className="normal_text mb-2">{course.subject}</p>
-              <p className="normal_text text-gray-500 text-sm mb-1">
-                Status: {course.courseState}
-              </p>
-              <p className="normal_text text-gray-400 text-sm">
-                Created: {new Date(course.creationTime).toLocaleDateString()}
-              </p>
-            </div>
-
-            <a
-              href={course.alternateLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="custom_button mt-4 w-full text-center"
+        <div className="space-y-8">
+          {courses.map((course) => (
+            <div
+              key={course.id}
+              className="primary_object p-6 hover:shadow-xl transition-shadow flex flex-col justify-between w-full"
             >
-              Go to Classroom
-            </a>
-          </div>
-        ))}
+              <div className="flex flex-col items-center text-center">
+                <h3 className="primary_text mb-2 text-xl">{course.name}</h3>
+                <p className="normal_text mb-2">{course.subject}</p>
+                <p className="normal_text text-gray-500 text-sm mb-1">
+                  Status: {course.courseState}
+                </p>
+                <p className="normal_text text-gray-400 text-sm">
+                  Created: {new Date(course.creationTime).toLocaleDateString()}
+                </p>
+              </div>
+
+              <a
+                href={course.alternateLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="custom_button mt-4 w-full text-center"
+              >
+                Go to Classroom
+              </a>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 
