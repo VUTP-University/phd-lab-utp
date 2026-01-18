@@ -11,6 +11,8 @@ import Dashboard from "./pages/Dashboard";
 import "./i18n";
 import { useTranslation } from "react-i18next";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NewsPage from "./pages/news/newsPage";
+import CreateNewsPage from "./pages/news/CreateNewsPage";
 
 function App() {
   const { i18n } = useTranslation();
@@ -56,6 +58,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/news" element={<NewsPage user={user} setUser={setUser}/>} />
+        <Route path="/create-news" element={<CreateNewsPage user={user} />} />
 
         {/* Future routes */}
         {/* <Route path="/login" element={<Login />} /> */}

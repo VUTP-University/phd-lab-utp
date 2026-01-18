@@ -9,7 +9,7 @@ export default function Hero({user, setUser}) {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
