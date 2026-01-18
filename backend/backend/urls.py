@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('appuser.urls')),
     path('classroom/', include('classroom.urls')),
+    path('news/', include('news.urls')), 
     
     # YoutUbe API endpoints
     path('api/youtube-live/', include('youtube_api.urls')),
