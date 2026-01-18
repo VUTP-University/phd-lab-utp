@@ -180,3 +180,6 @@ YOUTUBE_CHANNEL_ID = os.getenv('YOUTUBE_CHANNEL_ID')
 
 
 
+#FOR NEWS
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
