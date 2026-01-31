@@ -6,7 +6,7 @@ import Documents from "../components/Landing/Documents";
 import NewsEvents from "../components/Landing/NewsEvents";
 import Footer from "../components/Footer";
 
-export default function Landing() {
+export default function Landing({ user, setUser }) {
   return (
     <>
       <div className="mt-10 px-4">
@@ -15,7 +15,7 @@ export default function Landing() {
         </div>
       </div>
       <main className="container mt-10 mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
-        <Hero />
+        <Hero user={user} setUser={setUser} />
         <Specialties />
         <Documents />
         <NewsEvents />

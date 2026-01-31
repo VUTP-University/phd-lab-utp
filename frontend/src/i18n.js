@@ -7,7 +7,9 @@ const resources = {
   bg: {
     translation: {
       navbar: {
-        brand: "Смарт PhD Lab 3.0",
+        brand: "Смарт PhD Lab 5.0",
+        home: "Начало",
+        my_courses: "Моите курсове",
         theme: {
           light: "Светла тема",
           dark: "Тъмна тема"
@@ -128,7 +130,9 @@ const resources = {
   en: {
     translation: {
       navbar: {
-        brand: "Smart PhD Lab 3.0",
+        brand: "Smart PhD Lab 5.0",
+        home: "Home",
+        my_courses: "My Courses",
         theme: {
           light: "Light Theme",
           dark: "Dark Theme"
