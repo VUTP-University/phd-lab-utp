@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Landing from "./pages/Landing";
+import About from "./pages/About";
 import Contacts from "./pages/Contacts";
 import Apply from "./pages/Apply";
 import Taxes from "./pages/Taxes";
@@ -22,7 +23,6 @@ function App() {
       i18n.changeLanguage(savedLang);
     }
   }, [i18n]);
-  
 
   // User state
   const [user, setUser] = useState(() => {
@@ -43,6 +43,7 @@ function App() {
       <Routes>
         {/* Landing page */}
         <Route path="/" element={<Landing user={user} setUser={setUser} />} />
+        <Route path="/about" element={<About />} />
         <Route path="/specialties/:page" element={<SpecialtyPage />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/apply" element={<Apply />} />
