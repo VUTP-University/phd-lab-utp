@@ -50,7 +50,7 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="/research" className="normal_text">
+              <a href="/project-scope" className="normal_text">
                 {t("footer.scope")}
               </a>
             </li>
