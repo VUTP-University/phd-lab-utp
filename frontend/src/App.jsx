@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Landing from "./pages/Landing";
 import About from "./pages/About";
+import ProjectScope from "./pages/ProjectScope";
 import Contacts from "./pages/Contacts";
 import Apply from "./pages/Apply";
 import Taxes from "./pages/Taxes";
@@ -44,8 +45,9 @@ function App() {
         {/* Landing page */}
         <Route path="/" element={<Landing user={user} setUser={setUser} />} />
         <Route path="/about" element={<About />} />
-        <Route path="/specialties/:page" element={<SpecialtyPage />} />
+        <Route path="/project-scope" element={<ProjectScope />} />
         <Route path="/contacts" element={<Contacts />} />
+        <Route path="/specialties/:page" element={<SpecialtyPage />} />
         <Route path="/apply" element={<Apply />} />
         <Route path="/taxes" element={<Taxes />} />
 

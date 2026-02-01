@@ -27,7 +27,7 @@ The main objective of the procedure **BG05SFPR001-3.004 – “Support for the D
   - **Industry 5.0**
   - **Green transition**
   - **Blue growth**
-  - Fields of **ISIS**
+  - Fields of **TSSS(The Smart Specialization Strategy)**
   - Regional labor market needs
 
 ---
