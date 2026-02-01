@@ -20,7 +20,7 @@ const resources = {
         uni_name: "Висше училище по телекомуникации и пощи",
         phd_lab: "Докторантско училище",
         description: "Съвместна платформа за изследвания и иновации за докторанти, научни ръководители и академични институции.",
-        info_button: "Информация",
+        info_button: "За проекта",
         mission_button: "Мисия",
         contact: "Контакти",
         login: "Вход за регистрирани потребители"
@@ -140,8 +140,8 @@ const resources = {
       },
       footer: {
         resources: "Ресурси",
-        about: "За нас",
-        scope: "Цели",
+        about: "За проекта",
+        scope: "Мисия",
         contact: "Контакти",
         utp: "Висше училище по телекомуникации и пощи",
       }
@@ -163,8 +163,8 @@ const resources = {
         uni_name: "University of Telecommunications and Posts",
         phd_lab: "PhD Lab",
         description: "A collaborative research and innovation platform for doctoral students, supervisors, and academic institutions.",
-        info_button: "Info",
-        mission_button: "Mission",
+        info_button: "About",
+        mission_button: "Scope",
         contact: "Contact",
         login: "Login for registered users"
       },
@@ -208,7 +208,7 @@ const resources = {
         program: "Doctoral Program",
         fullTime: "Full-time",
         partTime: "Part-time",
-        moreinfo: "More Info",
+        moreinfo: "Details",
 
         fields: {
           communication_computer_engineering: "Communication and Computer Engineering",
