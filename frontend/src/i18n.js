@@ -25,6 +25,22 @@ const resources = {
         contact: "Контакти",
         login: "Вход за регистрирани потребители"
       },
+      about: {
+        about_title: "За проекта",
+        members_title: "Членове на проекта",
+        members: [
+          { "name": "Проф. д-р Миглена Темелкова", "position": "Ръководител" },
+          { "name": "Доц. д-р Вихра Димитрова", "position": "Координатор" },
+          { "name": "Доц. д-р Ради Димитров", "position": "Счетоводител" },
+          { "name": "Нина Найденова", "position": "Експерт административни дейности" },
+          { "name": "Цонка Иванова", "position": "Експерт образователни дейности" },
+          { "name": "Гл. ас. д-р Катерина Николова", "position": "Координатор за МГУ" },
+          { "name": "Доц. д-р Борислава Гълъбова", "position": "Експерт образователни дейности МГУ" },
+          { "name": "Доц. д-р инж. Ивайло Ченчев", "position": "Експерт ИКТ и НИД" },
+          { "name": "Доц. д-р инж. Мариела Александрова", "position": "Координатор ТУ-Варна" }
+        ]
+
+      },
       contact: {
         title: "Свържете се с нас",
         mail: "Email",
@@ -147,6 +163,22 @@ const resources = {
         mission_button: "Mission",
         contact: "Contact",
         login: "Login for registered users"
+      },
+      about: {
+        about_title: "About the Project",
+        members_title: "Project Members",
+        members: [
+          { "name": "Prof. Dr. Miglena Temelkova", "position": "Project Leader" },
+          { "name": "Assoc. Prof. Dr. Vihra Dimitrova", "position": "Coordinator" },
+          { "name": "Assoc. Prof. Dr. Radi Dimitrov", "position": "Accountant" },
+          { "name": "Nina Naydenova", "position": "Administrative Activities Expert" },
+          { "name": "Tsonka Ivanova", "position": "Educational Activities Expert" },
+          { "name": "Assist. Prof. Dr. Katerina Nikolova", "position": "MGU Coordinator" },
+          { "name": "Assoc. Prof. Dr. Borislava Galabova", "position": "MGU Educational Activities Expert" },
+          { "name": "Assoc. Prof. Dr. Eng. Ivaylo Chenchev", "position": "ICT and RDI Expert" },
+          { "name": "Assoc. Prof. Dr. Eng. Mariela Alexandrova", "position": "TU-Varna Coordinator" }
+        ]
+
       },
       contact: {
         title: "Contact Us",
