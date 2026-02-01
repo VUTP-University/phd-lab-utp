@@ -20,7 +20,7 @@ export default function Hero({ user, setUser }) {
         },
         {
           headers: { "Content-Type": "application/json" },
-        },
+        }
       );
       const { name, email, picture, is_lab_admin } = res.data;
       const newUser = { name, email, picture, is_lab_admin };
@@ -54,7 +54,10 @@ export default function Hero({ user, setUser }) {
           >
             {t("hero.info_button")}
           </button>
-          <button className="custom_button px-6 py-3 transition">
+          <button
+            className="custom_button px-6 py-3 transition"
+            onClick={() => navigate("project-scope")}
+          >
             {t("hero.mission_button")}
           </button>
           <button

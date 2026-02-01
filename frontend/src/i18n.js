@@ -41,6 +41,10 @@ const resources = {
         ]
 
       },
+      project_scope: {
+        title: "Цели и обхват на проекта",
+        contentNotFound: "Съдържанието не е намерено за избрания език."
+      },
       contact: {
         title: "Свържете се с нас",
         mail: "Email",
@@ -179,6 +183,10 @@ const resources = {
           { "name": "Assoc. Prof. Dr. Eng. Mariela Alexandrova", "position": "TU-Varna Coordinator" }
         ]
 
+      },
+      project_scope: {
+        title: "Project Goals and Scope",
+        contentNotFound: "Content not found for the selected language."
       },
       contact: {
         title: "Contact Us",
