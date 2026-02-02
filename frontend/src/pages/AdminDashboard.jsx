@@ -15,7 +15,7 @@ export default function AdminDashboard() {
       try {
         const user = JSON.parse(localStorage.getItem("user"));
 
-        // 1️⃣ Fetch all courses from Google Classroom
+        // Fetch all courses from Google Classroom
         const resCourses = await axios.get(
           "http://localhost:8000/classroom/courses/",
           {
@@ -28,7 +28,7 @@ export default function AdminDashboard() {
         const allCourses = resCourses.data.courses || [];
         setCourses(allCourses);
 
-        // 2️⃣ Fetch displayed courses from local DB
+        // 2️Fetch displayed courses from local DB
         const resDisplayed = await axios.get(
           "http://localhost:8000/classroom-admin/displayed-courses/"
         );
@@ -53,7 +53,7 @@ export default function AdminDashboard() {
   // Handler for toggling course visibility
   const handleToggle = async (course, visible) => {
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      // const user = JSON.parse(localStorage.getItem("user"));
       const res = await axios.post(
         "http://localhost:8000/classroom-admin/displayed-course/toggle/",
         {

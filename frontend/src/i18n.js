@@ -300,6 +300,17 @@ const resources = {
           anual_fees5_2: "Fee for defense before a scientific jury, including issuance of a diploma for obtaining a PhD degree"
         }
       },
+      admin_dashboard: {
+        title: "Admin Panel",
+        courses_title: "All Courses",
+        loading: "Loading courses...",
+        error: "Error loading courses.",
+        course_name: "Course Name",
+        course_id: "Course ID",
+        section: "Section",
+        status: "Status",
+        visible: "Visible"
+      },
       dashboard: {
         title: "Dashboard",
         courses_title: "My Courses",

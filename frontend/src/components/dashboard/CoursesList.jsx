@@ -19,20 +19,13 @@ function CoursesList() {
           setLoading(false);
           return;
         }
-
+  
         const res = await axios.get(
-          "http://localhost:8000/classroom/courses/",
-          {
-            params: {
-              email: user.email,
-              course_ids: ["823589968955", "829836629360"],
-            },
-            paramsSerializer: params => 
-              qs.stringify(params, { arrayFormat: 'repeat' }),
-          }
+          "http://localhost:8000/classroom/visible-courses/",
+          { params: { email: user.email } }
         );
-
-        const coursesData = res.data.courses || res.data.coursesList || res.data;
+  
+        const coursesData = res.data.courses || [];
         setCourses(coursesData);
       } catch (err) {
         console.error("Failed to fetch courses:", err);
@@ -41,7 +34,7 @@ function CoursesList() {
         setLoading(false);
       }
     };
-
+  
     fetchCourses();
   }, []);
 
