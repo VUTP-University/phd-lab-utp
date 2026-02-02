@@ -20,6 +20,12 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('appuser.urls')),
+    
+    
+    # Classroom Admin related endpoints
+    path('classroom-admin/', include('classroom_admin.urls')),
+    
+    # Classroom related endpoints
     path('classroom/', include('classroom.urls')),
     
     # YoutUbe API endpoints
