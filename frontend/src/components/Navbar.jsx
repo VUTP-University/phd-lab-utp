@@ -11,7 +11,6 @@ export default function NavbarTailwind({ user, onLogout }) {
     <nav className="sticky top-0 z-50 bg-gray-100 border-b border-gray-200 shadow">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-
           {/* Left: Brand */}
           <div className="flex items-center gap-3">
             <a href="/" className="flex items-center gap-2">
@@ -36,11 +35,11 @@ export default function NavbarTailwind({ user, onLogout }) {
               </a>
             )}
 
-            {/* {user && user.is_lab_admin && (
-              <a href="/create-news" className="px-4 py-2">
-                Създай новина
+            {user && user.is_lab_admin && (
+              <a href="/admin-dashboard" className="px-4 py-2">
+                {t("navbar.admin_panel")}
               </a>
-            )} */}
+            )}
 
             {user && (
               <button onClick={onLogout} className="px-4 py-2">
@@ -95,19 +94,37 @@ export default function NavbarTailwind({ user, onLogout }) {
           </a>
 
           {user && (
-            <a href="/dashboard" className="custom_button block w-full text-center">
+            <a
+              href="/dashboard"
+              className="custom_button block w-full text-center"
+            >
               My Courses
             </a>
           )}
 
           {user && user.is_lab_admin && (
-            <a href="/create-news" className="custom_button block w-full text-center">
+            <a
+              href="/create-news"
+              className="custom_button block w-full text-center"
+            >
               Създай новина
             </a>
           )}
 
+          {user && user.is_lab_admin && (
+            <a
+              href="/admin-dashboard"
+              className="custom_button block w-full text-center"
+            >
+              {t("navbar.admin_panel")}
+            </a>
+          )}
+
           {user && (
-            <button onClick={onLogout} className="custom_button block w-full text-center">
+            <button
+              onClick={onLogout}
+              className="custom_button block w-full text-center"
+            >
               Logout
             </button>
           )}

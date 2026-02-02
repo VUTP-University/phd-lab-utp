@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
+import qs from "qs";
 
 function CoursesList() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -17,7 +21,15 @@ function CoursesList() {
         }
 
         const res = await axios.get(
-          `http://localhost:8000/classroom/courses/?email=${user.email}`
+          "http://localhost:8000/classroom/courses/",
+          {
+            params: {
+              email: user.email,
+              course_ids: ["823589968955", "829836629360"],
+            },
+            paramsSerializer: params => 
+              qs.stringify(params, { arrayFormat: 'repeat' }),
+          }
         );
 
         const coursesData = res.data.courses || res.data.coursesList || res.data;
@@ -34,48 +46,58 @@ function CoursesList() {
   }, []);
 
   if (loading)
-    return <p className="normal_text text-center mt-10">Loading courses...</p>;
+    return <p className="normal_text text-center mt-10">{t("dashboard.loading")}</p>;
   if (error)
     return (
-      <p className="normal_text text-center mt-10 text-red-500">{error}</p>
+      <p className="normal_text text-center mt-10 text-red-500">{t("dashboard.error")}</p>
     );
 
-  return (
-    <section className="primary_object py-6 mt-8 mb-8">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="secondary_text mb-8 text-center">My Courses</h2>
-
-        <div className="space-y-8">
-          {courses.map((course) => (
-            <div
-              key={course.id}
-              className="primary_object p-6 hover:shadow-xl transition-shadow flex flex-col justify-between w-full"
-            >
-              <div className="flex flex-col items-center text-center">
-                <h3 className="primary_text mb-2 text-xl">{course.name}</h3>
-                <p className="normal_text mb-2">{course.subject}</p>
-                <p className="normal_text text-gray-500 text-sm mb-1">
-                  Status: {course.courseState}
-                </p>
-                <p className="normal_text text-gray-400 text-sm">
-                  Created: {new Date(course.creationTime).toLocaleDateString()}
-                </p>
-              </div>
-
-              <a
-                href={course.alternateLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="custom_button mt-4 w-full text-center"
+    return (
+      <section className="primary_object py-6 mt-8 mb-8">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="primary_text mb-8 text-center">{t("dashboard.courses_title")}</h2>
+  
+          {/* GRID */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {courses.map((course) => (
+              <div
+                key={course.id}
+                className="primary_object p-6 hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between"
               >
-                Go to Classroom
-              </a>
-            </div>
-          ))}
+                {/* CARD HEADER */}
+                <div className="text-center">
+                  <h3 className="secondary_text text-m mb-2">
+                    {course.name}
+                  </h3>
+                  <p className="normal_text mb-4">{course.subject}</p>
+                </div>
+  
+                {/* CARD META */}
+                <div className="text-center mb-6">
+                  <p className="normal_text text-gray-500 text-sm mb-1">
+                    Status: <span className="font-medium">{course.courseState}</span>
+                  </p>
+                  <p className="normal_text text-gray-400 text-sm">
+                    Created:{" "}
+                    {new Date(course.creationTime).toLocaleDateString()}
+                  </p>
+                </div>
+  
+                {/* CARD ACTION */}
+                <a
+                  href={course.alternateLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="custom_button w-full text-center"
+                >
+                  Go to Classroom
+                </a>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  );
-}
-
-export default CoursesList;
+      </section>
+    );
+  }
+  
+  export default CoursesList;

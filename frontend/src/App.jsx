@@ -1,3 +1,5 @@
+
+import "./i18n";
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -8,9 +10,9 @@ import Contacts from "./pages/Contacts";
 import Apply from "./pages/Apply";
 import Taxes from "./pages/Taxes";
 import SpecialtyPage from "./pages/Specialties/SpecialtyPage";
+import AdminDashboard from "./pages/AdminDashboard";
 import Dashboard from "./pages/Dashboard";
 
-import "./i18n";
 import { useTranslation } from "react-i18next";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -50,6 +52,13 @@ function App() {
         <Route path="/specialties/:page" element={<SpecialtyPage />} />
         <Route path="/apply" element={<Apply />} />
         <Route path="/taxes" element={<Taxes />} />
+
+
+        <Route path="/admin-dashboard" element={
+          <ProtectedRoute adminOnly={true}>
+            <AdminDashboard user={user} />
+          </ProtectedRoute>
+        } />
 
         <Route
           path="/dashboard"

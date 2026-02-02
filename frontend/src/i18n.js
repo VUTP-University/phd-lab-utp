@@ -10,6 +10,7 @@ const resources = {
         brand: "Смарт PhD Lab 5.0",
         home: "Начало",
         my_courses: "Моите курсове",
+        admin_panel: "Административен панел",
         theme: {
           light: "Светла тема",
           dark: "Тъмна тема"
@@ -138,6 +139,25 @@ const resources = {
           anual_fees5_2: "Такса за защита пред научно жури, в т. ч. и издаване на диплома за придобиване на ОНС „Доктор“"
         }
       },
+      admin_dashboard: {
+        title: "Административен панел",
+        courses_title: "Всички курсове",
+        loading: "Зареждане на курсовете...",
+        error: "Грешка при зареждане на курсовете.",
+        course_name: "Име",
+        course_id: "ID на курса",
+        section: "Секция",
+        status: "Статус",
+        visible: "Видим"
+      },
+      dashboard: {
+        title: "Табло за управление",
+        courses_title: "Моите курсове",
+        loading: "Зареждане на курсовете...",
+        error: "Грешка при зареждане на курсовете.",
+        go_to_classroom: "Отиди в Classroom"
+
+      },
       footer: {
         resources: "Ресурси",
         about: "За проекта",
@@ -153,6 +173,7 @@ const resources = {
         brand: "Smart PhD Lab 5.0",
         home: "Home",
         my_courses: "My Courses",
+        admin_panel: "Admin Panel",
         theme: {
           light: "Light Theme",
           dark: "Dark Theme"
@@ -278,6 +299,14 @@ const resources = {
           anual_fees5_1: "Fee for preliminary discussion before the departmental council, including extended departmental council",
           anual_fees5_2: "Fee for defense before a scientific jury, including issuance of a diploma for obtaining a PhD degree"
         }
+      },
+      dashboard: {
+        title: "Dashboard",
+        courses_title: "My Courses",
+        loading: "Loading courses...",
+        error: "Error loading courses.",
+        go_to_classroom: "Go to Classroom"
+
       },
       footer: {
         resources: "Resources",
