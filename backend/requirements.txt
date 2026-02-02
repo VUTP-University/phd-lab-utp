@@ -3,7 +3,7 @@ cachetools==6.2.4
 certifi==2025.10.5
 cffi==2.0.0
 charset-normalizer==3.4.4
-cryptography==46.0.3
+cryptography==46.0.4
 dj-rest-auth==7.0.2
 Django
 django-allauth==65.14.0
