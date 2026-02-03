@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import DisplayedCourse
 from .serializers import DisplayedCourseSerializer
+from appuser.permissions import IsAdminUTP
 from classroom.google_service import get_classroom_service
 import logging
 
@@ -11,7 +12,7 @@ class AdminCoursesListView(APIView):
     """
     Returns all courses available for the admin (teacher) with their IDs
     """
-
+    permission_classes = [IsAdminUTP]
     def get(self, request):
         user_email = request.query_params.get("email")
         if not user_email:
@@ -46,6 +47,7 @@ class DisplayedCourseToggleView(APIView):
     Toggle a course in the DisplayedCourse table.
     """
 
+    permission_classes = [IsAdminUTP]
     def post(self, request):
         data = request.data
         course_id = data.get("course_id")
@@ -85,6 +87,8 @@ class DisplayedCoursesListView(APIView):
     """
     Returns all displayed courses (already saved in local DB).
     """
+    
+    permission_classes = [IsAdminUTP]
     def get(self, request):
         courses = DisplayedCourse.objects.all()
         data = [

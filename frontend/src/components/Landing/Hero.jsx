@@ -13,15 +13,14 @@ export default function Hero({ user, setUser }) {
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
+      console.log("Google token:", credentialResponse.credential);
       const res = await axios.post(
         `${API_URL}/auth/google/`,
         {
           access_token: credentialResponse.credential,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
         }
       );
+
       const { name, email, picture, is_lab_admin } = res.data;
       const newUser = { name, email, picture, is_lab_admin };
       localStorage.setItem("user", JSON.stringify(newUser));

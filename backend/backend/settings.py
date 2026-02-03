@@ -157,9 +157,15 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
     ],
 }
 
@@ -174,6 +180,10 @@ CORS_ALLOW_CREDENTIALS = True
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 GOOGLE_ADMIN_EMAIL = os.getenv('GOOGLE_ADMIN_EMAIL')
 SERVICE_ACCOUNT_FILE = os.path.join(BASE_DIR, 'appuser', 'service_account.json')
+
+# Google Auth Groups
+ADMIN_GROUP = os.getenv('GOOGLE_ADMIN_GROUP')
+STUDENTS_GROUP = os.getenv("GOOGLE_STUDENTS_GROUP")
 
 # Youtube API settings
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')

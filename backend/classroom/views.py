@@ -5,12 +5,15 @@ from rest_framework.response import Response
 from rest_framework import status
 from classroom.google_service import get_classroom_service
 from appuser.models import CustomUser
+from appuser.permissions import IsAuthenticatedUTP, IsAdminUTP
 from classroom_admin.models import DisplayedCourse
 
 class ClassroomCoursesView(APIView):
     """
     Get Google Classroom courses for a user. Used only by admins to fetch all Google Classroom courses.
     """
+    permission_classes = [IsAuthenticatedUTP]
+    
     def get(self, request):
         user_email = request.query_params.get("email")
         course_ids = request.query_params.getlist("course_ids")
@@ -49,7 +52,7 @@ class VisibleCoursesView(APIView):
     """
     Returns only courses marked as visible (DisplayedCourse) for all users.
     """
-
+    permission_classes = [IsAuthenticatedUTP]
     def get(self, request):
         user_email = request.query_params.get("email")
 
