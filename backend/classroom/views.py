@@ -16,8 +16,6 @@ class ClassroomCoursesView(APIView):
         course_ids = request.query_params.getlist("course_ids")
 
 
-        # print("RAW QUERY PARAMS:", request.query_params)
-        # print("COURSE IDS:", request.query_params.getlist("course_ids"))
         if not user_email:
             return Response({"error": "No user email provided"}, status=400)
 
