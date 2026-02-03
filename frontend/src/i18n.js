@@ -148,7 +148,14 @@ const resources = {
         course_id: "ID на курса",
         section: "Секция",
         status: "Статус",
-        visible: "Видим"
+        visible: "Видим",
+        sidebar: {
+          users: "Управление на потребители",
+          courses: "Управление на курсове",
+          news: "Новини и събития",
+          publications: "Публикации"
+
+        }
       },
       dashboard: {
         title: "Табло за управление",
@@ -309,7 +316,14 @@ const resources = {
         course_id: "Course ID",
         section: "Section",
         status: "Status",
-        visible: "Visible"
+        visible: "Visible",
+        sidebar: {
+          users: "Users Management",
+          courses: "Courses Management",
+          news: "News & Events",
+          publications: "Publications"
+
+        }
       },
       dashboard: {
         title: "Dashboard",
