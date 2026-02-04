@@ -1,29 +1,27 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import DisplayedCourse
 from .serializers import DisplayedCourseSerializer
-from appuser.permissions import IsAdminUTP
 from classroom.google_service import get_classroom_service
+from appuser.permissions import IsLabAdmin
 import logging
-
+logger = logging.getLogger(__name__)
 class AdminCoursesListView(APIView):
     """
-    Returns all courses available for the admin (teacher) with their IDs
+    Returns all courses available for the admin (teacher) with their IDs.
+    ADMIN ONLY - Students cannot access this view.
     """
-    permission_classes = [IsAdminUTP]
+    permission_classes = [IsLabAdmin]
     def get(self, request):
         user_email = request.query_params.get("email")
-        if not user_email:
-            return Response({"error": "No user email provided"}, status=status.HTTP_400_BAD_REQUEST)
-
+        
+        # Permission class already validates admin status
+        user = request.user_obj
         try:
             service = get_classroom_service(user_email)
-
             courses_response = service.courses().list(courseStates=["ACTIVE"]).execute()
             courses = courses_response.get("courses", [])
-
             # Store courses in the DisplayedCourse model in local database
             for course in courses:
                 DisplayedCourse.objects.get_or_create(
@@ -34,20 +32,21 @@ class AdminCoursesListView(APIView):
                         "alternate_link": course.get("alternateLink")
                     }
                 )
-
+            logger.info(f"Admin {user_email} fetched {len(courses)} courses")
             return Response(courses, status=status.HTTP_200_OK)
-
         except Exception as e:
-            logging.exception("An error occurred in AdminCoursesListView: %s", e)
-            return Response({"error": "An internal error has occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            logger.exception("An error occurred in AdminCoursesListView: %s", e)
+            return Response(
+                {"error": "An internal error has occurred"}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
         
-
 class DisplayedCourseToggleView(APIView):
     """
     Toggle a course in the DisplayedCourse table.
+    ADMIN ONLY - Students cannot access this view.
     """
-
-    permission_classes = [IsAdminUTP]
+    permission_classes = [IsLabAdmin]
     def post(self, request):
         data = request.data
         course_id = data.get("course_id")
@@ -55,10 +54,11 @@ class DisplayedCourseToggleView(APIView):
         section = data.get("section", "")
         alternate_link = data.get("alternate_link")
         visible = data.get("visible", True)
-
         if not course_id or not name or not alternate_link:
-            return Response({"error": "Missing required fields"}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response(
+                {"error": "Missing required fields"}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
         try:
             if visible:
                 # Create or get the course
@@ -71,24 +71,41 @@ class DisplayedCourseToggleView(APIView):
                     }
                 )
                 serializer = DisplayedCourseSerializer(course)
-                return Response(serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
+                action = "created" if created else "updated"
+                logger.info(f"Course {course_id} {action} by {request.user_obj.email}")
+                return Response(
+                    serializer.data, 
+                    status=status.HTTP_201_CREATED if created else status.HTTP_200_OK
+                )
             else:
                 # Remove course if exists
                 course = DisplayedCourse.objects.filter(course_id=course_id).first()
                 if course:
                     course.delete()
-                    return Response({"message": "Course removed"}, status=status.HTTP_200_OK)
-                return Response({"message": "Course not found"}, status=status.HTTP_404_NOT_FOUND)
+                    logger.info(f"Course {course_id} removed by {request.user_obj.email}")
+                    return Response(
+                        {"message": "Course removed"}, 
+                        status=status.HTTP_200_OK
+                    )
+                return Response(
+                    {"message": "Course not found"}, 
+                    status=status.HTTP_404_NOT_FOUND
+                )
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            logger.exception("Error in DisplayedCourseToggleView")
+            return Response(
+                {"error": str(e)}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
         
         
 class DisplayedCoursesListView(APIView):
     """
     Returns all displayed courses (already saved in local DB).
+    ADMIN ONLY - Students cannot access this view.
     """
+    permission_classes = [IsLabAdmin]
     
-    permission_classes = [IsAdminUTP]
     def get(self, request):
         courses = DisplayedCourse.objects.all()
         data = [
@@ -100,4 +117,4 @@ class DisplayedCoursesListView(APIView):
             }
             for c in courses
         ]
-        return Response({"displayed_courses": data})
+        return Response({"displayed_courses": data}, status=status.HTTP_200_OK)

@@ -13,11 +13,10 @@ export default function Hero({ user, setUser }) {
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      console.log("Google token:", credentialResponse.credential);
       const res = await axios.post(
-        `${API_URL}/auth/google/`,
+        'http://localhost:8000/auth/google/',
         {
-          access_token: credentialResponse.credential,
+          credential: credentialResponse.credential,
         }
       );
 
@@ -67,7 +66,7 @@ export default function Hero({ user, setUser }) {
           </button>
         </div>
 
-        {/* Google Login - само ако няма user */}
+        {/* Google Login */}
         {!user && setUser && (
           <div className="mt-10 flex justify-center">
             <div className="rounded-2xl p-6 text-center">

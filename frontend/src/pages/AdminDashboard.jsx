@@ -29,17 +29,15 @@ export default function AdminDashboard() {
 
         const resCourses = await axios.get(
           "http://localhost:8000/classroom/courses/",
-          {
-            params: { email: user.email },
-            paramsSerializer: (params) =>
-              qs.stringify(params, { arrayFormat: "repeat" }),
-          }
+          { params: { email: user.email } }
         );
 
         setCourses(resCourses.data.courses || []);
 
         const resDisplayed = await axios.get(
-          "http://localhost:8000/classroom-admin/displayed-courses/"
+          "http://localhost:8000/classroom-admin/displayed-courses/",
+          { params: { email: user.email } }
+          
         );
 
         const map = {};
@@ -65,6 +63,7 @@ export default function AdminDashboard() {
         section: course.section,
         alternate_link: course.alternateLink,
         visible,
+        email: user.email
       }
     );
 

@@ -1,85 +1,75 @@
 import logging
 from rest_framework.views import APIView
-from googleapiclient.errors import HttpError
 from rest_framework.response import Response
 from rest_framework import status
 from classroom.google_service import get_classroom_service
 from appuser.models import CustomUser
-from appuser.permissions import IsAuthenticatedUTP, IsAdminUTP
 from classroom_admin.models import DisplayedCourse
+from appuser.permissions import IsLabAdminOrStudent
+logger = logging.getLogger(__name__)
+
 
 class ClassroomCoursesView(APIView):
     """
-    Get Google Classroom courses for a user. Used only by admins to fetch all Google Classroom courses.
+    Get Google Classroom courses for a user.
+    Accessible by both admins and students.
     """
-    permission_classes = [IsAuthenticatedUTP]
+    permission_classes = [IsLabAdminOrStudent]
     
     def get(self, request):
         user_email = request.query_params.get("email")
         course_ids = request.query_params.getlist("course_ids")
-
-
-        if not user_email:
-            return Response({"error": "No user email provided"}, status=400)
-
-        user = CustomUser.objects.filter(email=user_email).first()
-        if not user:
-            return Response({"error": "User not found"}, status=404)
-
+        # Permission class already validates user_email and user existence
+        user = request.user_obj
         try:
             service = get_classroom_service(user.email)
-
             if course_ids:
                 courses = []
                 for cid in course_ids:
-                    course = service.courses().get(id=cid).execute()
-                    courses.append(course)
-
-                return Response({"courses": courses}, status=200)
+                    try:
+                        course = service.courses().get(id=cid).execute()
+                        courses.append(course)
+                    except Exception as e:
+                        logger.warning(f"Failed to fetch course {cid}: {e}")
+                return Response({"courses": courses}, status=status.HTTP_200_OK)
             
             courses = service.courses().list().execute()
-            return Response(courses)
-
+            return Response(courses, status=status.HTTP_200_OK)
         except Exception as e:
-            logging.exception("Classroom error")
+            logger.exception("Classroom error")
             return Response(
                 {"error": "Internal error"},
-                status=500
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
             
             
 class VisibleCoursesView(APIView):
     """
-    Returns only courses marked as visible (DisplayedCourse) for all users.
+    Returns only courses marked as visible (DisplayedCourse).
+    Accessible by both admins and students.
     """
-    permission_classes = [IsAuthenticatedUTP]
+    permission_classes = [IsLabAdminOrStudent]
     def get(self, request):
         user_email = request.query_params.get("email")
-
-        if not user_email:
-            return Response({"error": "No user email provided"}, status=400)
-
-        user = CustomUser.objects.filter(email=user_email).first()
-        if not user:
-            return Response({"error": "User not found"}, status=404)
-
+        
+        # Permission class already validates user
+        user = request.user_obj
         try:
             service = get_classroom_service(user.email)
-
             # Fetch all visible courses
             visible_courses = DisplayedCourse.objects.all()
             course_ids = [c.course_id for c in visible_courses]
-
             courses = []
             for cid in course_ids:
                 try:
                     course = service.courses().get(id=cid).execute()
                     courses.append(course)
                 except Exception as e:
-                    logging.warning(f"Failed to fetch course {cid}: {e}")
-
-            return Response({"courses": courses}, status=200)
-
+                    logger.warning(f"Failed to fetch course {cid}: {e}")
+            return Response({"courses": courses}, status=status.HTTP_200_OK)
         except Exception as e:
-            logging.exception("Classroom error")
-            return Response({"error": "Internal error"}, status=500)
+            logger.exception("Classroom error")
+            return Response(
+                {"error": "Internal error"}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
