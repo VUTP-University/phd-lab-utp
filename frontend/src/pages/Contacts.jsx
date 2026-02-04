@@ -5,7 +5,6 @@ import LanguageToggle from "../components/LanguageToggle";
 import Footer from "../components/Footer";
 import ContactForm from "../components/Contacts/ContactForm";
 
-
 export default function Contacts() {
   return (
     <div className="min-h-screen flex flex-col bg-background-light dark:bg-background-dark">

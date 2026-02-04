@@ -1,18 +1,20 @@
+
+import "./i18n";
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Landing from "./pages/Landing";
+import About from "./pages/About";
+import ProjectScope from "./pages/ProjectScope";
 import Contacts from "./pages/Contacts";
 import Apply from "./pages/Apply";
 import Taxes from "./pages/Taxes";
 import SpecialtyPage from "./pages/Specialties/SpecialtyPage";
+import AdminDashboard from "./pages/AdminDashboard";
 import Dashboard from "./pages/Dashboard";
 
-import "./i18n";
 import { useTranslation } from "react-i18next";
 import ProtectedRoute from "./components/ProtectedRoute";
-import NewsPage from "./pages/news/newsPage";
-import CreateNewsPage from "./pages/news/CreateNewsPage";
 
 function App() {
   const { i18n } = useTranslation();
@@ -24,7 +26,6 @@ function App() {
       i18n.changeLanguage(savedLang);
     }
   }, [i18n]);
-  
 
   // User state
   const [user, setUser] = useState(() => {
@@ -45,10 +46,19 @@ function App() {
       <Routes>
         {/* Landing page */}
         <Route path="/" element={<Landing user={user} setUser={setUser} />} />
-        <Route path="/specialties/:page" element={<SpecialtyPage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/project-scope" element={<ProjectScope />} />
         <Route path="/contacts" element={<Contacts />} />
+        <Route path="/specialties/:page" element={<SpecialtyPage />} />
         <Route path="/apply" element={<Apply />} />
         <Route path="/taxes" element={<Taxes />} />
+
+
+        <Route path="/admin-dashboard" element={
+          <ProtectedRoute adminOnly={true}>
+            <AdminDashboard user={user} />
+          </ProtectedRoute>
+        } />
 
         <Route
           path="/dashboard"
@@ -58,8 +68,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/news" element={<NewsPage user={user} setUser={setUser}/>} />
-        <Route path="/create-news" element={<CreateNewsPage user={user} />} />
 
         {/* Future routes */}
         {/* <Route path="/login" element={<Login />} /> */}

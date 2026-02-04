@@ -7,7 +7,10 @@ const resources = {
   bg: {
     translation: {
       navbar: {
-        brand: "Смарт PhD Lab 3.0",
+        brand: "Смарт PhD Lab 5.0",
+        home: "Начало",
+        my_courses: "Моите курсове",
+        admin_panel: "Административен панел",
         theme: {
           light: "Светла тема",
           dark: "Тъмна тема"
@@ -18,10 +21,30 @@ const resources = {
         uni_name: "Висше училище по телекомуникации и пощи",
         phd_lab: "Докторантско училище",
         description: "Съвместна платформа за изследвания и иновации за докторанти, научни ръководители и академични институции.",
-        info_button: "Информация",
+        info_button: "За проекта",
         mission_button: "Мисия",
         contact: "Контакти",
         login: "Вход за регистрирани потребители"
+      },
+      about: {
+        about_title: "За проекта",
+        members_title: "Членове на проекта",
+        members: [
+          { "name": "Проф. д-р Миглена Темелкова", "position": "Ръководител" },
+          { "name": "Доц. д-р Вихра Димитрова", "position": "Координатор" },
+          { "name": "Доц. д-р Ради Димитров", "position": "Счетоводител" },
+          { "name": "Нина Найденова", "position": "Експерт административни дейности" },
+          { "name": "Цонка Иванова", "position": "Експерт образователни дейности" },
+          { "name": "Гл. ас. д-р Катерина Николова", "position": "Координатор за МГУ" },
+          { "name": "Доц. д-р Борислава Гълъбова", "position": "Експерт образователни дейности МГУ" },
+          { "name": "Доц. д-р инж. Ивайло Ченчев", "position": "Експерт ИКТ и НИД" },
+          { "name": "Доц. д-р инж. Мариела Александрова", "position": "Координатор ТУ-Варна" }
+        ]
+
+      },
+      project_scope: {
+        title: "Цели и обхват на проекта",
+        contentNotFound: "Съдържанието не е намерено за избрания език."
       },
       contact: {
         title: "Свържете се с нас",
@@ -116,10 +139,36 @@ const resources = {
           anual_fees5_2: "Такса за защита пред научно жури, в т. ч. и издаване на диплома за придобиване на ОНС „Доктор“"
         }
       },
+      admin_dashboard: {
+        title: "Административен панел",
+        courses_title: "Всички курсове",
+        loading: "Зареждане на курсовете...",
+        error: "Грешка при зареждане на курсовете.",
+        course_name: "Име",
+        course_id: "ID на курса",
+        section: "Секция",
+        status: "Статус",
+        visible: "Видим",
+        sidebar: {
+          users: "Управление на потребители",
+          courses: "Управление на курсове",
+          news: "Новини и събития",
+          publications: "Публикации"
+
+        }
+      },
+      dashboard: {
+        title: "Табло за управление",
+        courses_title: "Моите курсове",
+        loading: "Зареждане на курсовете...",
+        error: "Грешка при зареждане на курсовете.",
+        go_to_classroom: "Отиди в Classroom"
+
+      },
       footer: {
         resources: "Ресурси",
-        about: "За нас",
-        scope: "Цели",
+        about: "За проекта",
+        scope: "Мисия",
         contact: "Контакти",
         utp: "Висше училище по телекомуникации и пощи",
       }
@@ -128,7 +177,10 @@ const resources = {
   en: {
     translation: {
       navbar: {
-        brand: "Smart PhD Lab 3.0",
+        brand: "Smart PhD Lab 5.0",
+        home: "Home",
+        my_courses: "My Courses",
+        admin_panel: "Admin Panel",
         theme: {
           light: "Light Theme",
           dark: "Dark Theme"
@@ -139,10 +191,30 @@ const resources = {
         uni_name: "University of Telecommunications and Posts",
         phd_lab: "PhD Lab",
         description: "A collaborative research and innovation platform for doctoral students, supervisors, and academic institutions.",
-        info_button: "Info",
-        mission_button: "Mission",
+        info_button: "About",
+        mission_button: "Scope",
         contact: "Contact",
         login: "Login for registered users"
+      },
+      about: {
+        about_title: "About the Project",
+        members_title: "Project Members",
+        members: [
+          { "name": "Prof. Dr. Miglena Temelkova", "position": "Project Leader" },
+          { "name": "Assoc. Prof. Dr. Vihra Dimitrova", "position": "Coordinator" },
+          { "name": "Assoc. Prof. Dr. Radi Dimitrov", "position": "Accountant" },
+          { "name": "Nina Naydenova", "position": "Administrative Activities Expert" },
+          { "name": "Tsonka Ivanova", "position": "Educational Activities Expert" },
+          { "name": "Assist. Prof. Dr. Katerina Nikolova", "position": "MGU Coordinator" },
+          { "name": "Assoc. Prof. Dr. Borislava Galabova", "position": "MGU Educational Activities Expert" },
+          { "name": "Assoc. Prof. Dr. Eng. Ivaylo Chenchev", "position": "ICT and RDI Expert" },
+          { "name": "Assoc. Prof. Dr. Eng. Mariela Alexandrova", "position": "TU-Varna Coordinator" }
+        ]
+
+      },
+      project_scope: {
+        title: "Project Goals and Scope",
+        contentNotFound: "Content not found for the selected language."
       },
       contact: {
         title: "Contact Us",
@@ -164,7 +236,7 @@ const resources = {
         program: "Doctoral Program",
         fullTime: "Full-time",
         partTime: "Part-time",
-        moreinfo: "More Info",
+        moreinfo: "Details",
 
         fields: {
           communication_computer_engineering: "Communication and Computer Engineering",
@@ -234,6 +306,32 @@ const resources = {
           anual_fees5_1: "Fee for preliminary discussion before the departmental council, including extended departmental council",
           anual_fees5_2: "Fee for defense before a scientific jury, including issuance of a diploma for obtaining a PhD degree"
         }
+      },
+      admin_dashboard: {
+        title: "Admin Panel",
+        courses_title: "All Courses",
+        loading: "Loading courses...",
+        error: "Error loading courses.",
+        course_name: "Course Name",
+        course_id: "Course ID",
+        section: "Section",
+        status: "Status",
+        visible: "Visible",
+        sidebar: {
+          users: "Users Management",
+          courses: "Courses Management",
+          news: "News & Events",
+          publications: "Publications"
+
+        }
+      },
+      dashboard: {
+        title: "Dashboard",
+        courses_title: "My Courses",
+        loading: "Loading courses...",
+        error: "Error loading courses.",
+        go_to_classroom: "Go to Classroom"
+
       },
       footer: {
         resources: "Resources",
