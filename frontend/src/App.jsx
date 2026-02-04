@@ -12,7 +12,7 @@ import Taxes from "./pages/Taxes";
 import SpecialtyPage from "./pages/Specialties/SpecialtyPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import Dashboard from "./pages/Dashboard";
-
+import CreateNewsPage from "./pages/news/CreateNewsPage"
 import { useTranslation } from "react-i18next";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -68,6 +68,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/create-news" element={<CreateNewsPage user={user} />} />
 
         {/* Future routes */}
         {/* <Route path="/login" element={<Login />} /> */}

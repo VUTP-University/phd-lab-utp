@@ -34,3 +34,4 @@ class NewsListCreateView(generics.ListCreateAPIView):
             NewsImage.objects.create(news=news, image=img)
 
         return Response(serializer.data)
+

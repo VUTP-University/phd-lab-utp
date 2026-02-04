@@ -19,6 +19,7 @@ def validate_image(image):
     if width > MAX_WIDTH or height > MAX_HEIGHT:
         raise ValidationError("Max resolution allowed is 1920x1080")
 
+
 class NewsImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewsImage

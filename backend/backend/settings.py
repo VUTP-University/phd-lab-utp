@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'appuser',
     'classroom',
-    'classroom_admin'
+    'classroom_admin',
+    'news',
 ]
 
 SITE_ID = 1
