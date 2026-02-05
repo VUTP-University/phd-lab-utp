@@ -21,6 +21,7 @@ export default function AdminDashboard() {
   const [courses, setCourses] = useState([]);
   const [displayedCourses, setDisplayedCourses] = useState({});
   const [loading, setLoading] = useState(true);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,7 +91,7 @@ export default function AdminDashboard() {
           />
         );
       case "news":
-        return <AdminNews />;
+        return <AdminNews user={user} />;
       case "publications":
         return <AdminPublications />;
       case "users":

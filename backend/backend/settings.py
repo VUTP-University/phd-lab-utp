@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'appuser',
     'classroom',
-    'classroom_admin'
+    'classroom_admin',
+    'news',
 ]
 
 SITE_ID = 1
@@ -181,3 +182,6 @@ YOUTUBE_CHANNEL_ID = os.getenv('YOUTUBE_CHANNEL_ID')
 
 
 
+#FOR NEWS
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

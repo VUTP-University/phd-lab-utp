@@ -12,6 +12,7 @@ class ClassroomCoursesView(APIView):
     Get Google Classroom courses for a user. Used only by admins to fetch all Google Classroom courses.
     """
     def get(self, request):
+        print(request)
         user_email = request.query_params.get("email")
         course_ids = request.query_params.getlist("course_ids")
 

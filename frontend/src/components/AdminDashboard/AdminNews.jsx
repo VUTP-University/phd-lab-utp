@@ -1,10 +1,125 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useTranslation } from "react-i18next";
+import ShareButtons from "../ShareButtons";
 
-export default function AdminNews() {
-    return (
-      <div>
-        <h2 className="text-2xl font-semibold mb-4">News & Events</h2>
-        <p>Manage news and events here.</p>
+const API_URL = import.meta.env.VITE_API_URL;
+
+export default function AdminNews({ user }) {
+  const { i18n } = useTranslation();
+  const language = i18n.language; 
+
+  const [news, setNews] = useState([]);
+  const [currentImages, setCurrentImages] = useState({}); 
+  
+  useEffect(() => {
+    axios
+      .get(`${API_URL}news/`)
+      .then((res) => {
+        setNews(res.data);
+
+        const initialImages = {};
+        res.data.forEach((item) => {
+          initialImages[item.id] = 0;
+        });
+        setCurrentImages(initialImages);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImages((prev) => {
+        const updated = {};
+        news.forEach((item) => {
+          if (item.images && item.images.length > 1) {
+            updated[item.id] =
+              (prev[item.id] + 1) % item.images.length;
+          } else {
+            updated[item.id] = 0;
+          }
+        });
+        return updated;
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [news]);
+
+  return (
+    <div className="space-y-6">
+      {user?.is_lab_admin && (
+        <div className="flex justify-end mb-4">
+          <a
+            href="/create-news"
+            className="px-5 py-2 custom_button text-sm"
+          >{language === "en" ? "Create new" : "Създай новина"}
+            
+          </a>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {news.map((item) => {
+        
+          const titleToShow = language === "en" && item.title_en ? item.title_en : item.title;
+          const descToShow = language === "en" && item.desc_en ? item.desc_en : item.description;
+
+         
+          const shortDesc =
+            descToShow.length > 120
+              ? descToShow.slice(0, 120) + "..."
+              : descToShow;
+
+          return (
+            <div
+              key={item.id}
+              className="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden flex flex-col hover:shadow-lg transition-shadow"
+            >
+              <h3 className="font-semibold text-lg p-3 border-b">{titleToShow}</h3>
+
+              {item.images && item.images.length > 0 && (
+                <div className="relative w-full h-64 overflow-hidden rounded">
+                  {item.images.map((img, idx) => (
+                    <img
+                      key={img.id}
+                      src={img.image}
+                      alt={titleToShow}
+                      className={`absolute top-0 left-0 w-full h-full object-contain rounded transition-opacity duration-1000 ${
+                        idx === currentImages[item.id] ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
+
+              <div className="p-3 flex flex-col flex-1">
+                <p className="text-gray-700 text-sm mb-2">
+                  {shortDesc}
+                  {descToShow.length > 120 && (
+                    <a
+                      href={`/news/${item.id}`}
+                      className="ml-1 text-blue-500 hover:underline text-sm"
+                    >
+                      {language === "en" ? "Read full news" : "Виж цялата новина"}
+                    </a>
+                  )}
+                </p>
+                <p className="text-gray-500 text-xs mb-0.5">{item.author}</p>
+                <p className="text-gray-400 text-xs">
+                  {new Date(item.created_at).toLocaleDateString()}
+                </p>
+                <div className="flex gap-2 mt-3 opacity-80 hover:opacity-100 transition">
+                 <ShareButtons
+    url={`${window.location.origin}/news/${item.id}`}
+    title={titleToShow}
+  />
+  </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
-    );
-  }
+    </div>
+  );
+}
