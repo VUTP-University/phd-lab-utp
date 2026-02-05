@@ -31,7 +31,18 @@ class NewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = News
-        fields = ['id', 'title', 'description', 'author', 'images', 'created_at', 'updated_at']
+        fields = [
+            'id',
+            'title',
+            'title_en',
+            'description',
+            'desc_en',
+            'slug',
+            'author',
+            'images',
+            'created_at',
+            'updated_at'
+        ]
 
     def create(self, validated_data):
         author = self.context.get('author')

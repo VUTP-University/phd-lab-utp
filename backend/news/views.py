@@ -4,6 +4,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.exceptions import PermissionDenied
 from .models import News, NewsImage, CustomUser
 from .serializers import NewsSerializer, NewsImageSerializer
+from rest_framework.generics import RetrieveAPIView
 
 class NewsListCreateView(generics.ListCreateAPIView):
     queryset = News.objects.all().order_by('-created_at')
@@ -12,7 +13,7 @@ class NewsListCreateView(generics.ListCreateAPIView):
 
     def get_permissions(self):
         if self.request.method == 'POST':
-            return [permissions.AllowAny()]  # проверката ще е вътре в create
+            return [permissions.AllowAny()]  
         return [permissions.AllowAny()]
 
     def post(self, request, *args, **kwargs):
@@ -28,10 +29,14 @@ class NewsListCreateView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         news = serializer.save()
 
-        # Обработка на многото снимки
+       
         images = request.FILES.getlist('images')
         for img in images:
             NewsImage.objects.create(news=news, image=img)
 
         return Response(serializer.data)
 
+
+class NewsDetailView(RetrieveAPIView):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer

@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from PIL import Image
 from django.core.exceptions import ValidationError
 from appuser.models import CustomUser
-
+from django.utils.text import slugify
 MAX_FILE_SIZE = 2 * 1024 * 1024  # 2MB
 MAX_WIDTH = 1920
 MAX_HEIGHT = 1080
@@ -30,11 +30,19 @@ class News(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
 
+    title_en = models.CharField(max_length=255, blank=True, null=True)
+    desc_en = models.TextField(blank=True, null=True)
+    slug = models.SlugField(max_length=255, blank=True, null=True, unique=True)
+
     author = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
         related_name="news"
     )
+    def save(self, *args, **kwargs):
+        if not self.slug and self.title_en:
+            self.slug = slugify(self.title_en)
+        super().save(*args, **kwargs)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

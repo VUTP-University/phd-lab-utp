@@ -15,11 +15,11 @@ import Dashboard from "./pages/Dashboard";
 import CreateNewsPage from "./pages/news/CreateNewsPage"
 import { useTranslation } from "react-i18next";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NewsDetail from "./pages/news/NewsDetail";
 
 function App() {
   const { i18n } = useTranslation();
 
-  // Restore language from localStorage
   useEffect(() => {
     const savedLang = localStorage.getItem("language");
     if (savedLang && savedLang !== i18n.language) {
@@ -27,7 +27,6 @@ function App() {
     }
   }, [i18n]);
 
-  // User state
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
@@ -69,6 +68,7 @@ function App() {
           }
         />
         <Route path="/create-news" element={<CreateNewsPage user={user} />} />
+        <Route path="/news/:id" element={<NewsDetail />} />
 
         {/* Future routes */}
         {/* <Route path="/login" element={<Login />} /> */}

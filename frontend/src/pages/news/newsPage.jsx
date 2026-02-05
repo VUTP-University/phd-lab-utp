@@ -37,7 +37,7 @@ export default function NewsPage({ user }) {
             className="custom_button px-6 py-2"
             onClick={() => navigate("/create-news")}
           >
-            Create new
+            Create new1111
           </button>
         </div>
       )}

@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function CreateNewsPage({ user }) {
+  const {  i18n } = useTranslation();
+  const language = i18n.language;
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [title, setTitle] = useState("");
+  const [titleEn, setTitleEn] = useState("");    
   const [description, setDescription] = useState("");
+  const [descEn, setDescEn] = useState("");                
   const [images, setImages] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,16 +52,15 @@ export default function CreateNewsPage({ user }) {
 
     const formData = new FormData();
     formData.append("title", title);
+    formData.append("title_en", titleEn);      
     formData.append("description", description);
+    formData.append("desc_en", descEn);                
     images.forEach((img) => formData.append("images", img));
     formData.append("email", user.email);
-    console.log(formData, 'formdata')
-    
 
     try {
       await axios.post(`${API_URL}news/`, formData, {
-        eaders: { "Content-Type": "multipart/form-data" }
-    
+        headers: { "Content-Type": "multipart/form-data" } 
       });
       navigate("/news");
     } catch (err) {
@@ -69,7 +73,10 @@ export default function CreateNewsPage({ user }) {
 
   return (
     <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <h2 className="secondary_text text-center mb-6">Create News</h2>
+      <h2 className="secondary_text text-center mb-6">
+         {language === "en"
+                            ? "Create News"
+                            : "Създай новина"}</h2>
 
       <form
         onSubmit={handleSubmit}
@@ -82,16 +89,31 @@ export default function CreateNewsPage({ user }) {
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="border border-[var(--border)] rounded-md p-3 w-full"
+          className="border border-[var(--border)] rounded-md p-3 w-full placeholder:text-gray-500"
           required
+        />
+
+        <input
+          type="text"
+          placeholder="Title (English)"
+          value={titleEn}
+          onChange={(e) => setTitleEn(e.target.value)}
+          className="border border-[var(--border)] rounded-md p-3 w-full placeholder:text-gray-500"
         />
 
         <textarea
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="border border-[var(--border)] rounded-md p-3 w-full h-32"
+          className="border border-[var(--border)] rounded-md p-3 w-full h-32 placeholder:text-gray-500"
           required
+        />
+
+        <textarea
+          placeholder="Description (English)"
+          value={descEn}
+          onChange={(e) => setDescEn(e.target.value)}
+          className="border border-[var(--border)] rounded-md p-3 w-full h-32 placeholder:text-gray-500"
         />
 
         <input
