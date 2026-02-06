@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import qs from "qs";
+import api from "../../../api.js";
 
 function CoursesList() {
   const [courses, setCourses] = useState([]);
@@ -13,23 +13,11 @@ function CoursesList() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (!user || !user.email) {
-          setError("No user logged in");
-          setLoading(false);
-          return;
-        }
-  
-        const res = await axios.get(
-          "http://localhost:8000/classroom/visible-courses/",
-          { params: { email: user.email } }
-        );
-  
-        const coursesData = res.data.courses || [];
-        setCourses(coursesData);
-      } catch (err) {
-        console.error("Failed to fetch courses:", err);
-        setError("Failed to load courses");
+        const response = await api.get('classroom/visible-courses/');
+        setCourses(response.data.courses || []);
+      } catch (error) {
+        console.error('Failed to fetch courses:', error);
+        setError(error);
       } finally {
         setLoading(false);
       }

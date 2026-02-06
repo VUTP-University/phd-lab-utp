@@ -19,12 +19,20 @@ export default function Hero({ user, setUser }) {
           credential: credentialResponse.credential,
         }
       );
-
-      const { name, email, picture, is_lab_admin } = res.data;
-      const newUser = { name, email, picture, is_lab_admin };
-      localStorage.setItem("user", JSON.stringify(newUser));
-      setUser(newUser);
+  
+      const { access_token, refresh_token, user } = res.data;
+      
+      // Store ONLY the tokens (not user data directly)
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("refresh_token", refresh_token);
+      
+      // Store minimal user info for UI purposes
+      // (backend will verify on every request via token)
+      localStorage.setItem("user", JSON.stringify(user));
+      
+      setUser(user);
       navigate("/dashboard");
+      
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
     }
