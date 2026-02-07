@@ -162,39 +162,167 @@ class CourseDetailsView(APIView):
     Authorization: Admin or Student (IsLabAdminOrStudent)
     """
     
+    # classroom/views.py
+from classroom.google_service import get_classroom_service
+
+class CourseDetailsView(APIView):
+    """Get detailed info about a course for the student"""
     permission_classes = [IsLabAdminOrStudent]
     
     def get(self, request, course_id):
-        """
-        Fetch details for a specific course.
-        
-        Args:
-            course_id (str): Google Classroom course ID
-            
-        Returns:
-            Response: Course details or error message
-        """
         user = request.user
         
-        logger.info(f"Fetching course {course_id} for {user.email}")
-        
         try:
-            service = get_classroom_service(user.email)
-            course = service.courses().get(id=course_id).execute()
+            classroom_service = get_classroom_service(user.email)
             
-            logger.info(f"Successfully fetched course {course_id} for {user.email}")
+            # Get calendar service
+            from google.oauth2 import service_account
+            from googleapiclient.discovery import build
+            creds = service_account.Credentials.from_service_account_file(
+                'appuser/service_account.json',
+                scopes=['https://www.googleapis.com/auth/calendar.readonly'],
+                subject=user.email
+            )
+            calendar_service = build('calendar', 'v3', credentials=creds)
             
-            return Response(course, status=status.HTTP_200_OK)
+            # Get coursework
+            coursework_response = classroom_service.courses().courseWork().list(
+                courseId=course_id
+            ).execute()
+            coursework_list = coursework_response.get('courseWork', [])
+            
+            # Process assignments
+            open_assignments = []
+            graded_assignments = []
+            
+            for work in coursework_list:
+                try:
+                    submissions_response = classroom_service.courses().courseWork().studentSubmissions().list(
+                        courseId=course_id,
+                        courseWorkId=work['id'],
+                        userId='me'
+                    ).execute()
+                    
+                    submissions = submissions_response.get('studentSubmissions', [])
+                    if submissions:
+                        sub = submissions[0]
+                        state = sub.get('state')
+                        
+                        if state in ['NEW', 'CREATED']:
+                            open_assignments.append({
+                                'id': work['id'],
+                                'title': work['title'],
+                                'dueDate': work.get('dueDate'),
+                                'maxPoints': work.get('maxPoints'),
+                            })
+                        elif state == 'RETURNED':
+                            graded_assignments.append({
+                                'id': work['id'],
+                                'title': work['title'],
+                                'grade': sub.get('assignedGrade'),
+                                'maxPoints': work.get('maxPoints')
+                            })
+                except Exception as e:
+                    logger.warning(f"Error fetching submission for work {work['id']}: {e}")
+                    continue
+            
+            # Get announcements
+            announcements_response = classroom_service.courses().announcements().list(
+                courseId=course_id
+            ).execute()
+            announcements = announcements_response.get('announcements', [])
+            
+            # Get calendar events for this course
+            course_name = classroom_service.courses().get(id=course_id).execute().get('name')
+            
+            from datetime import datetime, timedelta
+            import re
+            
+            now = datetime.utcnow()
+            time_min = now.isoformat() + 'Z'
+            time_max = (now + timedelta(days=30)).isoformat() + 'Z'
+            
+            events_result = calendar_service.events().list(
+                calendarId='primary',
+                timeMin=time_min,
+                timeMax=time_max,
+                q=course_name,
+                singleEvents=True,
+                orderBy='startTime'
+            ).execute()
+            
+            # Process calendar events
+            calendar_events = []
+            for event in events_result.get('items', []):
+                calendar_events.append({
+                    'title': event.get('summary'),
+                    'start': event.get('start', {}).get('dateTime') or event.get('start', {}).get('date'),
+                    'end': event.get('end', {}).get('dateTime') or event.get('end', {}).get('date'),
+                    'link': event.get('htmlLink'),
+                    'description': event.get('description', '')
+                })
+            
+            # Extract Meet links from multiple sources
+            meet_links = []
+            
+            # 1. From calendar events - conferenceData (official Meet events)
+            for event in events_result.get('items', []):
+                if 'conferenceData' in event and event['conferenceData'].get('entryPoints'):
+                    for entry in event['conferenceData']['entryPoints']:
+                        if entry.get('entryPointType') == 'video':
+                            meet_links.append({
+                                'link': entry.get('uri'),
+                                'title': event.get('summary'),
+                                'start': event.get('start', {}).get('dateTime'),
+                                'source': 'calendar'
+                            })
+                
+                # 2. From calendar event descriptions
+                description = event.get('description', '')
+                if 'meet.google.com' in description:
+                    links = re.findall(r'https://meet\.google\.com/[a-z\-]+', description)
+                    for link in links:
+                        meet_links.append({
+                            'link': link,
+                            'title': event.get('summary'),
+                            'start': event.get('start', {}).get('dateTime'),
+                            'source': 'calendar_description'
+                        })
+            
+            # 3. From announcements
+            for announcement in announcements:
+                text = announcement.get('text', '')
+                if 'meet.google.com' in text:
+                    links = re.findall(r'https://meet\.google\.com/[a-z\-]+', text)
+                    for link in links:
+                        meet_links.append({
+                            'link': link,
+                            'announcement': text[:100] + '...',
+                            'creationTime': announcement.get('creationTime'),
+                            'source': 'announcement'
+                        })
+            
+            # Remove duplicate Meet links
+            unique_meets = []
+            seen_links = set()
+            for meet in meet_links:
+                if meet['link'] not in seen_links:
+                    seen_links.add(meet['link'])
+                    unique_meets.append(meet)
+            
+            return Response({
+                'open_assignments': open_assignments,
+                'graded_assignments': graded_assignments,
+                'meet_links': unique_meets,
+                'calendar_events': calendar_events,
+                'open_count': len(open_assignments),
+                'graded_count': len(graded_assignments),
+                'events_count': len(calendar_events)
+            })
             
         except Exception as e:
-            logger.error(f"Failed to fetch course {course_id} for {user.email}: {e}")
-            return Response(
-                {
-                    "error": "Course not found or access denied",
-                    "course_id": course_id
-                },
-                status=status.HTTP_404_NOT_FOUND
-            )
+            logger.exception(f"Error fetching course details for {course_id}")
+            return Response({"error": str(e)}, status=500)
 
 
 class CourseWorkView(APIView):
