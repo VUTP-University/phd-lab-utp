@@ -26,18 +26,12 @@ export default function AdminDashboard() {
         setLoading(true);
         setError(null);
 
-        console.log('🔄 Fetching admin data...');
-
         // Fetch ALL courses (JWT token automatically added by api interceptor)
         const resCourses = await api.get('/classroom-admin/courses/');
-        
-        console.log('✅ Courses fetched:', resCourses.data);
         setCourses(resCourses.data.courses || []);
 
         // Fetch which courses are currently marked as visible
         const resDisplayed = await api.get('/classroom-admin/displayed-courses/');
-        
-        console.log('✅ Displayed courses fetched:', resDisplayed.data);
 
         // Create a map for quick lookup: { courseId: true }
         const map = {};
@@ -48,7 +42,6 @@ export default function AdminDashboard() {
         setDisplayedCourses(map);
         
       } catch (error) {
-        console.error('❌ Error fetching admin data:', error);
         
         if (error.response?.status === 401) {
           setError('Session expired. Please log in again.');
@@ -80,7 +73,6 @@ export default function AdminDashboard() {
         // NO email parameter needed - user comes from JWT token!
       });
 
-      console.log('✅ Course visibility updated');
 
       // Update local state
       setDisplayedCourses((prev) => {

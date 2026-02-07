@@ -28,6 +28,9 @@ urlpatterns = [
     # Classroom related endpoints
     path('classroom/', include('classroom.urls')),
     
+    # User management endpoints (Google Group management)
+    path('user-management/', include('user_management.urls')),
+    
     # YoutUbe API endpoints
     path('api/youtube-live/', include('youtube_api.urls')),
     
