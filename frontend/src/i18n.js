@@ -15,7 +15,8 @@ const resources = {
           light: "Светла тема",
           dark: "Тъмна тема"
         },
-        contact: "Контакти"
+        contact: "Контакти",
+        logout: "Изход"
       },
       hero: {
         uni_name: "Висше училище по телекомуникации и пощи",
@@ -207,7 +208,8 @@ const resources = {
           light: "Light Theme",
           dark: "Dark Theme"
         },
-        contact: "Contacts"
+        contact: "Contacts",
+        logout: "Logout"
       },
       hero: {
         uni_name: "University of Telecommunications and Posts",
