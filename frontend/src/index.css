@@ -12,6 +12,7 @@
   --bg: #f9fafb;
   --surface: #ffffff;
   --text: #03319c;
+  --text-two: #000000;
   --text-muted: #64748b;
   --primary: #2563eb;
   --border: #e5e7eb;
@@ -23,6 +24,7 @@
   --bg: #0f172a;
   --surface: #020617;
   --text: #e5e7eb;
+  --text-two: #ffffff;
   --text-muted: #a1a1aa;
   --primary: #3b82f6;
   --border: #1e293b;
@@ -95,6 +97,14 @@ h1 {
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
+}
+
+.normal_text_2 {
+  color: var(--text-two);
+  font-family: "Sofia Sans", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
 }
 
 .normal_text_footer {

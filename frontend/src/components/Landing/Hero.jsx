@@ -14,19 +14,25 @@ export default function Hero({ user, setUser }) {
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       const res = await axios.post(
-        `${API_URL}/auth/google/`,
+        'http://localhost:8000/auth/google/',
         {
-          access_token: credentialResponse.credential,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
+          credential: credentialResponse.credential,
         }
       );
-      const { name, email, picture, is_lab_admin } = res.data;
-      const newUser = { name, email, picture, is_lab_admin };
-      localStorage.setItem("user", JSON.stringify(newUser));
-      setUser(newUser);
+  
+      const { access_token, refresh_token, user } = res.data;
+      
+      // Store ONLY the tokens (not user data directly)
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("refresh_token", refresh_token);
+      
+      // Store minimal user info for UI purposes
+      // (backend will verify on every request via token)
+      localStorage.setItem("user", JSON.stringify(user));
+      
+      setUser(user);
       navigate("/dashboard");
+      
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
     }
@@ -68,7 +74,7 @@ export default function Hero({ user, setUser }) {
           </button>
         </div>
 
-        {/* Google Login - само ако няма user */}
+        {/* Google Login */}
         {!user && setUser && (
           <div className="mt-10 flex justify-center">
             <div className="rounded-2xl p-6 text-center">

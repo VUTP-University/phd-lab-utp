@@ -41,7 +41,8 @@ dist-ssr
 # Ignore credentials
 **/service_account.json
 
-# Ignore dev database
+# Ignore dev database & migrations
+**/migrations
 **/db.sqlite3
 
 

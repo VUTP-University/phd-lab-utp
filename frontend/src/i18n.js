@@ -155,6 +155,11 @@ const resources = {
           news: "Новини и събития",
           publications: "Публикации"
 
+        },
+        users_mgmt: {
+          title: "Управление на потребители",
+          admins: "Администратори",
+          students: "Студенти",
         }
       },
       dashboard: {
