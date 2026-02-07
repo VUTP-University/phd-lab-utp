@@ -113,7 +113,7 @@ export default function AdminUsers() {
             onChange={(e) => setNewEmail(e.target.value)}
             className="border px-3 py-2 flex-1"
           />
-          <button onClick={() => handleAdd("admin")} className="custom_button">
+          <button onClick={() => handleAdd("admin")} className="custom_button custom_button--small">
             Add Admin
           </button>
         </div>
@@ -150,7 +150,7 @@ export default function AdminUsers() {
           />
           <button
             onClick={() => handleAdd("student")}
-            className="custom_button"
+            className="custom_button custom_button--small"
           >
             Add Student
           </button>

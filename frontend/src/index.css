@@ -41,6 +41,15 @@ a:hover {
   color: #0062ff;
 }
 
+a.custom_button {
+  font-weight: 500;
+  color: var(--bg);
+  text-decoration: inherit;
+}
+a.custom_hover:hover {
+  color: var(--bg);
+}
+
 /* body {
   margin: 0;
   display: flex;
@@ -133,7 +142,15 @@ h1 {
   color: var(--bg);
   cursor: pointer;
   transition: border-color 0.25s;
+  min-width: 200px;
+  text-align: center;
+  white-space: nowrap;
 }
+
+.custom_button--small { min-width: 80px; }
+.custom_button--medium { min-width: 120px; }
+.custom_button--large { min-width: 160px; }
+
 .custom_button:hover {
   background-color: var(--primary);
 }
