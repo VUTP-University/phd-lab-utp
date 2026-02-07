@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { Sun, Moon } from "lucide-react";
 
 export default function ThemeToggle() {
-  const { t } = useTranslation();
   const [dark, setDark] = useState(false);
 
-  // Initialize theme from localStorage
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
@@ -27,20 +25,27 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={() => setDark(!dark)}
-      className={`flex items-center gap-2 px-3 py-1.5 rounded-md border
-                  text-xs font-semibold tracking-wide
-                  bg-white dark:bg-gray-900
-                  text-gray-700 dark:text-gray-200
-                  border-gray-300 dark:border-gray-700
-                  hover:bg-gray-100 dark:hover:bg-gray-800
-                  transition shadow-sm`}
+      className="relative inline-flex items-center h-9 w-16 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      style={{
+        backgroundColor: dark ? '#1e293b' : '#3b82f6'
+      }}
+      aria-label="Toggle theme"
     >
-      {dark ? (
-        <span>☀️ {t("navbar.theme.light")}</span>
-      ) : (
-        <span>🌙 {t("navbar.theme.dark")}</span>
-      )}
-      {/* <span>{dark ? "Light" : "Dark"}</span> */}
+      {/* Sliding circle */}
+      <span
+        className={`inline-block h-7 w-7 transform rounded-full bg-white shadow-lg transition-transform duration-300 ease-in-out ${
+          dark ? 'translate-x-8' : 'translate-x-1'
+        }`}
+      >
+        {/* Icon inside circle */}
+        <span className="flex items-center justify-center h-full w-full">
+          {dark ? (
+            <Moon size={16} className="text-slate-700" />
+          ) : (
+            <Sun size={16} className="text-amber-500" />
+          )}
+        </span>
+      </span>
     </button>
   );
 }
