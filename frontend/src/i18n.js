@@ -167,7 +167,24 @@ const resources = {
         courses_title: "Моите курсове",
         loading: "Зареждане на курсовете...",
         error: "Грешка при зареждане на курсовете.",
-        go_to_classroom: "Отиди в Classroom"
+        go_to_classroom: "Отиди в Classroom",
+        course_cards: {
+          loading_details: "Зареждане на детайлите на курса...",
+          waiting: "чaкaщи",
+          event: "събития",
+          no_due_date: "Няма крайна дата",
+          open_assignments: "Активни задания",
+          graded_assignments: "Оценени задания",
+          grade: "Оценка",
+          not_graded_assignments: "Няма оценка",
+          upcoming_events: "Предстоящи събития",
+          view_in_calendar: "Виж в календара",
+          google_meet: "Google Meet срещи",
+          join_meet: "Присъедини се към срещата",
+          no_assignments: "Няма задания за този курс.",
+          error: "Грешка при зареждане на данните за курса."
+
+        }
 
       },
       footer: {
@@ -335,7 +352,24 @@ const resources = {
         courses_title: "My Courses",
         loading: "Loading courses...",
         error: "Error loading courses.",
-        go_to_classroom: "Go to Classroom"
+        go_to_classroom: "Go to Classroom",
+        course_cards: {
+          loading_details: "Loading course details...",
+          waiting: "waiting",
+          event: "events",
+          no_due_date: "No due date",
+          open_assignments: "Open assignments",
+          graded_assignments: "Graded assignments",
+          grade: "Grade",
+          not_graded_assignments: "Not graded",
+          upcoming_events: "Upcoming events",
+          view_in_calendar: "View in calendar",
+          google_meet: "Google Meet sessions",
+          join_meet: "Join the meeting",
+          no_assignments: "No assignments for this course.",
+          error: "Error loading course data."
+
+        }
 
       },
       footer: {
