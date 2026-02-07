@@ -109,7 +109,7 @@ export default function CoursesList() {
                       href={course.alternateLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="custom_button flex items-center gap-2"
+                      className="custom_button custom_button--small flex items-center gap-2"
                       onClick={(e) => e.stopPropagation()}
                     >
                       Open <ExternalLink size={16} />
