@@ -2,139 +2,158 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
-import { LogOut } from "lucide-react";
+import { LogOut, Menu, X, Home, BookOpen, Shield, User } from "lucide-react";
 
 export default function NavbarTailwind({ user, onLogout }) {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-gray-100 border-b border-gray-200 shadow">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+    <nav className="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 shadow-sm backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
           {/* Left: Brand */}
-          <div className="flex items-center gap-3">
-            <a href="/" className="flex items-center gap-2">
-              <img
-                src="../src/assets/logo_pr_dokt_2.png"
-                alt="UTP Lab Logo"
-                className="h-16 w-auto object-contain"
-              />
-              <h1 className="text-sm normal_text">{t("navbar.brand")}</h1>
-            </a>
-          </div>
+          <a href="/" className="flex items-center gap-3 group">
+            <img
+              src="../src/assets/logo_pr_dokt_2.png"
+              alt="UTP Lab Logo"
+              className="h-12 w-auto object-contain transition-transform group-hover:scale-105"
+            />
+            <h1 className="text-sm font-semibold normal_text hidden sm:block">
+              {t("navbar.brand")}
+            </h1>
+          </a>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-1">
-            <a href="/" className="px-2 py-2">
+          <div className="hidden md:flex items-center gap-2">
+            {/* Navigation Links */}
+            <a
+              href="/"
+              className="px-3 py-2 rounded-lg text-sm font-medium normal_text hover:bg-gray-100 transition flex items-center gap-2"
+            >
+              <Home size={16} />
               {t("navbar.home")}
             </a>
 
             {user && (
-              <a href="/dashboard" className="px-4 py-2">
+              <a
+                href="/dashboard"
+                className="px-3 py-2 rounded-lg text-sm font-medium normal_text hover:bg-gray-100 transition flex items-center gap-2"
+              >
+                <BookOpen size={16} />
                 {t("navbar.my_courses")}
               </a>
             )}
 
             {user && user.is_lab_admin && (
-              <a href="/admin-dashboard" className="px-4 py-2">
+              <a
+                href="/admin-dashboard"
+                className="px-3 py-2 rounded-lg text-sm font-medium normal_text hover:bg-gray-100 transition flex items-center gap-2"
+              >
+                <Shield size={16} />
                 {t("navbar.admin_panel")}
               </a>
             )}
+
+            {/* Divider */}
+            <div className="h-6 w-px bg-gray-300 dark:bg-gray-700 mx-2" />
+
+            {/* Controls */}
             <LanguageToggle />
             <ThemeToggle />
 
             {user && (
-              <button
-                onClick={onLogout}
-                className="px-4 py-2 flex items-center gap-2 text-red-600 hover:bg-red-50 rounded transition"
-              >
-                <LogOut size={16} />
-                {t("navbar.logout")}
-              </button>
+              <>
+                <div className="h-6 w-px bg-gray-300 dark:bg-gray-700 mx-2" />
+                <button
+                  onClick={onLogout}
+                  className="px-3 py-2 rounded-lg text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition flex items-center gap-2"
+                >
+                  <LogOut size={16} />
+                  {t("navbar.logout")}
+                </button>
+              </>
             )}
           </div>
 
-          {/* Mobile Hamburger */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
-            >
-              <span className="sr-only">Open main menu</span>
-              <svg
-                className="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {menuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
-          </div>
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden px-4 pt-2 pb-4 space-y-2 bg-gray-100 border-t border-gray-200">
-          <a href="/" className="custom_button block w-full text-center">
-            Home
-          </a>
-
-          {user && (
+        <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+          <div className="px-4 py-3 space-y-1">
+            {/* Navigation Links */}
             <a
-              href="/dashboard"
-              className="custom_button block w-full text-center"
+              href="/"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium normal_text hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              onClick={() => setMenuOpen(false)}
             >
-              My Courses
+              <Home size={18} />
+              {t("navbar.home")}
             </a>
-          )}
 
-          {user && user.is_lab_admin && (
-            <a
-              href="/create-news"
-              className="custom_button block w-full text-center"
-            >
-              Създай новина
-            </a>
-          )}
+            {user && (
+              <a
+                href="/dashboard"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium normal_text hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                onClick={() => setMenuOpen(false)}
+              >
+                <BookOpen size={18} />
+                {t("navbar.my_courses")}
+              </a>
+            )}
 
-          {user && user.is_lab_admin && (
-            <a
-              href="/admin-dashboard"
-              className="custom_button block w-full text-center"
-            >
-              {t("navbar.admin_panel")}
-            </a>
-          )}
+            {user && user.is_lab_admin && (
+              <a
+                href="/admin-dashboard"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium normal_text hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                onClick={() => setMenuOpen(false)}
+              >
+                <Shield size={18} />
+                {t("navbar.admin_panel")}
+              </a>
+            )}
 
-          {user && (
-            <button
-              onClick={onLogout}
-              className="custom_button block w-full text-center"
-            >
-              Logout
-            </button>
-          )}
+            {/* Divider */}
+            <div className="h-px bg-gray-200 dark:bg-gray-800 my-2" />
 
-          <LanguageToggle />
-          <ThemeToggle />
+            {/* Controls */}
+            <div className="flex items-center justify-between px-4 py-3">
+              <span className="text-sm font-medium normal_text">Theme</span>
+              <ThemeToggle />
+            </div>
+
+            <div className="flex items-center justify-between px-4 py-3">
+              <span className="text-sm font-medium normal_text">Language</span>
+              <LanguageToggle />
+            </div>
+
+
+            {user && (
+              <>
+                <div className="h-px bg-gray-200 dark:bg-gray-800 my-2" />
+                <button
+                  onClick={() => {
+                    onLogout();
+                    setMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 w-full px-4 py-3 rounded-lg text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition"
+                >
+                  <LogOut size={18} />
+                  {t("navbar.logout")}
+                </button>
+              </>
+            )}
+          </div>
         </div>
       )}
     </nav>
