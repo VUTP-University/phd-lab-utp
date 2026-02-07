@@ -61,8 +61,6 @@ export default function AdminDashboard() {
 
   const handleToggle = async (course, visible) => {
     try {
-      console.log(`${visible ? 'Showing' : 'Hiding'} course:`, course.name);
-
       // Toggle course visibility (JWT token automatically added)
       await api.post('/classroom-admin/displayed-course/toggle/', {
         course_id: course.id,

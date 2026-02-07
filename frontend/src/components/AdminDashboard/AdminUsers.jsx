@@ -22,10 +22,6 @@ export default function AdminUsers() {
         api.get("/user-management/group-members/?group=admin"),
         api.get("/user-management/group-members/?group=student"),
       ]);
-
-      console.log("Fetched Admins:", adminsRes.data.members);
-      console.log("Fetched Students:", studentsRes.data.members);
-
       setAdmins(adminsRes.data.members);
       setStudents(studentsRes.data.members);
       setLoading(false);
