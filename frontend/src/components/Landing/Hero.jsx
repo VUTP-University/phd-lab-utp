@@ -55,19 +55,19 @@ export default function Hero({ user, setUser }) {
 
         <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
           <button
-            className="custom_button custom_button--small px-6 py-3 shadow transition"
+            className="custom_button custom_button--medium px-6 py-3 shadow transition"
             onClick={() => navigate("/about")}
           >
             {t("hero.info_button")}
           </button>
           <button
-            className="custom_button custom_button--small px-6 py-3 transition"
+            className="custom_button custom_button--medium px-6 py-3 transition"
             onClick={() => navigate("project-scope")}
           >
             {t("hero.mission_button")}
           </button>
           <button
-            className="custom_button custom_button--small px-6 py-3 transition"
+            className="custom_button custom_button--medium px-6 py-3 transition"
             onClick={() => navigate("/contacts")}
           >
             {t("hero.contact")}
