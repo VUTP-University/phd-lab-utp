@@ -11,6 +11,7 @@ export default function AdminUsers() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newEmail, setNewEmail] = useState('');
+  const [removeEmail, setRemoveEmail] = useState('');
 
   useEffect(() => {
     fetchUsers();
@@ -28,23 +29,42 @@ export default function AdminUsers() {
   };
 
   const handleAdd = async (group) => {
-    await api.post('/user-management/manage-member/', {
-      email: newEmail,
-      group,
-      action: 'add'
-    });
-    setNewEmail('');
-    fetchUsers();
-  };
+    if (!newEmail || !newEmail.includes('@')) {
+        alert('Please enter a valid email');
+        return;
+    }
+    
+    try {
+        await api.post('/user-management/manage-member/', {
+            email: newEmail.trim(),
+            group,
+            action: 'add'
+        });
+        setNewEmail('');
+        fetchUsers();
+    } catch (error) {
+        alert('Failed to add user: ' + error.message);
+    }
+};
 
-  const handleRemove = async (email, group) => {
+const handleRemove = async (email, group) => {
+  if (!confirm(`Remove ${email} from ${group} group?`)) return;
+  
+  try {
+    setRemoveEmail(email);
     await api.post('/user-management/manage-member/', {
       email,
       group,
       action: 'remove'
     });
-    fetchUsers();
-  };
+    await fetchUsers();
+  } catch (error) {
+    console.error('Remove error:', error);
+    alert('Failed to remove user');
+  } finally {
+    setRemoveEmail(null);
+  }
+};
 
   if (loading) return <p>Loading...</p>;
 
@@ -59,8 +79,8 @@ export default function AdminUsers() {
           {admins.map(email => (
             <li key={email} className="flex justify-between items-center p-2 border rounded normal_text_2">
               <span>{email}</span>
-              <button onClick={() => handleRemove(email, 'admin')} className="text-red-600">
-                Remove
+              <button onClick={() => handleRemove(email, 'admin')} className="text-red-600 disabled:opacity-50">
+                  {removeEmail === email ? "Removing..." : "Remove"}
               </button>
             </li>
           ))}
@@ -86,8 +106,8 @@ export default function AdminUsers() {
           {students.map(email => (
             <li key={email} className="flex justify-between items-center p-2 border rounded normal_text_2">
               <span>{email}</span>
-              <button onClick={() => handleRemove(email, 'student')} className="text-red-600">
-                Remove
+              <button onClick={() => handleRemove(email, 'student')} className="text-red-600 disabled:opacity-50">
+                  {removeEmail === email ? "Removing..." : "Remove"}
               </button>
             </li>
           ))}

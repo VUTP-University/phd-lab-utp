@@ -1,7 +1,9 @@
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from django.conf import settings
+import logging
 
+logger = logging.getLogger(__name__)
 
 
 # Load service account file 
@@ -27,13 +29,32 @@ def get_group_members(group_email):
 
 def add_user_to_group(email, group_email):
     """Add user to Google Group"""
-    service = build('admin', 'directory_v1', credentials=creds)
-    body = {"email": email, "role": "MEMBER"}
-    service.members().insert(groupKey=group_email, body=body).execute()
-    return True
+    try:
+        # Validate email format
+        if not email or '@' not in email:
+            logger.error(f"Invalid email format: {email}")
+            return False
+        
+        service = build('admin', 'directory_v1', credentials=creds)
+        body = {"email": email.strip(), "role": "MEMBER"}
+        service.members().insert(groupKey=group_email, body=body).execute()
+        logger.info(f"Added {email} to {group_email}")
+        return True
+    except Exception as e:
+        logger.error(f"Error adding {email}: {e}")
+        return False
 
 def remove_user_from_group(email, group_email):
     """Remove user from Google Group"""
-    service = build('admin', 'directory_v1', credentials=creds)
-    service.members().delete(groupKey=group_email, memberKey=email).execute()
-    return True
+    try:
+        if not email or '@' not in email:
+            logger.error(f"Invalid email format: {email}")
+            return False
+        
+        service = build('admin', 'directory_v1', credentials=creds)
+        service.members().delete(groupKey=group_email, memberKey=email.strip()).execute()
+        logger.info(f"Removed {email} from {group_email}")
+        return True
+    except Exception as e:
+        logger.error(f"Error removing {email}: {e}")
+        return False
