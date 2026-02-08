@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ChevronDown, 
+import { 
+  ChevronDown, 
   ChevronUp, 
   ExternalLink, 
-  AlertCircle, CheckCircle, 
+  AlertCircle, 
+  CheckCircle, 
   Video, 
-  Calendar } from "lucide-react";
+  Calendar,
+  Brain
+} from "lucide-react";
 import api from "../../../api.js";
 
-
-export default function CoursesList() {
-
+export default function CoursesList({ onCourseAnalysis }) {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -76,7 +78,7 @@ export default function CoursesList() {
               <div key={course.id} className="primary_object border rounded-lg overflow-hidden">
                 {/* Header */}
                 <div 
-                  className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50"
+                  className="flex items-center justify-between p-4 cursor-pointer"
                   onClick={() => handleExpand(course.id)}
                 >
                   <div className="flex-1">
@@ -85,23 +87,37 @@ export default function CoursesList() {
                       
                       {/* Badges */}
                       {details && details.open_count > 0 && (
-                        <span className="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded flex items-center gap-1">
+                        <span className="px-2 py-1 bg-orange-600/50 text-orange-200 text-xs rounded flex items-center gap-1">
                           <AlertCircle size={12} />
                           {details.open_count} {t("dashboard.course_cards.waiting")}
                         </span>
                       )}
                       {details && details.events_count > 0 && (
-                        <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded flex items-center gap-1">
+                        <span className="px-2 py-1 bg-purple-600/50 text-purple-800 text-xs rounded flex items-center gap-1">
                           <Calendar size={12} />
                           {details.events_count} {t("dashboard.course_cards.event")}
                         </span>
                       )}
                     </div>
-                    <p className="normal_text text-sm text-gray-600">{course.section || course.descriptionHeading}</p>
+                    <p className="normal_text text-sm text-gray-600 dark:text-gray-400">{course.section || course.descriptionHeading}</p>
                   </div>
                   
-                  <div className="flex items-center gap-4">
-                    <span className={`px-3 py-1 rounded text-sm ${course.courseState === 'ACTIVE' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                  <div className="flex items-center gap-2">
+                    {/* AI Insights Button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (onCourseAnalysis) {
+                          onCourseAnalysis(course.id, course.name);
+                        }
+                      }}
+                      className="custom_button custom_button--small flex items-center gap-2"
+                    >
+                      <Brain size={16} />
+                      <span className="hidden sm:inline">{t("dashboard.course_cards.ai_insight")}</span>
+                    </button>
+
+                    <span className={`px-3 py-1 rounded text-sm ${course.courseState === 'ACTIVE' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400'}`}>
                       {course.courseState}
                     </span>
                     
@@ -109,10 +125,11 @@ export default function CoursesList() {
                       href={course.alternateLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="custom_button custom_button--small flex items-center gap-2"
+                      className="custom_button custom_button--medium flex items-center gap-2"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      Open <ExternalLink size={16} />
+                      <ExternalLink size={16} />
+                      <span className="hidden sm:inline">{t("dashboard.course_cards.open_classroom")}</span>
                     </a>
                     
                     {expandedId === course.id ? <ChevronUp /> : <ChevronDown />}
@@ -121,7 +138,7 @@ export default function CoursesList() {
 
                 {/* Expanded Details */}
                 {expandedId === course.id && (
-                  <div className="border-t p-4 bg-gray-50">
+                  <div className="border-t p-4">
                     {isLoading ? (
                       <p className="text-center text-gray-500">{t("dashboard.course_cards.loading_details")}</p>
                     ) : details ? (
@@ -129,15 +146,15 @@ export default function CoursesList() {
                         {/* Open Assignments */}
                         {details.open_assignments?.length > 0 && (
                           <div>
-                            <h4 className="font-semibold text-orange-800 mb-2 flex items-center gap-2">
+                            <h4 className="font-semibold text-orange-700 dark:text-orange-700 mb-2 flex items-center gap-2">
                               <AlertCircle size={18} />
                               {t("dashboard.course_cards.open_assignments")} ({details.open_assignments.length})
                             </h4>
                             <ul className="space-y-2">
                               {details.open_assignments.map(assignment => (
-                                <li key={assignment.id} className="bg-white p-3 rounded border">
-                                  <p className="font-medium">{assignment.title}</p>
-                                  <p className="text-sm text-gray-600">
+                                <li key={assignment.id} className="rounded border dark:border-gray-600">
+                                  <p className="font-medium normal_text">{assignment.title}</p>
+                                  <p className="text-sm text-gray-700 dark:text-gray-700">
                                     {assignment.dueDate ? 
                                       `Due: ${new Date(
                                         assignment.dueDate.year,
@@ -147,7 +164,7 @@ export default function CoursesList() {
                                       : t("dashboard.course_cards.no_due_date")}
                                   </p>
                                   {assignment.maxPoints && (
-                                    <p className="text-sm text-gray-600">Points: {assignment.maxPoints}</p>
+                                    <p className="text-sm text-gray-700 dark:text-gray-700">Points: {assignment.maxPoints}</p>
                                   )}
                                 </li>
                               ))}
@@ -158,16 +175,16 @@ export default function CoursesList() {
                         {/* Graded Assignments */}
                         {details.graded_assignments?.length > 0 && (
                           <div>
-                            <h4 className="font-semibold text-green-800 mb-2 flex items-center gap-2">
+                            <h4 className="font-semibold text-green-700 dark:text-green-700 mb-2 flex items-center gap-2">
                               <CheckCircle size={18} />
                               {t("dashboard.course_cards.graded_assignments")} ({details.graded_assignments.length})
                             </h4>
                             <ul className="space-y-2">
                               {details.graded_assignments.map(assignment => (
-                                <li key={assignment.id} className="bg-white p-3 rounded border">
-                                  <p className="font-medium">{assignment.title}</p>
-                                  <p className="text-sm text-gray-600">
-                                  {t("dashboard.course_cards.grade")} {assignment.grade ?? t("dashboard.course_cards.not_graded_assignments")} / {assignment.maxPoints ?? 'N/A'}
+                                <li key={assignment.id} className="p-3 rounded border dark:border-gray-600">
+                                  <p className="font-medium normal_text">{assignment.title}</p>
+                                  <p className="text-sm text-gray-800 dark:text-gray-800">
+                                    {t("dashboard.course_cards.grade")} {assignment.grade ?? t("dashboard.course_cards.not_graded_assignments")} / {assignment.maxPoints ?? 'N/A'}
                                   </p>
                                 </li>
                               ))}
@@ -184,9 +201,9 @@ export default function CoursesList() {
                             </h4>
                             <ul className="space-y-2">
                               {details.calendar_events.map((event, idx) => (
-                                <li key={idx} className="bg-white p-3 rounded border">
-                                  <p className="font-medium">{event.title}</p>
-                                  <p className="text-sm text-gray-600">
+                                <li key={idx} className="p-3 rounded border dark:border-gray-600">
+                                  <p className="font-medium normal_text">{event.title}</p>
+                                  <p className="text-sm text-gray-800">
                                     {new Date(event.start).toLocaleString()}
                                   </p>
                                   {event.link && (
@@ -194,7 +211,7 @@ export default function CoursesList() {
                                       href={event.link} 
                                       target="_blank" 
                                       rel="noopener noreferrer"
-                                      className="text-purple-600 text-sm hover:underline"
+                                      className="text-purple-600 dark:text-purple-400 text-sm hover:underline"
                                     >
                                       {t("dashboard.course_cards.view_in_calendar")}
                                     </a>
@@ -214,7 +231,7 @@ export default function CoursesList() {
                             </h4>
                             <ul className="space-y-2">
                               {details.meet_links.map((meet, idx) => (
-                                <li key={idx} className="bg-white p-3 rounded border">
+                                <li key={idx} className="p-3 rounded border dark:border-gray-600">
                                   <a 
                                     href={meet.link} 
                                     target="_blank" 
@@ -224,7 +241,7 @@ export default function CoursesList() {
                                     <Video size={16} />
                                     {t("dashboard.course_cards.join_meet")}
                                   </a>
-                                  <p className="text-xs text-gray-500 mt-1">{meet.announcement}</p>
+                                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{meet.announcement}</p>
                                 </li>
                               ))}
                             </ul>
@@ -236,7 +253,7 @@ export default function CoursesList() {
                          !details.graded_assignments?.length && 
                          !details.meet_links?.length && 
                          !details.calendar_events?.length && (
-                          <p className="text-gray-500 text-center">{t("dashboard.course_cards.no_assignments")}</p>
+                          <p className="text-gray-500 dark:text-gray-400 text-center">{t("dashboard.course_cards.no_assignments")}</p>
                         )}
                       </div>
                     ) : (

@@ -79,7 +79,18 @@ h1 {
   }
 }
 
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
 
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
 
 /* Custom Classes */
 
@@ -115,6 +126,15 @@ h1 {
   font-weight: 400;
   font-size: 16px;
 }
+
+.normal_text_3 {
+  font-family: "Sofia Sans", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+.normal_text_3--small {font-size: 14px}
+.normal_text_3--medium {font-size: 18px}
+.normal_text_3--large {font-size: 22px}
 
 .normal_text_footer {
   color: var(--text);

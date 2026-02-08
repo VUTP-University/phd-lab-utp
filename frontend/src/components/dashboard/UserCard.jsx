@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { User, Mail, Download, FileText } from "lucide-react";
+import { User, Mail, Download, FileText, Brain } from "lucide-react";
 import api from "../../../api.js";
 
-function StudentCard({ user }) {
+function StudentCard({ user, onPlanAnalysis }) {
   const { t } = useTranslation();
   const [plan, setPlan] = useState(null);
   const [loadingPlan, setLoadingPlan] = useState(true);
@@ -56,30 +56,41 @@ function StudentCard({ user }) {
         </h4>
         
         {loadingPlan ? (
-          <p className="text-sm text-gray-500">Loading...</p>
+          <p className="text-sm text-gray-500">{t("dashboard.individual_plan_loading")}</p>
         ) : plan ? (
-          <div className="rounded-lg p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium normal_text">{plan.file_name}</p>
-                <p className="text-xs text-gray-500">
-                  Uploaded: {new Date(plan.uploaded_at).toLocaleDateString()}
-                </p>
+          <div className="space-y-3">
+            <div className="rounded-lg p-4">
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <p className="text-sm font-medium normal_text">{plan.file_name}</p>
+                  <p className="text-xs text-gray-800 dark:text-gray-800">
+                  {t("dashboard.individual_plan_uploaded")} {new Date(plan.uploaded_at).toLocaleDateString()}
+                  </p>
+                </div>
+                <a
+                  href={plan.drive_web_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="custom_button custom_button--small flex items-center gap-2"
+                >
+                  <Download size={16} />
+                  {t("dashboard.download")}
+                </a>
               </div>
-              <a
-                href={plan.drive_web_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="custom_button custom_button--medium flex items-center gap-2"
-              >
-                <Download size={16} />
-                {t("dashboard.download")}
-              </a>
             </div>
+
+            {/* AI Analysis Button */}
+            <button
+              onClick={onPlanAnalysis}
+              className="w-full custom_button flex items-center justify-center gap-2"
+            >
+              <Brain size={18} />
+              {t("dashboard.ai_analyze_my_plan")}
+            </button>
           </div>
         ) : (
-          <p className="text-sm text-gray-500 italic">
-            {t("dashboard.no_plan")}
+          <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+            {t("dashboard.no_plan") || "No individual plan uploaded yet"}
           </p>
         )}
       </div>

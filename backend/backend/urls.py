@@ -25,6 +25,10 @@ urlpatterns = [
     # Classroom Admin related endpoints
     path('classroom-admin/', include('classroom_admin.urls')),
     
+    
+    # AI Assistant endpoints
+    path('ai-assistant/', include('ai_assistant.urls')),
+    
     # Classroom related endpoints
     path('classroom/', include('classroom.urls')),
     
