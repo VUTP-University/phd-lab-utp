@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'appuser',
+    'ai_assistant',
     'classroom',
     'classroom_admin',
     'user_management',
@@ -209,6 +210,9 @@ CORS_ALLOW_CREDENTIALS = True
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 GOOGLE_ADMIN_EMAIL = os.getenv('GOOGLE_ADMIN_EMAIL')
 SERVICE_ACCOUNT_FILE = os.path.join(BASE_DIR, 'appuser', 'service_account.json')
+
+# OpenAI API settings
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 # Google Auth Groups
 ADMIN_GROUP = os.getenv('GOOGLE_ADMIN_GROUP')
