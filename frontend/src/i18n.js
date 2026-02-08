@@ -169,6 +169,9 @@ const resources = {
         loading: "Зареждане на курсовете...",
         error: "Грешка при зареждане на курсовете.",
         go_to_classroom: "Отиди в Classroom",
+        individual_plan: "Индивидуален план",
+        no_plan: "Няма намерен индивидуален план.",
+        download: "Изтегли",
         course_cards: {
           loading_details: "Зареждане на детайлите на курса...",
           waiting: "чaкaщи",
@@ -355,6 +358,9 @@ const resources = {
         loading: "Loading courses...",
         error: "Error loading courses.",
         go_to_classroom: "Go to Classroom",
+        individual_plan: "Individual Plan",
+        no_plan: "No individual plan found.",
+        download: "Download",
         course_cards: {
           loading_details: "Loading course details...",
           waiting: "waiting",
