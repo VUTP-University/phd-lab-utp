@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
-from appuser.permissions import IsLabAdmin
+from appuser.permissions import IsLabAdmin, IsLabAdminOrStudent
 from .group_utils import get_group_members, add_user_to_group, remove_user_from_group
 from appuser.google_drive_service import (
     get_drive_service,
@@ -36,6 +36,7 @@ class GroupMembersView(APIView):
     except Exception as e:
         logger.error(f"Error fetching group members: {str(e)}")
         raise APIException("Failed to fetch group members")
+
 
 class ManageGroupMemberView(APIView):
     permission_classes = [IsLabAdmin]
@@ -156,6 +157,39 @@ class UploadStudentPlanView(APIView):
             
         except Exception as e:
             logger.exception(f"Error uploading plan: {e}")
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class MyIndividualPlanView(APIView):
+    """Get student's own individual plan"""
+    permission_classes = [IsLabAdminOrStudent]
+    
+    def get(self, request):
+        user = request.user
+        
+        try:
+            plan = StudentIndividualPlan.objects.filter(
+                student_email=user.email
+            ).first()
+            
+            if not plan:
+                return Response(
+                    {"message": "No plan found"},
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            
+            return Response({
+                "file_name": plan.file_name,
+                "drive_web_link": plan.drive_web_link,
+                "uploaded_at": plan.uploaded_at,
+                "uploaded_by": plan.uploaded_by.email if plan.uploaded_by else None
+            })
+            
+        except Exception as e:
+            logger.exception(f"Error fetching plan for {user.email}")
             return Response(
                 {"error": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
