@@ -16,6 +16,7 @@ import CreateNewsPage from "./pages/news/CreateNewsPage"
 import { useTranslation } from "react-i18next";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NewsDetail from "./pages/news/NewsDetail";
+import AllNews from "./pages/news/AllNews";
 
 function App() {
   const { i18n } = useTranslation();
@@ -68,6 +69,7 @@ function App() {
           }
         />
         <Route path="/create-news" element={<CreateNewsPage user={user} />} />
+        <Route path="/news" element={<AllNews />} />  
         <Route path="/news/:id" element={<NewsDetail />} />
 
         {/* Future routes */}

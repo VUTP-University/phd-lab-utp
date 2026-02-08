@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import ShareButtons from "../../components/ShareButtons";
+import Footer from "../../components/Footer";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -51,7 +52,7 @@ export default function NewsDetail() {
 
   return (
     <section className="pt-24 pb-16 primary_object">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-6 mb-5">
 
         {/* Title */}
         <h1 className="text-4xl font-extrabold primary_text mb-8">
@@ -83,8 +84,6 @@ export default function NewsDetail() {
 
         {/* Author + date (moved here & slightly bigger) */}
         <div className="text-gray-600 text-sm md:text-[15px] mb-8">
-          <span className="font-medium">{news.author}</span>
-          <span className="mx-2">•</span>
           <p>
             {new Date(news.created_at).toLocaleDateString()}
           </p>
@@ -95,8 +94,10 @@ export default function NewsDetail() {
           url={window.location.href}
           title={titleToShow}
         />
-
+       
       </div>
+       <Footer></Footer>
     </section>
+    
   );
 }

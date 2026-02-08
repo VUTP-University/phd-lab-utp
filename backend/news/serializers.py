@@ -44,7 +44,6 @@ class NewsSerializer(serializers.ModelSerializer):
             'updated_at'
         ]
 
-    def create(self, validated_data):
-        author = self.context.get('author')
-        news = News.objects.create(author=author, **validated_data)
-        return news
+        def create(self, validated_data):
+            author = self.context.get('author')
+            return News.objects.create(author=author, **validated_data)

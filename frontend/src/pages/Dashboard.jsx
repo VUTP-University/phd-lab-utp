@@ -1,6 +1,6 @@
 import React from "react";
-import CoursesList from "../components/dashboard/CoursesList";
-import UserCard from "../components/dashboard/UserCard";
+import CoursesList from "../components/Dashboard/CoursesList";
+import UserCard from "../components/Dashboard/UserCard";
 import Footer from "../components/Footer";
 
 

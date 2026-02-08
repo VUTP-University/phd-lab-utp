@@ -32,7 +32,8 @@ class News(models.Model):
 
     title_en = models.CharField(max_length=255, blank=True, null=True)
     desc_en = models.TextField(blank=True, null=True)
-    slug = models.SlugField(max_length=255, blank=True, null=True, unique=True)
+    slug =  models.SlugField(max_length=255, blank=True, null=True)
+    slug_en = models.SlugField(max_length=255, blank=True, null=True)
 
     author = models.ForeignKey(
         CustomUser,
@@ -40,8 +41,11 @@ class News(models.Model):
         related_name="news"
     )
     def save(self, *args, **kwargs):
-        if not self.slug and self.title_en:
+        if not self.slug_en and self.title_en:
             self.slug = slugify(self.title_en)
+
+        if not self.slug and self.title:
+            self.slug = slugify(self.title)    
         super().save(*args, **kwargs)
 
     created_at = models.DateTimeField(auto_now_add=True)
