@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'classroom',
     'classroom_admin',
     'user_management',
+    'news_and_events'
 ]
 
 SITE_ID = 1

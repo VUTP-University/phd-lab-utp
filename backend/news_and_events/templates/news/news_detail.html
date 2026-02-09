@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Page Title -->
+    <title>{{ news.title }} - PhD Lab</title>
+    
+    <!-- Open Graph Meta Tags for Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ news.title }}">
+    <meta property="og:description" content="{{ news.description|truncatewords:50 }}">
+    <meta property="og:url" content="{{ page_url }}">
+    <meta property="og:site_name" content="PhD Lab - UTP">
+    {% if image_url %}
+    <meta property="og:image" content="{{ image_url }}">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="600">
+    <meta property="og:image:alt" content="{{ news.title }}">
+    {% endif %}
+    <meta property="article:published_time" content="{{ news.created_at|date:'c' }}">
+    <meta property="article:author" content="{{ news.author.first_name }}">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ news.title }}">
+    <meta name="twitter:description" content="{{ news.description|truncatewords:50 }}">
+    {% if image_url %}
+    <meta name="twitter:image" content="{{ image_url }}">
+    {% endif %}
+    
+    <!-- Regular Meta Tags -->
+    <meta name="description" content="{{ news.description|truncatewords:50 }}">
+    
+    <!-- Redirect to React app immediately -->
+    <script>
+        window.location.href = '/';
+        // Store news ID so React can open it
+        sessionStorage.setItem('openNewsId', '{{ news.id }}');
+    </script>
+    
+    <!-- Fallback if JavaScript is disabled -->
+    <noscript>
+        <meta http-equiv="refresh" content="0;url=/">
+    </noscript>
+</head>
+<body>
+    <!-- This content is for social media crawlers only -->
+    <article style="display:none;">
+        <h1>{{ news.title }}</h1>
+        <p>{{ news.description }}</p>
+        {% if image_url %}
+        <img src="{{ image_url }}" alt="{{ news.title }}">
+        {% endif %}
+        <time datetime="{{ news.created_at|date:'c' }}">{{ news.created_at|date:"F j, Y" }}</time>
+    </article>
+    
+    <!-- Loading message for users -->
+    <div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;">
+        <p>Loading...</p>
+    </div>
+</body>
+</html>

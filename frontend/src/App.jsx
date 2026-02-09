@@ -1,6 +1,7 @@
 
 import "./i18n";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Landing from "./pages/Landing";
@@ -12,12 +13,13 @@ import Taxes from "./pages/Taxes";
 import SpecialtyPage from "./pages/Specialties/SpecialtyPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import Dashboard from "./pages/Dashboard";
-
-import { useTranslation } from "react-i18next";
+import NewsDetail from "./pages/NewsDetail";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { useTranslation } from "react-i18next";
 
 function App() {
   const { i18n } = useTranslation();
+  const navigate = useNavigate();
 
   // Restore language from localStorage
   useEffect(() => {
@@ -40,6 +42,16 @@ function App() {
     }
   }, []);
 
+
+  useEffect(() => {
+    const openNewsId = sessionStorage.getItem("openNewsId");
+    if (openNewsId) {
+      sessionStorage.removeItem("openNewsId");
+      navigate(`/news/${openNewsId}`);
+    }
+  }, [navigate]);  // Add navigate to dependencies
+
+  
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
@@ -60,13 +72,14 @@ function App() {
         <Route path="/apply" element={<Apply />} />
         <Route path="/taxes" element={<Taxes />} />
 
-
+        {/* Admin Dashboard */}
         <Route path="/admin-dashboard" element={
           <ProtectedRoute adminOnly={true}>
             <AdminDashboard user={user} />
           </ProtectedRoute>
         } />
 
+        {/* User Dashboard */}
         <Route
           path="/dashboard"
           element={
@@ -75,9 +88,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* Future routes */}
-        {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/news/:id" element={<NewsDetail />} />
       </Routes>
     </>
   );
