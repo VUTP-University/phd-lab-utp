@@ -61,8 +61,8 @@ export default function CoursesList({ onCourseAnalysis }) {
     }
   };
 
-  if (loading) return <p className="normal_text text-center mt-10">{t("dashboard.loading")}</p>;
-  if (error) return <p className="normal_text text-center mt-10 text-red-500">{t("dashboard.error")}</p>;
+  if (loading) return <p className="normal_text_3 text-center mt-10">{t("dashboard.loading")}</p>;
+  if (error) return <p className="normal_text_3 text-center mt-10 text-red-500">{t("dashboard.error")}</p>;
 
   return (
     <section className="primary_object py-6 mt-8 mb-8">
@@ -87,13 +87,13 @@ export default function CoursesList({ onCourseAnalysis }) {
                       
                       {/* Badges */}
                       {details && details.open_count > 0 && (
-                        <span className="px-2 py-1 bg-orange-600/50 text-orange-200 text-xs rounded flex items-center gap-1">
+                        <span className="px-2 py-1 badge badge--orange text-xs rounded flex items-center gap-1">
                           <AlertCircle size={12} />
                           {details.open_count} {t("dashboard.course_cards.waiting")}
                         </span>
                       )}
                       {details && details.events_count > 0 && (
-                        <span className="px-2 py-1 bg-purple-600/50 text-purple-800 text-xs rounded flex items-center gap-1">
+                        <span className="px-2 py-1 badge badge--purple text-xs rounded flex items-center gap-1">
                           <Calendar size={12} />
                           {details.events_count} {t("dashboard.course_cards.event")}
                         </span>
@@ -117,7 +117,7 @@ export default function CoursesList({ onCourseAnalysis }) {
                       <span className="hidden sm:inline">{t("dashboard.course_cards.ai_insight")}</span>
                     </button>
 
-                    <span className={`px-3 py-1 rounded text-sm ${course.courseState === 'ACTIVE' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400'}`}>
+                    <span className={`px-3 py-1 rounded text-sm ${course.courseState === 'ACTIVE' ? 'badge badge--green' : 'badge badge--gray'}`}>
                       {course.courseState}
                     </span>
                     
@@ -140,21 +140,22 @@ export default function CoursesList({ onCourseAnalysis }) {
                 {expandedId === course.id && (
                   <div className="border-t p-4">
                     {isLoading ? (
-                      <p className="text-center text-gray-500">{t("dashboard.course_cards.loading_details")}</p>
+                      <p className="text-center normal_text_3">{t("dashboard.course_cards.loading_details")}</p>
                     ) : details ? (
                       <div className="space-y-4">
+
                         {/* Open Assignments */}
                         {details.open_assignments?.length > 0 && (
                           <div>
-                            <h4 className="font-semibold text-orange-700 dark:text-orange-700 mb-2 flex items-center gap-2">
+                            <h4 className="font-semibold badge badge--orange mb-2 flex items-center gap-2">
                               <AlertCircle size={18} />
                               {t("dashboard.course_cards.open_assignments")} ({details.open_assignments.length})
                             </h4>
                             <ul className="space-y-2">
                               {details.open_assignments.map(assignment => (
-                                <li key={assignment.id} className="rounded border dark:border-gray-600">
+                                <li key={assignment.id} className="p-3 rounded border dark:border-gray-600">
                                   <p className="font-medium normal_text">{assignment.title}</p>
-                                  <p className="text-sm text-gray-700 dark:text-gray-700">
+                                  <p className="text-sm normal_text_3">
                                     {assignment.dueDate ? 
                                       `Due: ${new Date(
                                         assignment.dueDate.year,
@@ -164,7 +165,7 @@ export default function CoursesList({ onCourseAnalysis }) {
                                       : t("dashboard.course_cards.no_due_date")}
                                   </p>
                                   {assignment.maxPoints && (
-                                    <p className="text-sm text-gray-700 dark:text-gray-700">Points: {assignment.maxPoints}</p>
+                                    <p className="text-sm normal_text_3">{t("dashboard.course_cards.grade")}: {assignment.maxPoints}</p>
                                   )}
                                 </li>
                               ))}
@@ -175,7 +176,7 @@ export default function CoursesList({ onCourseAnalysis }) {
                         {/* Graded Assignments */}
                         {details.graded_assignments?.length > 0 && (
                           <div>
-                            <h4 className="font-semibold text-green-700 dark:text-green-700 mb-2 flex items-center gap-2">
+                            <h4 className="font-semibold badge badge--green mb-2 flex items-center gap-2">
                               <CheckCircle size={18} />
                               {t("dashboard.course_cards.graded_assignments")} ({details.graded_assignments.length})
                             </h4>
@@ -183,7 +184,7 @@ export default function CoursesList({ onCourseAnalysis }) {
                               {details.graded_assignments.map(assignment => (
                                 <li key={assignment.id} className="p-3 rounded border dark:border-gray-600">
                                   <p className="font-medium normal_text">{assignment.title}</p>
-                                  <p className="text-sm text-gray-800 dark:text-gray-800">
+                                  <p className="text-sm normal_text_3">
                                     {t("dashboard.course_cards.grade")} {assignment.grade ?? t("dashboard.course_cards.not_graded_assignments")} / {assignment.maxPoints ?? 'N/A'}
                                   </p>
                                 </li>
@@ -195,7 +196,7 @@ export default function CoursesList({ onCourseAnalysis }) {
                         {/* Calendar Events */}
                         {details.calendar_events?.length > 0 && (
                           <div>
-                            <h4 className="font-semibold text-purple-800 mb-2 flex items-center gap-2">
+                            <h4 className="font-semibold badge badge--blue mb-2 flex items-center gap-2">
                               <Calendar size={18} />
                               {t("dashboard.course_cards.upcoming_events")} ({details.calendar_events.length})
                             </h4>
@@ -203,15 +204,15 @@ export default function CoursesList({ onCourseAnalysis }) {
                               {details.calendar_events.map((event, idx) => (
                                 <li key={idx} className="p-3 rounded border dark:border-gray-600">
                                   <p className="font-medium normal_text">{event.title}</p>
-                                  <p className="text-sm text-gray-800">
-                                    {new Date(event.start).toLocaleString()}
+                                  <p className="text-sm normal_text_3">
+                                    {new Date(event.start).toLocaleString()} - {new Date(event.end).toLocaleString()}
                                   </p>
                                   {event.link && (
                                     <a 
                                       href={event.link} 
                                       target="_blank" 
                                       rel="noopener noreferrer"
-                                      className="text-purple-600 dark:text-purple-400 text-sm hover:underline"
+                                      className="badge badge--blue text-sm hover:underline"
                                     >
                                       {t("dashboard.course_cards.view_in_calendar")}
                                     </a>
@@ -225,7 +226,7 @@ export default function CoursesList({ onCourseAnalysis }) {
                         {/* Meet Links */}
                         {details.meet_links?.length > 0 && (
                           <div>
-                            <h4 className="font-semibold text-blue-800 mb-2 flex items-center gap-2">
+                            <h4 className="font-semibold badge badge--purple mb-2 flex items-center gap-2">
                               <Video size={18} />
                               {t("dashboard.course_cards.google_meet")} ({details.meet_links.length})
                             </h4>
@@ -236,12 +237,12 @@ export default function CoursesList({ onCourseAnalysis }) {
                                     href={meet.link} 
                                     target="_blank" 
                                     rel="noopener noreferrer"
-                                    className="text-blue-600 hover:underline flex items-center gap-2"
+                                    className="badge badge--purple flex items-center gap-2"
                                   >
                                     <Video size={16} />
                                     {t("dashboard.course_cards.join_meet")}
                                   </a>
-                                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{meet.announcement}</p>
+                                  <p className="text-xs normal_text_3 mt-1">{meet.announcement}</p>
                                 </li>
                               ))}
                             </ul>
@@ -253,7 +254,7 @@ export default function CoursesList({ onCourseAnalysis }) {
                          !details.graded_assignments?.length && 
                          !details.meet_links?.length && 
                          !details.calendar_events?.length && (
-                          <p className="text-gray-500 dark:text-gray-400 text-center">{t("dashboard.course_cards.no_assignments")}</p>
+                          <p className="normal_text_3 text-center">{t("dashboard.course_cards.no_assignments")}</p>
                         )}
                       </div>
                     ) : (
