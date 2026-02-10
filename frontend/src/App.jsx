@@ -14,6 +14,7 @@ import SpecialtyPage from "./pages/Specialties/SpecialtyPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import Dashboard from "./pages/Dashboard";
 import NewsDetail from "./pages/NewsDetail";
+import AllNews from "./pages/AllNews";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useTranslation } from "react-i18next";
 
@@ -35,12 +36,12 @@ function App() {
     return savedUser ? JSON.parse(savedUser) : null;
   });
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedUser = localStorage.getItem('user');
+  //   if (storedUser) {
+  //     setUser(JSON.parse(storedUser));
+  //   }
+  // }, []);
 
 
   useEffect(() => {
@@ -88,6 +89,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* News Pages */}
+        <Route path="/news" element={<AllNews />} />
         <Route path="/news/:id" element={<NewsDetail />} />
       </Routes>
     </>

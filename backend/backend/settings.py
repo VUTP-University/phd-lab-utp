@@ -33,7 +33,10 @@ SECRET_KEY = 'django-insecure-b7x1&h9+!9f*zxn(cldfs0cg5_@l6c&fbe%te!251=wpm1+60^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok-free.dev'] # Localhost and ngrok domains for dev env
+
+# CSRF trusted origins for ngrok
+# CSRF_TRUSTED_ORIGINS = ['.ngrok-free.dev']
 
 
 # Application definition
@@ -59,7 +62,7 @@ INSTALLED_APPS = [
     'classroom',
     'classroom_admin',
     'user_management',
-    'news_and_events'
+    'news_and_events.apps.NewsAndEventsConfig'
 ]
 
 SITE_ID = 1

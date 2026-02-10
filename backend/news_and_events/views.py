@@ -243,11 +243,5 @@ class NewsDetailTemplateView(View):
             'image_url': image_url,
             'page_url': request.build_absolute_uri(),
         }
-        
-        # DEBUG - Print to console
-        print(f"News ID: {news.id}")
-        print(f"Title: {news.title}")
-        print(f"Image URL: {image_url}")
-        print(f"Page URL: {context['page_url']}")
-        
+
         return render(request, 'news/news_detail.html', context)
