@@ -53,7 +53,6 @@ export default function NewsDetail() {
     // ${window.location.origin} or grok temp URL for debug
     const shareUrl = `${window.location.origin}/news/${news.id}/share/`;
     const url = encodeURIComponent(shareUrl);
-    console.log("Sharing URL:", shareUrl);
     window.open(
       `https://www.facebook.com/sharer/sharer.php?u=${url}`,
       "_blank",
@@ -67,7 +66,6 @@ export default function NewsDetail() {
     // Use the Django template URL for sharing (has meta tags)
     const shareUrl = `${window.location.origin}/news/${news.id}/share/`;
     const url = encodeURIComponent(shareUrl);
-    
     window.open(
       `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
       "_blank",
