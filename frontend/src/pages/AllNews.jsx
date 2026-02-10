@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import {
-  Calendar
-} from "lucide-react";
-import api from "../../../api.js";
+import { useNavigate } from "react-router-dom";
+import { Calendar, ArrowLeft } from "lucide-react";
+import api from "../../api.js";
 
-export default function NewsEvents() {
+export default function AllNews() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const recentNews = news.slice(0, 3); // Show only 6 most recent
+  const [filter, setFilter] = useState('all'); // 'all', 'news', 'event'
 
   useEffect(() => {
     fetchNews();
@@ -28,23 +26,25 @@ export default function NewsEvents() {
     }
   };
 
-  const shareOnFacebook = (newsItem) => {
-    // Use the Django template URL for sharing (has meta tags)
+  const filteredNews = filter === 'all' 
+    ? news 
+    : news.filter(item => item.news_type === filter);
+
+  const shareOnFacebook = (newsItem, e) => {
+    e.stopPropagation();
     const shareUrl = `${window.location.origin}/news/${newsItem.id}/share/`;
     const url = encodeURIComponent(shareUrl);
-    
     window.open(
       `https://www.facebook.com/sharer/sharer.php?u=${url}`,
       "_blank",
       "width=600,height=400"
     );
   };
-  
-  const shareOnLinkedIn = (newsItem) => {
-    // Use the Django template URL for sharing (has meta tags)
+
+  const shareOnLinkedIn = (newsItem, e) => {
+    e.stopPropagation();
     const shareUrl = `${window.location.origin}/news/${newsItem.id}/share/`;
     const url = encodeURIComponent(shareUrl);
-    
     window.open(
       `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
       "_blank",
@@ -52,38 +52,78 @@ export default function NewsEvents() {
     );
   };
 
-  const openModal = (newsItem) => {
-    navigate(`/news/${newsItem.id}/`);
-  };
-
   if (loading) {
     return (
-      <section className="pb-10 pt-20 mt-10 primary_object">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="text-center normal_text">Loading...</p>
-        </div>
-      </section>
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="normal_text">Loading...</p>
+      </div>
     );
   }
 
   return (
-    <section className="pb-10 pt-20 mt-10 primary_object">
+    <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center primary_text mb-10">
-          {t("news.title") || "News & Events"}
-        </h2>
+        {/* Header */}
+        <div className="mb-8">
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 mb-6 normal_text hover:text-blue-600 transition"
+          >
+            <ArrowLeft size={20} />
+            Back to Home
+          </button>
 
-        {news.length === 0 ? (
-          <p className="text-center normal_text text-gray-500">
-            {t("news.no_news") || "No news available at the moment"}
+          <h1 className="text-4xl font-bold primary_text mb-4">
+            {t("news.all_news") || "All News & Events"}
+          </h1>
+
+          {/* Filter Tabs */}
+          <div className="flex items-center gap-4 border-b border-gray-200 dark:border-gray-700">
+            <button
+              onClick={() => setFilter('all')}
+              className={`px-4 py-2 font-medium transition ${
+                filter === 'all'
+                  ? 'border-b-2 border-blue-600 text-blue-600'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+              }`}
+            >
+              All ({news.length})
+            </button>
+            <button
+              onClick={() => setFilter('news')}
+              className={`px-4 py-2 font-medium transition ${
+                filter === 'news'
+                  ? 'border-b-2 border-blue-600 text-blue-600'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+              }`}
+            >
+              News ({news.filter(n => n.news_type === 'news').length})
+            </button>
+            <button
+              onClick={() => setFilter('event')}
+              className={`px-4 py-2 font-medium transition ${
+                filter === 'event'
+                  ? 'border-b-2 border-blue-600 text-blue-600'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+              }`}
+            >
+              Events ({news.filter(n => n.news_type === 'event').length})
+            </button>
+          </div>
+        </div>
+
+        {/* News Grid */}
+        {filteredNews.length === 0 ? (
+          <p className="text-center normal_text text-gray-500 py-12">
+            No {filter === 'all' ? '' : filter} items found
           </p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {recentNews.map((item) => (
+            {filteredNews.map((item) => (
               <div
                 key={item.id}
                 className="primary_object rounded-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
-                onClick={() => openModal(item)}
+                onClick={() => navigate(`/news/${item.id}`)}
               >
                 {/* Image */}
                 {item.images.length > 0 ? (
@@ -93,11 +133,8 @@ export default function NewsEvents() {
                       alt={item.title}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        // Fallback to direct thumbnail link
-                        e.target.onerror = null; // Prevent infinite loop
-                        e.target.src =
-                          item.images[0].drive_thumbnail_link ||
-                          item.images[0].drive_web_link;
+                        e.target.onerror = null;
+                        e.target.src = item.images[0].drive_thumbnail_link || item.images[0].drive_web_link;
                       }}
                     />
                     {item.images.length > 1 && (
@@ -147,10 +184,7 @@ export default function NewsEvents() {
                     <div className="flex items-center gap-2">
                       {/* Facebook */}
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent opening modal
-                          shareOnFacebook(item); // Share current item, not selectedNews
-                        }}
+                        onClick={(e) => shareOnFacebook(item, e)}
                         className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-gray-800 shadow-md shadow-gray-200 dark:shadow-gray-900 group transition-all duration-300 cursor-pointer"
                         title="Share on Facebook"
                       >
@@ -171,10 +205,7 @@ export default function NewsEvents() {
 
                       {/* LinkedIn */}
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent opening modal
-                          shareOnLinkedIn(item); // Share current item, not selectedNews
-                        }}
+                        onClick={(e) => shareOnLinkedIn(item, e)}
                         className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-gray-800 shadow-md shadow-gray-200 dark:shadow-gray-900 group transition-all duration-300 cursor-pointer"
                         title="Share on LinkedIn"
                       >
@@ -202,19 +233,6 @@ export default function NewsEvents() {
           </div>
         )}
       </div>
-      {/* View All Button */}
-      {news.length > 3 && (
-        <div className="text-center mt-8">
-          <button
-            onClick={() => navigate("/news")}
-            className="custom_button custom_button--medium"
-          >
-            View All News ({news.length})
-          </button>
-        </div>
-      )}
-
-
-    </section>
+    </div>
   );
 }

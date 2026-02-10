@@ -103,3 +103,67 @@ def share_file_with_users(service, file_id, emails, role='reader'):
     except Exception as e:
         logger.exception(f"Error sharing file: {e}")
         raise
+    
+def upload_news_images(service, images, news_id, news_media_folder_id):
+    """Upload multiple images to a news-specific folder"""
+    
+    # Create folder for this news
+    news_folder_name = f"news_{news_id}"
+    news_folder_id = get_or_create_folder(service, news_folder_name, news_media_folder_id)
+    
+    uploaded_images = []
+    
+    for idx, image in enumerate(images):
+        try:
+            # Save temp file
+            temp_path = f'/tmp/{image.name}'
+            with open(temp_path, 'wb+') as destination:
+                for chunk in image.chunks():
+                    destination.write(chunk)
+            
+            # Upload to Drive
+            file_metadata = {
+                'name': image.name,
+                'parents': [news_folder_id]
+            }
+            
+            media = MediaFileUpload(
+                temp_path,
+                mimetype=image.content_type,
+                resumable=True
+            )
+            
+            file = service.files().create(
+                body=file_metadata,
+                media_body=media,
+                fields='id, name, webViewLink, thumbnailLink'
+            ).execute()
+            
+            # Make file publicly viewable
+            permission = {
+                'type': 'anyone',
+                'role': 'reader'
+            }
+            service.permissions().create(
+                fileId=file['id'],
+                body=permission
+            ).execute()
+            
+            uploaded_images.append({
+                'file_id': file['id'],
+                'file_name': file['name'],
+                'web_link': file['webViewLink'],
+                'thumbnail_link': file.get('thumbnailLink', ''),
+                'order': idx
+            })
+            
+            # Clean up
+            os.remove(temp_path)
+            
+            logger.info(f"Uploaded image: {image.name} to news_{news_id}")
+            
+        except Exception as e:
+            logger.exception(f"Error uploading image {image.name}: {e}")
+            continue
+    
+    return uploaded_images
