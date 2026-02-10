@@ -236,7 +236,9 @@ class NewsDetailTemplateView(View):
         image_url = None
         if first_image:
             # Use Google Drive thumbnail for better performance
-            image_url = f"https://drive.google.com/thumbnail?id={first_image.drive_file_id}&sz=w800"
+            # image_url = f"https://drive.google.com/thumbnail?id={first_image.drive_file_id}&sz=w800"
+            image_url = f"https://drive.google.com/uc?export=view&id={first_image.drive_file_id}"
+
         
         context = {
             'news': news,

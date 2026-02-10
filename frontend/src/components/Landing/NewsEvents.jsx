@@ -28,9 +28,9 @@ export default function NewsEvents() {
     }
   };
 
-  const shareOnFacebook = () => {
+  const shareOnFacebook = (newsItem) => {
     // Use the Django template URL for sharing (has meta tags)
-    const shareUrl = `${window.location.origin}/news/${news.id}/share/`;
+    const shareUrl = `${window.location.origin}/news/${newsItem.id}/share/`;
     const url = encodeURIComponent(shareUrl);
     
     window.open(
@@ -40,9 +40,9 @@ export default function NewsEvents() {
     );
   };
   
-  const shareOnLinkedIn = () => {
+  const shareOnLinkedIn = (newsItem) => {
     // Use the Django template URL for sharing (has meta tags)
-    const shareUrl = `${window.location.origin}/news/${news.id}/share/`;
+    const shareUrl = `${window.location.origin}/news/${newsItem.id}/share/`;
     const url = encodeURIComponent(shareUrl);
     
     window.open(
