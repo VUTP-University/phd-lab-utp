@@ -169,7 +169,7 @@ export default function AdminNews() {
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
-              className="w-full border rounded-lg px-4 py-2 dark:bg-gray-800 dark:border-gray-700 normal_text"
+              className="w-full border rounded-lg px-4 py-2 custom_input dark:border-gray-700 normal_text"
               placeholder="Enter news title"
               required
             />
@@ -185,7 +185,7 @@ export default function AdminNews() {
               onChange={(e) =>
                 setFormData({ ...formData, news_type: e.target.value })
               }
-              className="w-full border rounded-lg px-4 py-2 dark:bg-gray-800 dark:border-gray-700 normal_text"
+              className="w-full border rounded-lg px-4 py-2 custom_input dark:border-gray-700 normal_text"
             >
               <option value="news">News</option>
               <option value="event">Event</option>
@@ -203,7 +203,7 @@ export default function AdminNews() {
                 setFormData({ ...formData, description: e.target.value })
               }
               rows="6"
-              className="w-full border rounded-lg px-4 py-2 dark:bg-gray-800 dark:border-gray-700 normal_text resize-none"
+              className="w-full border rounded-lg px-4 py-2 custom_input normal_text resize-none"
               placeholder="Enter news description"
               required
             />
@@ -288,7 +288,7 @@ export default function AdminNews() {
             </div>
           )}
 
-          {/* Social Media */}
+          {/* Social Media
           <div>
             <label className="block text-sm font-medium mb-2 normal_text">
               Social Media Sharing
@@ -323,7 +323,7 @@ export default function AdminNews() {
                 <span className="text-sm normal_text">Share on LinkedIn</span>
               </label>
             </div>
-          </div>
+          </div> */}
 
           {/* Submit Buttons */}
           <div className="flex gap-3 pt-4">
@@ -364,7 +364,7 @@ export default function AdminNews() {
         </h3>
 
         {loading ? (
-          <p className="text-center text-gray-500">Loading...</p>
+          <p className="text-center normal_text">Loading...</p>
         ) : news.length === 0 ? (
           <p className="text-center text-gray-500 py-8">No news created yet</p>
         ) : (
@@ -404,15 +404,15 @@ export default function AdminNews() {
                       <h4 className="font-semibold normal_text text-lg">
                         {item.title}
                       </h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
+                      <p className="text-sm normal_text mt-1 line-clamp-2">
                         {item.description}
                       </p>
                       <div className="flex items-center gap-3 mt-3 flex-wrap">
                         <span
                           className={`text-xs px-2 py-1 rounded ${
                             item.news_type === "news"
-                              ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400"
-                              : "bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400"
+                              ? "badge badge--blue"
+                              : "badge badge--purple"
                           }`}
                         >
                           {item.news_type}
