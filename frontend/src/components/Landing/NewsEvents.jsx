@@ -82,7 +82,7 @@ export default function NewsEvents() {
             {recentNews.map((item) => (
               <div
                 key={item.id}
-                className="primary_object rounded-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+                className="primary_object card rounded-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
                 onClick={() => openModal(item)}
               >
                 {/* Image */}

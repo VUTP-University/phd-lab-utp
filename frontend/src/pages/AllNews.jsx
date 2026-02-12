@@ -122,7 +122,7 @@ export default function AllNews() {
             {filteredNews.map((item) => (
               <div
                 key={item.id}
-                className="primary_object rounded-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+                className="primary_object card rounded-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
                 onClick={() => navigate(`/news/${item.id}`)}
               >
                 {/* Image */}
