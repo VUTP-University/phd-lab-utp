@@ -95,7 +95,7 @@ export default function NewsDetail() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="normal_text">Loading...</p>
+        <p className="normal_text">{t("news.loading")}</p>
       </div>
     );
   }
@@ -103,7 +103,7 @@ export default function NewsDetail() {
   if (!news) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="normal_text text-red-500">News not found</p>
+        <p className="normal_text text-red-500">{t("news.no_news")}</p>
       </div>
     );
   }
@@ -117,7 +117,7 @@ export default function NewsDetail() {
           className="flex items-center gap-2 mb-6 normal_text hover:text-blue-600 transition"
         >
           <ArrowLeft size={20} />
-          Back to News
+          {t("news.back_to_news")}
         </button>
 
         {/* News Content */}

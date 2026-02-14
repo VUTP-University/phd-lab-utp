@@ -320,6 +320,20 @@ h1 {
   border-color: var(--primary);
 }
 
+/* Social Media Buttons */
+.social_media_button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  background-color: var(--badge-blue-bg);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+}
+
 /* Input Fields */
 .custom_input {
   width: 100%;
@@ -460,3 +474,4 @@ h1 {
     font-size: 20px;
   }
 }
+

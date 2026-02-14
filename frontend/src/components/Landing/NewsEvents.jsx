@@ -65,7 +65,7 @@ export default function NewsEvents() {
     return (
       <section className="pb-10 pt-20 mt-10 primary_object">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-center normal_text">Loading...</p>
+          <p className="text-center normal_text">{t("news.loading")}</p>
         </div>
       </section>
     );
@@ -75,12 +75,12 @@ export default function NewsEvents() {
     <section className="pb-10 pt-20 mt-10 primary_object">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-3xl font-bold text-center primary_text mb-10">
-          {t("news.title") || "News & Events"}
+          {t("news.title")}
         </h2>
 
         {news.length === 0 ? (
           <p className="text-center normal_text text-gray-500">
-            {t("news.no_news") || "No news available at the moment"}
+            {t("news.no_news")}
           </p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -107,7 +107,7 @@ export default function NewsEvents() {
                     />
                     {item.images.length > 1 && (
                       <span className="absolute top-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                        +{item.images.length - 1} more
+                        +{item.images.length - 1} {t("news.more_images")}
                       </span>
                     )}
                   </div>
@@ -123,8 +123,8 @@ export default function NewsEvents() {
                   <span
                     className={`inline-block text-xs px-2 py-1 rounded mb-2 ${
                       item.news_type === "news"
-                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400"
-                        : "bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400"
+                        ? "badge badge--blue text-blue-800 dark:text-blue-400"
+                        : "badge badge--purple text-purple-800 dark:text-purple-400"
                     }`}
                   >
                     {item.news_type === "news"
@@ -156,8 +156,8 @@ export default function NewsEvents() {
                           e.stopPropagation(); // Prevent opening modal
                           shareOnFacebook(item); // Share current item, not selectedNews
                         }}
-                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-gray-800 shadow-md shadow-gray-200 dark:shadow-gray-900 group transition-all duration-300 cursor-pointer"
-                        title="Share on Facebook"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg group transition-all duration-300 cursor-pointer social_media_button"
+                        title={t("news.share_on_facebook")}
                       >
                         <svg
                           className="transition-all duration-300 group-hover:scale-110"
@@ -180,8 +180,8 @@ export default function NewsEvents() {
                           e.stopPropagation(); // Prevent opening modal
                           shareOnLinkedIn(item); // Share current item, not selectedNews
                         }}
-                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-gray-800 shadow-md shadow-gray-200 dark:shadow-gray-900 group transition-all duration-300 cursor-pointer"
-                        title="Share on LinkedIn"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg group transition-all duration-300 cursor-pointer social_media_button"
+                        title={t("news.share_on_linkedin")}
                       >
                         <svg
                           className="rounded-md transition-all duration-300 group-hover:scale-110"
@@ -214,7 +214,7 @@ export default function NewsEvents() {
             onClick={() => navigate("/news")}
             className="custom_button custom_button--medium"
           >
-            View All News ({news.length})
+            {t("news.view_all")} ({news.length})
           </button>
         </div>
       )}

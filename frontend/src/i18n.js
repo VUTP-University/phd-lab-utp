@@ -95,7 +95,17 @@ const resources = {
         title: "Електронни ресурси"
       },
       news: {
-        title: "Новини и събития"
+        title: "Новини и събития",
+        loading: "Зареждане на новините...",
+        no_news: "Няма създадени новини",
+        more_images: "още изображения",
+        news: "Новина",
+        event: "Събитие",
+        share_on_facebook: "Сподели във Facebook",
+        share_on_linkedin: "Сподели в LinkedIn",
+        view_all: "Виж всички новини"
+
+
       },
       apply: {
         download: "Изтегли файл",
@@ -339,6 +349,14 @@ const resources = {
       },
       news: {
         title: "News & Events",
+        loading: "Loading news...",
+        no_news: "No news created",
+        more_images: "more images",
+        news: "News",
+        event: "Event",
+        share_on_facebook: "Share on Facebook",
+        share_on_linkedin: "Share on LinkedIn",
+        view_all: "View All News"
       },
       apply: {
         download: "Download File",
