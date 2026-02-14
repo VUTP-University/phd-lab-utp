@@ -59,7 +59,7 @@ const resources = {
         placeholder_email: 'Имейл',
         email_subject: "Тема",
         message: "Съобщение"
-      
+
 
       },
       specialties: {
@@ -155,12 +155,44 @@ const resources = {
           courses: "Управление на курсове",
           news: "Новини и събития",
           publications: "Публикации"
-
         },
         users_mgmt: {
           title: "Управление на потребители",
           admins: "Администратори",
           students: "Студенти",
+        },
+        news: {
+          title: "Управление на новини и събития",
+          create: "Създай новина/събитие",
+          edit: "Редактирай",
+          delete: "Изтрий",
+          news_title: "Заглавие",
+          news_title_description: "Въведете заглавие на новината или събитието",
+          news_type: "Тип",
+          type_news: "Новина",
+          type_event: "Събитие",
+          description: "Описание",
+          description_placeholder: "Въведете описание на новината или събитието",
+          no_images: "Няма изображения",
+          one_image: "1 изображение",
+          multiple_images: "{{ count }} изображения",
+          hide: "Скрий новината",
+          show: "Покажи новината",
+          images: "Изображения",
+          choose_images: "Изберете изображения",
+          imagenr: "изображения",
+          existing_images: "Съществуващи изображения",
+          delete_image: "Изтрий изображение",
+          cancel: "Отказ",
+          saving: "Запазване...",
+          update_news: "Обнови новината",
+          create_news: "Създай новина",
+          delete_news: "Изтрий новината",
+          all_news: "Всички новини и събития",
+          loading: "Зареждане на новините...",
+          no_news: "Няма създадени новини",
+          visibility_toggle: "Показване/Скриване",
+          image_upload: "Качване на изображения",
         }
       },
       dashboard: {
@@ -282,7 +314,6 @@ const resources = {
         fullTime: "Full-time",
         partTime: "Part-time",
         moreinfo: "Details",
-
         fields: {
           communication_computer_engineering: "Communication and Computer Engineering",
           general_engineering: "General Engineering",
@@ -307,7 +338,7 @@ const resources = {
         title: "Electronic Resources"
       },
       news: {
-
+        title: "News & Events",
       },
       apply: {
         download: "Download File",
@@ -367,7 +398,44 @@ const resources = {
           courses: "Courses Management",
           news: "News & Events",
           publications: "Publications"
-
+        },
+        users_mgmt: {
+          title: "Users Management",
+          admins: "Admins",
+          students: "Students",
+        },
+        news: {
+          title: "News & Events Management",
+          create: "Create News/Event",
+          edit: "Edit",
+          delete: "Delete",
+          news_title: "Title",
+          news_title_description: "Enter the title of the news or event",
+          news_type: "Type",
+          type_news: "News",
+          type_event: "Event",
+          description: "Description",
+          description_placeholder: "Enter the description of the news or event",
+          no_images: "No images",
+          one_image: "1 image",
+          multiple_images: "{{ count }} images",
+          hide: "Hide news",
+          show: "Show news",
+          images: "Images",
+          choose_images: "Choose images",
+          imagenr: "images",
+          existing_images: "Existing images",
+          delete_image: "Delete image",
+          cancel: "Cancel",
+          saving: "Saving...",
+          update_news: "Update News",
+          create_news: "Create News",
+          delete_news: "Delete News",
+          all_news: "All News and Events",
+          loading: "Loading news...",
+          no_news: "No news created",
+          visibility_toggle: "Show/Hide",
+          image_upload: "Upload Images"
         }
       },
       dashboard: {
@@ -414,7 +482,6 @@ const resources = {
           no_assignments: "No assignments for this course.",
           error: "Error loading course data."
         }
-
       },
       footer: {
         resources: "Resources",
@@ -423,20 +490,20 @@ const resources = {
         contact: "Contacts",
         utp: "University of Telecommunications and Posts",
       }
+      }
     }
-  }
-};
+  };
 
-i18n
+  i18n
   .use(initReactI18next)
-  .use(LanguageDetector)
-  .init({
-    resources,
-    fallbackLng: "bg", // default if detected language not available
-    lng: localStorage.getItem("language") || "bg", // start with saved language
-    debug: true,
-    interpolation: { escapeValue: false }
-  });
-  
+    .use(LanguageDetector)
+    .init({
+      resources,
+      fallbackLng: "bg", // default if detected language not available
+      lng: localStorage.getItem("language") || "bg", // start with saved language
+      debug: true,
+      interpolation: { escapeValue: false }
+    });
 
-export default i18n;
+
+  export default i18n;
