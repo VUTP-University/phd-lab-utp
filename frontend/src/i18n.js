@@ -103,9 +103,14 @@ const resources = {
         event: "Събитие",
         share_on_facebook: "Сподели във Facebook",
         share_on_linkedin: "Сподели в LinkedIn",
-        view_all: "Виж всички новини"
-
-
+        view_all: "Виж всички новини",
+        all_news: {
+          back_home: "Назад към началото",
+          title: "Всички новини и събития",
+          all: "Всички",
+          news: "Новини",
+          events: "Събития"
+        }
       },
       apply: {
         download: "Изтегли файл",
@@ -356,7 +361,14 @@ const resources = {
         event: "Event",
         share_on_facebook: "Share on Facebook",
         share_on_linkedin: "Share on LinkedIn",
-        view_all: "View All News"
+        view_all: "View All News",
+        all_news: {
+          back_home: "Back to Home",
+          title: "All News & Events",
+          all: "All",
+          news: "News",
+          events: "Events"
+        }
       },
       apply: {
         download: "Download File",
