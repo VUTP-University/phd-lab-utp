@@ -194,10 +194,10 @@ export default function AdminNews() {
               className="w-full border rounded-lg px-4 py-2 custom_input dark:border-gray-700 normal_text"
             >
               <option value="news">
-                {t("admin_dashboard.news.type_news")}
+                {t("admin_dashboard.news.news")}
               </option>
               <option value="event">
-                {t("admin_dashboard.news.type_event")}
+                {t("admin_dashboard.news.event")}
               </option>
             </select>
           </div>
@@ -395,7 +395,7 @@ export default function AdminNews() {
                               : "badge badge--purple"
                           }`}
                         >
-                          {item.news_type}
+                          {t(`admin_dashboard.news.${item.news_type}`)}
                         </span>
                         <span className="text-xs text-gray-500">
                           {new Date(item.created_at).toLocaleDateString()}
