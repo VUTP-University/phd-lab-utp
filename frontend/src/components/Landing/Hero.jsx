@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { GoogleLogin } from "@react-oauth/google";
-import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
 export default function Hero({ user, setUser }) {
@@ -78,7 +77,7 @@ export default function Hero({ user, setUser }) {
         {!user && setUser && (
           <div className="mt-10 flex justify-center">
             <div className="rounded-2xl p-6 text-center">
-              <h3 className="font-bold text-blue-800 mb-4">
+              <h3 className="font-bold text-blue-800 mb-4 normal_text">
                 {t("hero.login")}
               </h3>
               <GoogleLogin

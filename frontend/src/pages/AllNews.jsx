@@ -1,3 +1,6 @@
+// AllNews.jsx - Page to display all news and events with filtering and sharing options
+
+
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -70,11 +73,11 @@ export default function AllNews() {
             className="flex items-center gap-2 mb-6 normal_text hover:text-blue-600 transition"
           >
             <ArrowLeft size={20} />
-            Back to Home
+            {t("news.all_news.back_home")}
           </button>
 
           <h1 className="text-4xl font-bold primary_text mb-4">
-            {t("news.all_news") || "All News & Events"}
+            {t("news.all_news.title")}
           </h1>
 
           {/* Filter Tabs */}
@@ -87,7 +90,7 @@ export default function AllNews() {
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
               }`}
             >
-              All ({news.length})
+              {t("news.all_news.all")} ({news.length})
             </button>
             <button
               onClick={() => setFilter('news')}
@@ -97,7 +100,7 @@ export default function AllNews() {
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
               }`}
             >
-              News ({news.filter(n => n.news_type === 'news').length})
+              {t("news.all_news.news")} ({news.filter(n => n.news_type === 'news').length})
             </button>
             <button
               onClick={() => setFilter('event')}
@@ -107,7 +110,7 @@ export default function AllNews() {
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
               }`}
             >
-              Events ({news.filter(n => n.news_type === 'event').length})
+              {t("news.all_news.events")} ({news.filter(n => n.news_type === 'event').length})
             </button>
           </div>
         </div>
@@ -122,7 +125,7 @@ export default function AllNews() {
             {filteredNews.map((item) => (
               <div
                 key={item.id}
-                className="primary_object rounded-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+                className="primary_object card rounded-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
                 onClick={() => navigate(`/news/${item.id}`)}
               >
                 {/* Image */}
@@ -139,7 +142,7 @@ export default function AllNews() {
                     />
                     {item.images.length > 1 && (
                       <span className="absolute top-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                        +{item.images.length - 1} more
+                        +{item.images.length - 1} {t("news.more_images")}
                       </span>
                     )}
                   </div>
@@ -155,8 +158,8 @@ export default function AllNews() {
                   <span
                     className={`inline-block text-xs px-2 py-1 rounded mb-2 ${
                       item.news_type === "news"
-                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400"
-                        : "bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400"
+                        ? "badge badge--blue text-blue-800 dark:text-blue-400"
+                        : "badge badge--purple text-purple-800 dark:text-purple-400"
                     }`}
                   >
                     {item.news_type === "news"
@@ -185,8 +188,8 @@ export default function AllNews() {
                       {/* Facebook */}
                       <button
                         onClick={(e) => shareOnFacebook(item, e)}
-                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-gray-800 shadow-md shadow-gray-200 dark:shadow-gray-900 group transition-all duration-300 cursor-pointer"
-                        title="Share on Facebook"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg group transition-all duration-300 cursor-pointer social_media_button"
+                        title={t("news.share_on_facebook")}
                       >
                         <svg
                           className="transition-all duration-300 group-hover:scale-110"
@@ -206,8 +209,8 @@ export default function AllNews() {
                       {/* LinkedIn */}
                       <button
                         onClick={(e) => shareOnLinkedIn(item, e)}
-                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-gray-800 shadow-md shadow-gray-200 dark:shadow-gray-900 group transition-all duration-300 cursor-pointer"
-                        title="Share on LinkedIn"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg group transition-all duration-300 cursor-pointer social_media_button"
+                        title={t("news.share_on_linkedin")}
                       >
                         <svg
                           className="rounded-md transition-all duration-300 group-hover:scale-110"

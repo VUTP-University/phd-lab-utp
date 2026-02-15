@@ -48,10 +48,12 @@ const resources = {
         contentNotFound: "Съдържанието не е намерено за избрания език."
       },
       contact: {
+        address_title: "Адрес",
+        address: "гр. София\nул. „Акад. Стефан Младенов\" 1",
+        study_department: "Учебен отдел",
         title: "Свържете се с нас",
         mail: "Email",
         phone: "Телефон",
-        address: "Адрес",
         socials: "Социални мрежи",
         back_button: "Назад",
         send_message: "Изпратете съобщение",
@@ -59,8 +61,6 @@ const resources = {
         placeholder_email: 'Имейл',
         email_subject: "Тема",
         message: "Съобщение"
-      
-
       },
       specialties: {
         title: "Докторантски програми",
@@ -92,10 +92,32 @@ const resources = {
         taxes: "Такси за обучение",
       },
       documents: {
-        title: "Електронни ресурси"
+        title: "Електронни ресурси",
+        law_docs: "Нормативни документи",
+        science_docs: "Научна дейност",
+        science_dbs: "Научни бази данни"
       },
       news: {
-        title: "Новини и събития"
+        title: "Новини и събития",
+        loading: "Зареждане на новините...",
+        no_news: "Няма създадени новини",
+        more_images: "още изображения",
+        news: "Новина",
+        event: "Събитие",
+        share_on_facebook: "Сподели във Facebook",
+        share_on_linkedin: "Сподели в LinkedIn",
+        view_all: "Виж всички новини",
+        all_news: {
+          back_home: "Назад към началото",
+          title: "Всички новини и събития",
+          all: "Всички",
+          news: "Новини",
+          events: "Събития"
+        },
+        news_details: {
+          back_to_news: "Назад към новините",
+          share_this_news: "Сподели тази новина"
+        }
       },
       apply: {
         download: "Изтегли файл",
@@ -120,9 +142,9 @@ const resources = {
           application_fee: "Такса за кандидатсване в ОНС “Доктор”",
           exam_tax: "Такса за изпит по специалността / Чужд език",
           anual_fees: "ГОДИШНА ТАКСА ОБУЧЕНИЕ В ОНС “ДОКТОР” – РЕДОВНА ФОРМА – ДЪРЖАВНА ПОРЪЧКА",
-          anual_fees3_1: "Годишна такса обучение – П.Н. 3.7 “Администрация и управление”",
-          anual_fees3_2: "Годишна такса обучение – П.Н. 5.3. “Комуникационна и компютърна техника”",
-          anula_fees3_3: "Годишна такса обучение – П.Н. 5.13. “Общо инженерство”",
+          anual_fees_1: "Годишна такса обучение – П.Н. 3.7 “Администрация и управление”",
+          anual_fees_2: "Годишна такса обучение – П.Н. 5.3. “Комуникационна и компютърна техника”",
+          anual_fees_3: "Годишна такса обучение – П.Н. 5.13. “Общо инженерство”",
           anual_fees2: "ГОДИШНА ТАКСА ОБУЧЕНИЕ В ОНС “ДОКТОР” – ЗАДОЧНА ФОРМА – ДЪРЖАВНА ПОРЪЧКА",
           anual_fees2_1: "Годишна такса обучение – П.Н. 3.7 “Администрация и управление”",
           anual_fees2_2: "Годишна такса обучение – П.Н. 5.3. “Комуникационна и компютърна техника”",
@@ -155,12 +177,44 @@ const resources = {
           courses: "Управление на курсове",
           news: "Новини и събития",
           publications: "Публикации"
-
         },
         users_mgmt: {
           title: "Управление на потребители",
           admins: "Администратори",
           students: "Студенти",
+        },
+        news: {
+          title: "Управление на новини и събития",
+          create: "Създай новина/събитие",
+          edit: "Редактирай",
+          delete: "Изтрий",
+          news_title: "Заглавие",
+          news_title_description: "Въведете заглавие на новината или събитието",
+          news_type: "Тип",
+          news: "Новина",
+          event: "Събитие",
+          description: "Описание",
+          description_placeholder: "Въведете описание на новината или събитието",
+          no_images: "Няма изображения",
+          one_image: "1 изображение",
+          multiple_images: "{{ count }} изображения",
+          hide: "Скрий новината",
+          show: "Покажи новината",
+          images: "Изображения",
+          choose_images: "Изберете изображения",
+          imagenr: "изображения",
+          existing_images: "Съществуващи изображения",
+          delete_image: "Изтрий изображение",
+          cancel: "Отказ",
+          saving: "Запазване...",
+          update_news: "Обнови новината",
+          create_news: "Създай новина",
+          delete_news: "Изтрий новината",
+          all_news: "Всички новини и събития",
+          loading: "Зареждане на новините...",
+          no_news: "Няма създадени новини",
+          visibility_toggle: "Показване/Скриване",
+          image_upload: "Качване на изображения",
         }
       },
       dashboard: {
@@ -214,6 +268,9 @@ const resources = {
         about: "За проекта",
         scope: "Мисия",
         contact: "Контакти",
+        apply: "Кандидатстване",
+        taxes: "Такси за обучение",
+        news: "Новини и събития",
         utp: "Висше училище по телекомуникации и пощи",
       }
     }
@@ -262,10 +319,12 @@ const resources = {
         contentNotFound: "Content not found for the selected language."
       },
       contact: {
+        address_title: "Address",
+        address: "1, Stefan Mladenov Blvd., Sofia, Bulgaria",
+        study_department: "Study Department",
         title: "Contact Us",
         mail: "Email",
         phone: "Phone",
-        address: "Address",
         socials: "Social Media",
         back_button: "Back",
         send_message: "Send message",
@@ -282,7 +341,6 @@ const resources = {
         fullTime: "Full-time",
         partTime: "Part-time",
         moreinfo: "Details",
-
         fields: {
           communication_computer_engineering: "Communication and Computer Engineering",
           general_engineering: "General Engineering",
@@ -304,10 +362,32 @@ const resources = {
         taxes: "Taxes",
       },
       documents: {
-        title: "Electronic Resources"
+        title: "Electronic Resources",
+        law_docs: "Regulatory Documents",
+        science_docs: "Scientific Activity",
+        science_dbs: "Scientific Databases"
       },
       news: {
-
+        title: "News & Events",
+        loading: "Loading news...",
+        no_news: "No news created",
+        more_images: "more images",
+        news: "News",
+        event: "Event",
+        share_on_facebook: "Share on Facebook",
+        share_on_linkedin: "Share on LinkedIn",
+        view_all: "View All News",
+        all_news: {
+          back_home: "Back to Home",
+          title: "All News & Events",
+          all: "All",
+          news: "News",
+          events: "Events"
+        },
+        news_details: {
+          back_to_news: "Back to News",
+          share_this_news: "Share this news"
+        }
       },
       apply: {
         download: "Download File",
@@ -332,9 +412,9 @@ const resources = {
           application_fee: "Application fee for admission to PhD degree",
           exam_tax: "Exam fee in the specialty / Foreign language",
           anual_fees: "ANNUAL TUITION FEE FOR PhD DEGREE – FULL-TIME FORM – STATE ORDER",
-          anual_fees3_1: "Annual tuition fee – P.F. 3.7 “Administration and Management”",
-          anual_fees3_2: "Annual tuition fee – P.F. 5.3. “Communication and Computer Engineering”",
-          anula_fees3_3: "Annual tuition fee – P.F. 5.13. “General Engineering”",
+          anual_fees_1: "Annual tuition fee – P.F. 3.7 “Administration and Management”",
+          anual_fees_2: "Annual tuition fee – P.F. 5.3. “Communication and Computer Engineering”",
+          anual_fees_3: "Annual tuition fee – P.F. 5.13. “General Engineering”",
           anual_fees2: "ANNUAL TUITION FEE FOR PhD DEGREE – PART-TIME FORM – STATE ORDER",
           anual_fees2_1: "Annual tuition fee – P.F. 3.7 “Administration and Management”",
           anual_fees2_2: "Annual tuition fee – P.F. 5.3. “Communication and Computer Engineering”",
@@ -367,7 +447,44 @@ const resources = {
           courses: "Courses Management",
           news: "News & Events",
           publications: "Publications"
-
+        },
+        users_mgmt: {
+          title: "Users Management",
+          admins: "Admins",
+          students: "Students",
+        },
+        news: {
+          title: "News & Events Management",
+          create: "Create News/Event",
+          edit: "Edit",
+          delete: "Delete",
+          news_title: "Title",
+          news_title_description: "Enter the title of the news or event",
+          news_type: "Type",
+          news: "News",
+          event: "Event",
+          description: "Description",
+          description_placeholder: "Enter the description of the news or event",
+          no_images: "No images",
+          one_image: "1 image",
+          multiple_images: "{{ count }} images",
+          hide: "Hide news",
+          show: "Show news",
+          images: "Images",
+          choose_images: "Choose images",
+          imagenr: "images",
+          existing_images: "Existing images",
+          delete_image: "Delete image",
+          cancel: "Cancel",
+          saving: "Saving...",
+          update_news: "Update News",
+          create_news: "Create News",
+          delete_news: "Delete News",
+          all_news: "All News and Events",
+          loading: "Loading news...",
+          no_news: "No news created",
+          visibility_toggle: "Show/Hide",
+          image_upload: "Upload Images"
         }
       },
       dashboard: {
@@ -414,29 +531,31 @@ const resources = {
           no_assignments: "No assignments for this course.",
           error: "Error loading course data."
         }
-
       },
       footer: {
         resources: "Resources",
         about: "About",
         scope: "Scope",
         contact: "Contacts",
+        apply: "Apply",
+        taxes: "Tuition Fees",
+        news: "News & Events",
         utp: "University of Telecommunications and Posts",
       }
+      }
     }
-  }
-};
+  };
 
-i18n
+  i18n
   .use(initReactI18next)
-  .use(LanguageDetector)
-  .init({
-    resources,
-    fallbackLng: "bg", // default if detected language not available
-    lng: localStorage.getItem("language") || "bg", // start with saved language
-    debug: true,
-    interpolation: { escapeValue: false }
-  });
-  
+    .use(LanguageDetector)
+    .init({
+      resources,
+      fallbackLng: "bg", // default if detected language not available
+      lng: localStorage.getItem("language") || "bg", // start with saved language
+      debug: true,
+      interpolation: { escapeValue: false }
+    });
 
-export default i18n;
+
+  export default i18n;

@@ -85,14 +85,6 @@ export default function Specialties() {
               {t("specialties.application")}
             </button>
 
-            <button className="custom_button w-full sm:w-auto px-6 py-3 transition">
-              {t("specialties.law")}
-            </button>
-
-            <button className="custom_button w-full sm:w-auto px-6 py-3 transition">
-              {t("specialties.regulations")}
-            </button>
-
             <button
               className="custom_button w-full sm:w-auto px-6 py-3 transition"
               onClick={() => navigate("/taxes")}

@@ -89,7 +89,7 @@ export default function NavbarTailwind({ user, onLogout }) {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+        <div className="md:hidden border-t border-gray-200 dark:border-gray-800">
           <div className="px-4 py-3 space-y-1">
             {/* Navigation Links */}
             <a

@@ -121,7 +121,7 @@ export default function AdminUsers() {
 
       {/* Admins */}
       <section className="mb-8">
-        <h3 className="text-xl font-bold mb-3 normal_text">
+        <h3 className="text-xl font-bold mb-3 badge badge--blue">
           {t("admin_dashboard.users_mgmt.admins")} ({admins.length})
         </h3>
         <ul className="space-y-2 mb-4">
@@ -161,7 +161,7 @@ export default function AdminUsers() {
 
       {/* Students */}
       <section>
-        <h3 className="text-xl font-bold mb-3 normal_text">
+        <h3 className="text-xl font-bold mb-3 badge badge--red">
           {t("admin_dashboard.users_mgmt.students")} ({students.length})
         </h3>
         <ul className="space-y-2 mb-4">

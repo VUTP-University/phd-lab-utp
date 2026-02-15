@@ -1,3 +1,6 @@
+// NewsDetail.jsx - Page to display detailed view of a single news item, 
+// including image gallery and sharing options
+
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -92,7 +95,7 @@ export default function NewsDetail() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="normal_text">Loading...</p>
+        <p className="normal_text">{t("news.loading")}</p>
       </div>
     );
   }
@@ -100,7 +103,7 @@ export default function NewsDetail() {
   if (!news) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="normal_text text-red-500">News not found</p>
+        <p className="normal_text text-red-500">{t("news.no_news")}</p>
       </div>
     );
   }
@@ -110,11 +113,11 @@ export default function NewsDetail() {
       <div className="max-w-4xl mx-auto px-4">
         {/* Back Button */}
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/news")}
           className="flex items-center gap-2 mb-6 normal_text hover:text-blue-600 transition"
         >
           <ArrowLeft size={20} />
-          Back to News
+          {t("news.news_details.back_to_news")}
         </button>
 
         {/* News Content */}
@@ -123,8 +126,8 @@ export default function NewsDetail() {
           <span
             className={`inline-block text-xs px-3 py-1 rounded mb-4 ${
               news.news_type === "news"
-                ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400"
-                : "bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400"
+                ? "badge badge--blue text-blue-800 dark:text-blue-400"
+                : "badge badge--purple text-purple-800 dark:text-purple-400"
             }`}
           >
             {news.news_type === "news" ? t("news.news") : t("news.event")}
@@ -185,14 +188,14 @@ export default function NewsDetail() {
           {/* Share Section */}
           <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
             <div className="flex items-center justify-between">
-              <span className="normal_text font-medium">Share this news:</span>
+              <span className="normal_text font-medium">{t("news.news_details.share_this_news")}</span>
               
               <div className="flex items-center gap-3">
                 {/* Facebook */}
                 <button
                   onClick={shareOnFacebook}
-                  className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-gray-800 shadow-md shadow-gray-200 dark:shadow-gray-900 group transition-all duration-300 cursor-pointer"
-                  title="Share on Facebook"
+                  className="w-8 h-8 flex items-center justify-center rounded-lg group transition-all duration-300 cursor-pointer social_media_button"
+                  title={t("news.share_on_facebook")}
                 >
                   <svg
                     className="transition-all duration-300 group-hover:scale-110"
@@ -212,8 +215,8 @@ export default function NewsDetail() {
                 {/* LinkedIn */}
                 <button
                   onClick={shareOnLinkedIn}
-                  className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-gray-800 shadow-md shadow-gray-200 dark:shadow-gray-900 group transition-all duration-300 cursor-pointer"
-                  title="Share on LinkedIn"
+                  className="w-8 h-8 flex items-center justify-center rounded-lg group transition-all duration-300 cursor-pointer social_media_button"
+                  title={t("news.share_on_linkedin")}
                 >
                   <svg
                     className="rounded-md transition-all duration-300 group-hover:scale-110"

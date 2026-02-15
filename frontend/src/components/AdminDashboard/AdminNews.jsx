@@ -1,3 +1,7 @@
+// AdminNews.jsx - Component for admin dashboard to manage news and events, 
+// including creation, editing, image uploads, and visibility toggling
+
+
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { 
@@ -154,14 +158,16 @@ export default function AdminNews() {
       {/* Create/Edit Form Section */}
       <section className="primary_object rounded-lg p-6 mb-8">
         <h3 className="text-xl font-semibold secondary_text mb-6">
-          {editingNews ? "Edit News" : "Create News"}
+          {editingNews
+            ? t("admin_dashboard.news.edit")
+            : t("admin_dashboard.news.create")}
         </h3>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Title */}
           <div>
             <label className="block text-sm font-medium mb-2 normal_text">
-              Title *
+              {t("admin_dashboard.news.news_title")} *
             </label>
             <input
               type="text"
@@ -169,8 +175,8 @@ export default function AdminNews() {
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
-              className="w-full border rounded-lg px-4 py-2 dark:bg-gray-800 dark:border-gray-700 normal_text"
-              placeholder="Enter news title"
+              className="w-full border rounded-lg px-4 py-2 custom_input dark:border-gray-700 normal_text"
+              placeholder={t("admin_dashboard.news.news_title_description")}
               required
             />
           </div>
@@ -178,24 +184,28 @@ export default function AdminNews() {
           {/* Type */}
           <div>
             <label className="block text-sm font-medium mb-2 normal_text">
-              Type *
+              {t("admin_dashboard.news.news_type")} *
             </label>
             <select
               value={formData.news_type}
               onChange={(e) =>
                 setFormData({ ...formData, news_type: e.target.value })
               }
-              className="w-full border rounded-lg px-4 py-2 dark:bg-gray-800 dark:border-gray-700 normal_text"
+              className="w-full border rounded-lg px-4 py-2 custom_input dark:border-gray-700 normal_text"
             >
-              <option value="news">News</option>
-              <option value="event">Event</option>
+              <option value="news">
+                {t("admin_dashboard.news.news")}
+              </option>
+              <option value="event">
+                {t("admin_dashboard.news.event")}
+              </option>
             </select>
           </div>
 
           {/* Description */}
           <div>
             <label className="block text-sm font-medium mb-2 normal_text">
-              Description *
+              {t("admin_dashboard.news.description")} *
             </label>
             <textarea
               value={formData.description}
@@ -203,8 +213,8 @@ export default function AdminNews() {
                 setFormData({ ...formData, description: e.target.value })
               }
               rows="6"
-              className="w-full border rounded-lg px-4 py-2 dark:bg-gray-800 dark:border-gray-700 normal_text resize-none"
-              placeholder="Enter news description"
+              className="w-full border rounded-lg px-4 py-2 custom_input normal_text resize-none"
+              placeholder={t("admin_dashboard.news.description_placeholder")}
               required
             />
           </div>
@@ -212,12 +222,12 @@ export default function AdminNews() {
           {/* Images */}
           <div>
             <label className="block text-sm font-medium mb-2 normal_text">
-              Images (optional)
+              {t("admin_dashboard.news.images")}
             </label>
             <div className="flex items-center gap-3">
               <label className="custom_button custom_button--medium flex items-center gap-2 cursor-pointer">
                 <Upload size={18} />
-                Choose Images
+                {t("admin_dashboard.news.choose_images")}
                 <input
                   type="file"
                   multiple
@@ -227,7 +237,8 @@ export default function AdminNews() {
                 />
               </label>
               <span className="text-sm text-gray-500">
-                {images.length} image{images.length !== 1 ? "s" : ""} selected
+                {images.length}{" "}
+                {t("admin_dashboard.news.imagenr", { count: images.length })}
               </span>
             </div>
 
@@ -258,7 +269,7 @@ export default function AdminNews() {
           {editingNews && editingNews.images.length > 0 && (
             <div>
               <label className="block text-sm font-medium mb-2 normal_text">
-                Current Images
+                {t("admin_dashboard.news.existing_images")}
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                 {editingNews.images.map((img) => (
@@ -278,7 +289,7 @@ export default function AdminNews() {
                       type="button"
                       onClick={() => handleDeleteImage(img.id)}
                       className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
-                      title="Delete image"
+                      title={t("admin_dashboard.news.delete_image")}
                     >
                       <X size={16} />
                     </button>
@@ -288,52 +299,15 @@ export default function AdminNews() {
             </div>
           )}
 
-          {/* Social Media */}
-          <div>
-            <label className="block text-sm font-medium mb-2 normal_text">
-              Social Media Sharing
-            </label>
-            <div className="space-y-2">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={formData.share_facebook}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      share_facebook: e.target.checked,
-                    })
-                  }
-                  className="w-4 h-4"
-                />
-                <span className="text-sm normal_text">Share on Facebook</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={formData.share_linkedin}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      share_linkedin: e.target.checked,
-                    })
-                  }
-                  className="w-4 h-4"
-                />
-                <span className="text-sm normal_text">Share on LinkedIn</span>
-              </label>
-            </div>
-          </div>
-
           {/* Submit Buttons */}
           <div className="flex gap-3 pt-4">
             {editingNews && (
               <button
                 type="button"
                 onClick={handleCancel}
-                className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg py-2 normal_text hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg py-2 normal_text hover:bg-gray-400 dark:hover:bg-gray-500 transition"
               >
-                Cancel
+                {t("admin_dashboard.news.cancel")}
               </button>
             )}
             <button
@@ -344,12 +318,14 @@ export default function AdminNews() {
               {submitting ? (
                 <>
                   <Loader2 className="animate-spin" size={18} />
-                  Saving...
+                  {t("admin_dashboard.news.saving")}
                 </>
               ) : (
                 <>
                   <Save size={18} />
-                  {editingNews ? "Update News" : "Create News"}
+                  {editingNews
+                    ? t("admin_dashboard.news.update_news")
+                    : t("admin_dashboard.news.create_news")}
                 </>
               )}
             </button>
@@ -360,13 +336,17 @@ export default function AdminNews() {
       {/* News List Section */}
       <section className="primary_object rounded-lg p-6">
         <h3 className="text-xl font-semibold secondary_text mb-6">
-          All News & Events
+          {t("admin_dashboard.news.all_news")}
         </h3>
 
         {loading ? (
-          <p className="text-center text-gray-500">Loading...</p>
+          <p className="text-center normal_text">
+            {t("admin_dashboard.news.loading")}
+          </p>
         ) : news.length === 0 ? (
-          <p className="text-center text-gray-500 py-8">No news created yet</p>
+          <p className="text-center text-gray-500 py-8">
+            {t("admin_dashboard.news.no_news")}
+          </p>
         ) : (
           <div className="space-y-4">
             {news.map((item) => (
@@ -374,7 +354,7 @@ export default function AdminNews() {
                 key={item.id}
                 className={`border rounded-lg p-4 flex items-start gap-4 transition ${
                   !item.is_visible
-                    ? "opacity-60 bg-gray-50 dark:bg-gray-800"
+                    ? "opacity-60 bg-gray-200 dark:bg-gray-500"
                     : ""
                 }`}
               >
@@ -404,36 +384,31 @@ export default function AdminNews() {
                       <h4 className="font-semibold normal_text text-lg">
                         {item.title}
                       </h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
+                      <p className="text-sm normal_text mt-1 line-clamp-2">
                         {item.description}
                       </p>
                       <div className="flex items-center gap-3 mt-3 flex-wrap">
                         <span
                           className={`text-xs px-2 py-1 rounded ${
                             item.news_type === "news"
-                              ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400"
-                              : "bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400"
+                              ? "badge badge--blue"
+                              : "badge badge--purple"
                           }`}
                         >
-                          {item.news_type}
+                          {t(`admin_dashboard.news.${item.news_type}`)}
                         </span>
                         <span className="text-xs text-gray-500">
                           {new Date(item.created_at).toLocaleDateString()}
                         </span>
                         <span className="text-xs text-gray-500">
-                          {item.images.length} image
-                          {item.images.length !== 1 ? "s" : ""}
+                          {item.images.length === 0
+                            ? t("admin_dashboard.news.no_images")
+                            : item.images.length === 1
+                              ? t("admin_dashboard.news.one_image")
+                              : t("admin_dashboard.news.multiple_images", {
+                                  count: item.images.length,
+                                })}
                         </span>
-                        {item.share_facebook && (
-                          <span className="text-xs text-gray-500">
-                            📘 Facebook
-                          </span>
-                        )}
-                        {item.share_linkedin && (
-                          <span className="text-xs text-gray-500">
-                            💼 LinkedIn
-                          </span>
-                        )}
                       </div>
                     </div>
 
@@ -441,18 +416,18 @@ export default function AdminNews() {
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <button
                         onClick={() => handleEdit(item)}
-                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition"
-                        title="Edit"
+                        className="p-2 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-lg transition"
+                        title={t("admin_dashboard.news.edit")}
                       >
                         <Edit2 size={18} />
                       </button>
                       <button
                         onClick={() => handleToggleVisibility(item.id)}
-                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition"
+                        className="p-2 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-lg transition"
                         title={
                           item.is_visible
-                            ? "Hide from public"
-                            : "Show to public"
+                            ? t("admin_dashboard.news.hide")
+                            : t("admin_dashboard.news.show")
                         }
                       >
                         {item.is_visible ? (

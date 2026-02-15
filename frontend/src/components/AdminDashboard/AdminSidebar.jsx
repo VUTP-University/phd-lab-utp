@@ -26,7 +26,7 @@ export default function AdminSidebar({ active, onSelect, open, onClose }) {
         className={`
           fixed md:static z-50 md:z-auto
           top-0 left-0 h-full w-90
-          bg-white shadow-lg md:shadow-none
+          shadow-lg md:shadow-none
           border-r border-gray-200
           transform transition-transform duration-300
           ${open ? "translate-x-0" : "-translate-x-full"}
@@ -36,7 +36,7 @@ export default function AdminSidebar({ active, onSelect, open, onClose }) {
       >
         {/* Header */}
         <div className="p-6 border-b border-gray-200 flex items-center justify-left">
-          <h2 className="text-l font-bold normal_text">{t("admin_dashboard.title")}</h2>
+          <h2 className="text-l font-bold normal_text_3 normal_text_3--large">{t("admin_dashboard.title")}</h2>
         </div>
 
         {/* Navigation */}
@@ -50,8 +50,8 @@ export default function AdminSidebar({ active, onSelect, open, onClose }) {
                 transition-all duration-200
                 ${
                   active === item.key
-                    ? "bg-primary normal_text shadow-lg"
-                    : "hover:bg-gray-200 normal_text"
+                    ? "bg-primary normal_text_3 shadow-lg"
+                    : "hover:bg-blue-200 dark:hover:bg-blue-500 normal_text_3"
                 }
               `}
             >
