@@ -4,6 +4,8 @@ import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
 import { LogOut, Menu, X, Home, BookOpen, Shield, User } from "lucide-react";
 
+import LabBrandImage from "../../src/assets/logo_pr_dokt_2.png";
+
 export default function NavbarTailwind({ user, onLogout }) {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,7 +17,7 @@ export default function NavbarTailwind({ user, onLogout }) {
           {/* Left: Brand */}
           <a href="/" className="flex items-center gap-3 group">
             <img
-              src="../src/assets/logo_pr_dokt_2.png"
+              src={LabBrandImage}
               alt="UTP Lab Logo"
               className="h-12 w-auto object-contain transition-transform group-hover:scale-105"
             />

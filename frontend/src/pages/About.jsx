@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import Footer from "../components/Footer";
 import MarkdownRenderer from "../components/MarkdownRenderer";
 
+import LabImage from "../assets/Lab_5-o.jpg";
+
 export default function About() {
   const { t, i18n } = useTranslation();
   const [content, setContent] = useState("");
@@ -27,7 +29,7 @@ export default function About() {
   return (
     <div className="min-h-screen flex flex-col">
       <img
-        src="../src/assets/Lab_5-o.jpg"
+        src={LabImage}
         alt={t("navbar.brand")}
         className="mx-auto mt-6 mb-6 w-[1000] h-[561] object-cover"
       />
