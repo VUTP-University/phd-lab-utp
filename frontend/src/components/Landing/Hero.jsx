@@ -2,18 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { GoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import api from "../../../api.js";
 
 export default function Hero({ user, setUser }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
-
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const res = await axios.post(
-        'http://localhost:8000/auth/google/',
+      const res = await api.post('/auth/google/',
         {
           credential: credentialResponse.credential,
         }
