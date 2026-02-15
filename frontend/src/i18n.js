@@ -110,6 +110,10 @@ const resources = {
           all: "Всички",
           news: "Новини",
           events: "Събития"
+        },
+        news_details: {
+          back_to_news: "Назад към новините",
+          share_this_news: "Сподели тази новина"
         }
       },
       apply: {
@@ -368,6 +372,10 @@ const resources = {
           all: "All",
           news: "News",
           events: "Events"
+        },
+        news_details: {
+          back_to_news: "Back to News",
+          share_this_news: "Share this news"
         }
       },
       apply: {
