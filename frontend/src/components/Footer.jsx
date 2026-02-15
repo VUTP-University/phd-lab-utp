@@ -2,6 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { MapPin, Phone, Mail, ExternalLink } from "lucide-react";
 
+import EUBanner from "../assets/banner-eu.jpg";
+
 export default function Footer() {
   const { t } = useTranslation();
 
@@ -126,7 +128,7 @@ export default function Footer() {
               className="group"
             >
               <img
-                src="../src/assets/banner-eu.jpg"
+                src={EUBanner}
                 alt="PhD-Lab EU Banner"
                 className="h-32 w-auto rounded-lg shadow-md transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
               />
