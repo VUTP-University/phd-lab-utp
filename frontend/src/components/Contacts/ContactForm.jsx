@@ -55,9 +55,9 @@ export default function ContactForm() {
               </div>
 
               <div className="ml-4 text-sm">
-                <p className="normal_text">{t("contact.address")}</p>
+                <p className="normal_text">{t("contact.address_title")}</p>
                 <p className="font-semibold text-blue-600">
-                  гр. София ул. „Акад. Стефан Младенов“ 1
+                  {t("contact.address")}
                 </p>
               </div>
             </div>

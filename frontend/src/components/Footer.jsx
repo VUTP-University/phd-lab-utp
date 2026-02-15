@@ -20,10 +20,9 @@ export default function Footer() {
               <div className="flex gap-3">
                 <MapPin size={18} className="flex-shrink-0 mt-1 text-blue-600 dark:text-blue-400" />
                 <div>
-                  <p className="normal_text_2 font-semibold mb-1">Адрес</p>
+                  <p className="normal_text_2 font-semibold mb-1">{t("contact.address_title")}</p>
                   <p className="normal_text_2">
-                    гр. София<br />
-                    ул. „Акад. Стефан Младенов" 1
+                    {t("contact.address")}
                   </p>
                 </div>
               </div>
@@ -31,7 +30,7 @@ export default function Footer() {
               <div className="flex gap-3">
                 <Phone size={18} className="flex-shrink-0 mt-1 text-blue-600 dark:text-blue-400" />
                 <div>
-                  <p className="normal_text_2 font-semibold mb-1">Учебен отдел</p>
+                  <p className="normal_text_2 font-semibold mb-1">{t("contact.study_department")}</p>
                   <p className="normal_text_2">
                     +359 2 806 2180
                   </p>
@@ -58,9 +57,9 @@ export default function Footer() {
           {/* Links section */}
           <div>
             <h4 className="secondary_text text-lg font-bold mb-6">
-              {t("footer.resources") || "Resources"}
+              {t("footer.resources")}
             </h4>
-            <ul className="space-y-4">
+            <ul className="space-y-2">
               <li>
                 <a
                   href="/about"
@@ -84,7 +83,34 @@ export default function Footer() {
                   href="/contacts"
                   className="normal_text_2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-2 group"
                 >
-                  <span>{t("footer.contact") || "Contact"}</span>
+                  <span>{t("footer.contact")}</span>
+                  <ExternalLink size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/apply"
+                  className="normal_text_2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-2 group"
+                >
+                  <span>{t("footer.apply")}</span>
+                  <ExternalLink size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/taxes"
+                  className="normal_text_2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-2 group"
+                >
+                  <span>{t("footer.taxes")}</span>
+                  <ExternalLink size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/news"
+                  className="normal_text_2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors inline-flex items-center gap-2 group"
+                >
+                  <span>{t("footer.news")}</span>
                   <ExternalLink size={16} className="group-hover:translate-x-0.5 transition-transform" />
                 </a>
               </li>

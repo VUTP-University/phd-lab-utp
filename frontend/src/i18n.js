@@ -48,10 +48,12 @@ const resources = {
         contentNotFound: "Съдържанието не е намерено за избрания език."
       },
       contact: {
+        address_title: "Адрес",
+        address: "гр. София\nул. „Акад. Стефан Младенов\" 1",
+        study_department: "Учебен отдел",
         title: "Свържете се с нас",
         mail: "Email",
         phone: "Телефон",
-        address: "Адрес",
         socials: "Социални мрежи",
         back_button: "Назад",
         send_message: "Изпратете съобщение",
@@ -59,8 +61,6 @@ const resources = {
         placeholder_email: 'Имейл',
         email_subject: "Тема",
         message: "Съобщение"
-
-
       },
       specialties: {
         title: "Докторантски програми",
@@ -265,6 +265,9 @@ const resources = {
         about: "За проекта",
         scope: "Мисия",
         contact: "Контакти",
+        apply: "Кандидатстване",
+        taxes: "Такси за обучение",
+        news: "Новини и събития",
         utp: "Висше училище по телекомуникации и пощи",
       }
     }
@@ -313,10 +316,12 @@ const resources = {
         contentNotFound: "Content not found for the selected language."
       },
       contact: {
+        address_title: "Address",
+        address: "1, Stefan Mladenov Blvd., Sofia, Bulgaria",
+        study_department: "Study Department",
         title: "Contact Us",
         mail: "Email",
         phone: "Phone",
-        address: "Address",
         socials: "Social Media",
         back_button: "Back",
         send_message: "Send message",
@@ -526,6 +531,9 @@ const resources = {
         about: "About",
         scope: "Scope",
         contact: "Contacts",
+        apply: "Apply",
+        taxes: "Tuition Fees",
+        news: "News & Events",
         utp: "University of Telecommunications and Posts",
       }
       }
