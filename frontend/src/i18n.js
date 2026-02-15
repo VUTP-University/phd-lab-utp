@@ -92,7 +92,10 @@ const resources = {
         taxes: "Такси за обучение",
       },
       documents: {
-        title: "Електронни ресурси"
+        title: "Електронни ресурси",
+        law_docs: "Нормативни документи",
+        science_docs: "Научна дейност",
+        science_dbs: "Научни бази данни"
       },
       news: {
         title: "Новини и събития",
@@ -359,7 +362,10 @@ const resources = {
         taxes: "Taxes",
       },
       documents: {
-        title: "Electronic Resources"
+        title: "Electronic Resources",
+        law_docs: "Regulatory Documents",
+        science_docs: "Scientific Activity",
+        science_dbs: "Scientific Databases"
       },
       news: {
         title: "News & Events",
