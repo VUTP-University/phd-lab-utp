@@ -16,7 +16,6 @@ export default function NewsEvents() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const recentNews = news.slice(0, 3); // Show only 3 most recent
 
   useEffect(() => {
     fetchNews();
@@ -24,11 +23,14 @@ export default function NewsEvents() {
 
   const fetchNews = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const response = await api.get("/news/");
-      setNews(response.data.news);
+      setNews(response.data.news || []);
     } catch (error) {
       console.error("Error fetching news:", error);
       setError(error);
+      setNews([]);
     } finally {
       setLoading(false);
     }
@@ -73,6 +75,9 @@ export default function NewsEvents() {
   if (error) {
     return <ErrorDisplay error={error} onRetry={fetchNews} fullScreen />;
   }
+
+  // Calculate recentNews AFTER all early returns
+  const recentNews = news.slice(0, 3);
 
   return (
     <section className="pb-10 pt-20 mt-10 primary_object">
@@ -210,20 +215,19 @@ export default function NewsEvents() {
             ))}
           </div>
         )}
+
+        {/* View All Button */}
+        {news.length > 3 && (
+          <div className="text-center mt-8">
+            <button
+              onClick={() => navigate("/news")}
+              className="custom_button custom_button--medium"
+            >
+              {t("news.view_all")} ({news.length})
+            </button>
+          </div>
+        )}
       </div>
-      {/* View All Button */}
-      {news.length > 3 && (
-        <div className="text-center mt-8">
-          <button
-            onClick={() => navigate("/news")}
-            className="custom_button custom_button--medium"
-          >
-            {t("news.view_all")} ({news.length})
-          </button>
-        </div>
-      )}
-
-
     </section>
   );
 }

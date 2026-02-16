@@ -7,6 +7,7 @@ import AdminNews from "../components/AdminDashboard/AdminNews";
 import AdminPublications from "../components/AdminDashboard/AdminPublications";
 import { useTranslation } from "react-i18next";
 import { Menu } from "lucide-react";
+import api from "../../api.js";
 
 export default function AdminDashboard() {
   const { t } = useTranslation();
