@@ -8,9 +8,13 @@ import {
   CheckCircle, 
   Video, 
   Calendar,
-  Brain
+  Brain,
+  BookOpen
 } from "lucide-react";
 import api from "../../../api.js";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import ErrorDisplay from "../../components/ErrorDisplay";
+import EmptyState from "../../components/EmptyState";
 
 export default function CoursesList({ onCourseAnalysis }) {
   const [courses, setCourses] = useState([]);
@@ -23,19 +27,22 @@ export default function CoursesList({ onCourseAnalysis }) {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await api.get('classroom/visible-courses/');
-        setCourses(response.data.courses || []);
-      } catch (error) {
-        console.error('Failed to fetch courses:', error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchCourses();
   }, []);
+
+  const fetchCourses = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await api.get('classroom/visible-courses/');
+      setCourses(response.data.courses || []);
+    } catch (error) {
+      console.error('Failed to fetch courses:', error);
+      setError(error.response?.data?.error || 'Failed to load courses. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchCourseDetails = async (courseId) => {
     if (courseDetails[courseId]) return;
@@ -47,6 +54,10 @@ export default function CoursesList({ onCourseAnalysis }) {
       setCourseDetails(prev => ({ ...prev, [courseId]: response.data }));
     } catch (error) {
       console.error('Failed to fetch course details:', error);
+      setCourseDetails(prev => ({ 
+        ...prev, 
+        [courseId]: { error: 'Failed to load course details' } 
+      }));
     } finally {
       setLoadingDetails(prev => ({ ...prev, [courseId]: false }));
     }
@@ -61,8 +72,39 @@ export default function CoursesList({ onCourseAnalysis }) {
     }
   };
 
-  if (loading) return <p className="normal_text_3 text-center mt-10">{t("dashboard.loading")}</p>;
-  if (error) return <p className="normal_text_3 text-center mt-10 text-red-500">{t("dashboard.error")}</p>;
+  if (loading) {
+    return (
+      <section className="primary_object py-6 mt-8 mb-8">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <LoadingSpinner message={t("dashboard.loading")} />
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="primary_object py-6 mt-8 mb-8">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <ErrorDisplay error={error} onRetry={fetchCourses} />
+        </div>
+      </section>
+    );
+  }
+
+  if (courses.length === 0) {
+    return (
+      <section className="primary_object py-6 mt-8 mb-8">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <EmptyState
+            icon={BookOpen}
+            title={t("dashboard.no_courses_title") || "No Courses Available"}
+            message={t("dashboard.no_courses_message") || "You don't have any visible courses yet. Contact your administrator."}
+          />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="primary_object py-6 mt-8 mb-8">
@@ -78,21 +120,21 @@ export default function CoursesList({ onCourseAnalysis }) {
               <div key={course.id} className="primary_object border rounded-lg overflow-hidden">
                 {/* Header */}
                 <div 
-                  className="flex items-center justify-between p-4 cursor-pointer"
+                  className="flex items-center justify-between p-4 cursor-pointer transition"
                   onClick={() => handleExpand(course.id)}
                 >
                   <div className="flex-1">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 flex-wrap">
                       <h3 className="secondary_text font-semibold normal_text">{course.name}</h3>
                       
                       {/* Badges */}
-                      {details && details.open_count > 0 && (
+                      {details && !details.error && details.open_count > 0 && (
                         <span className="px-2 py-1 badge badge--orange text-xs rounded flex items-center gap-1">
                           <AlertCircle size={12} />
                           {details.open_count} {t("dashboard.course_cards.waiting")}
                         </span>
                       )}
-                      {details && details.events_count > 0 && (
+                      {details && !details.error && details.events_count > 0 && (
                         <span className="px-2 py-1 badge badge--purple text-xs rounded flex items-center gap-1">
                           <Calendar size={12} />
                           {details.events_count} {t("dashboard.course_cards.event")}
@@ -102,7 +144,7 @@ export default function CoursesList({ onCourseAnalysis }) {
                     <p className="normal_text text-sm text-gray-600 dark:text-gray-400">{course.section || course.descriptionHeading}</p>
                   </div>
                   
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     {/* AI Insights Button */}
                     <button
                       onClick={(e) => {
@@ -140,7 +182,11 @@ export default function CoursesList({ onCourseAnalysis }) {
                 {expandedId === course.id && (
                   <div className="border-t p-4">
                     {isLoading ? (
-                      <p className="text-center normal_text_3">{t("dashboard.course_cards.loading_details")}</p>
+                      <LoadingSpinner message={t("dashboard.course_cards.loading_details")} />
+                    ) : details?.error ? (
+                      <div className="text-center py-4">
+                        <p className="text-red-600 dark:text-red-400 normal_text_2">{details.error}</p>
+                      </div>
                     ) : details ? (
                       <div className="space-y-4">
 
@@ -212,8 +258,9 @@ export default function CoursesList({ onCourseAnalysis }) {
                                       href={event.link} 
                                       target="_blank" 
                                       rel="noopener noreferrer"
-                                      className="badge badge--blue text-sm hover:underline"
+                                      className="badge badge--blue text-sm hover:underline inline-flex items-center gap-1 mt-2"
                                     >
+                                      <ExternalLink size={12} />
                                       {t("dashboard.course_cards.view_in_calendar")}
                                     </a>
                                   )}
@@ -237,7 +284,7 @@ export default function CoursesList({ onCourseAnalysis }) {
                                     href={meet.link} 
                                     target="_blank" 
                                     rel="noopener noreferrer"
-                                    className="badge badge--purple flex items-center gap-2"
+                                    className="badge badge--purple inline-flex items-center gap-2 hover:underline"
                                   >
                                     <Video size={16} />
                                     {t("dashboard.course_cards.join_meet")}
@@ -254,12 +301,13 @@ export default function CoursesList({ onCourseAnalysis }) {
                          !details.graded_assignments?.length && 
                          !details.meet_links?.length && 
                          !details.calendar_events?.length && (
-                          <p className="normal_text_3 text-center">{t("dashboard.course_cards.no_assignments")}</p>
+                          <EmptyState
+                            icon={BookOpen}
+                            message={t("dashboard.course_cards.no_assignments")}
+                          />
                         )}
                       </div>
-                    ) : (
-                      <p className="text-center text-red-500">{t("dashboard.course_cards.error")}</p>
-                    )}
+                    ) : null}
                   </div>
                 )}
               </div>

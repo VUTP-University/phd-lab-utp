@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import api from "../../../api.js";
 import { useTranslation } from "react-i18next";
-import { Upload, FileText, Trash2 } from "lucide-react";
+import { Upload, Trash2, Users as UsersIcon } from "lucide-react";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import ErrorDisplay from "../../components/ErrorDisplay";
+import EmptyState from "../../components/EmptyState";
 
 export default function AdminUsers() {
   const { t } = useTranslation();
-
   const [admins, setAdmins] = useState([]);
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [newEmail, setNewEmail] = useState("");
   const [removeEmail, setRemoveEmail] = useState("");
   const [uploadingFor, setUploadingFor] = useState(null);
@@ -19,15 +22,20 @@ export default function AdminUsers() {
 
   const fetchUsers = async () => {
     try {
+      setLoading(true);
+      setError(null);
+
       const [adminsRes, studentsRes] = await Promise.all([
         api.get("/user-management/group-members/?group=admin"),
         api.get("/user-management/group-members/?group=student"),
       ]);
-      setAdmins(adminsRes.data.members);
-      setStudents(studentsRes.data.members);
-      setLoading(false);
+
+      setAdmins(adminsRes.data.members || []);
+      setStudents(studentsRes.data.members || []);
     } catch (error) {
       console.error("Error fetching users:", error);
+      setError("Failed to load users. Please try again.");
+    } finally {
       setLoading(false);
     }
   };
@@ -78,7 +86,6 @@ export default function AdminUsers() {
   const handleFileUpload = async (email, file) => {
     if (!file) return;
 
-    // Check file type (PDF only)
     if (file.type !== "application/pdf") {
       alert("Please upload a PDF file");
       return;
@@ -111,7 +118,23 @@ export default function AdminUsers() {
     input.click();
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return <LoadingSpinner message={t("admin_dashboard.users_mgmt.loading")} />;
+  }
+
+  if (error) {
+    return <ErrorDisplay error={error} onRetry={fetchUsers} />;
+  }
+
+  if (admins.length === 0 && students.length === 0) {
+    return (
+      <EmptyState
+        icon={UsersIcon}
+        title={t("admin_dashboard.users_mgmt.no_users")}
+        message={t("admin_dashboard.users_mgmt.no_users_message")}
+      />
+    );
+  }
 
   return (
     <div>
@@ -148,7 +171,7 @@ export default function AdminUsers() {
             placeholder="admin@utp.bg"
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
-            className="border rounded-lg px-3 py-2 flex-1"
+            className="custom_input flex-1"
           />
           <button
             onClick={() => handleAdd("admin")}
@@ -173,7 +196,6 @@ export default function AdminUsers() {
               <span className="flex-1">{email}</span>
 
               <div className="flex items-center gap-2">
-                {/* Hidden file input */}
                 <input
                   id={`file-input-${email}`}
                   type="file"
@@ -182,7 +204,6 @@ export default function AdminUsers() {
                   className="hidden"
                 />
 
-                {/* Upload Plan Button */}
                 <button
                   onClick={() => triggerFileInput(email)}
                   disabled={uploadingFor === email}
@@ -201,7 +222,6 @@ export default function AdminUsers() {
                   )}
                 </button>
 
-                {/* Remove Button */}
                 <button
                   onClick={() => handleRemove(email, "student")}
                   className="text-red-600 hover:text-red-800 disabled:opacity-50 flex items-center gap-2"
@@ -220,7 +240,7 @@ export default function AdminUsers() {
             placeholder="student@utp.bg"
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
-            className="border rounded-lg px-3 py-2 flex-1"
+            className="custom_input flex-1"
           />
           <button
             onClick={() => handleAdd("student")}

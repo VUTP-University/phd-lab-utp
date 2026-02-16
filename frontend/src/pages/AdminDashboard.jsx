@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Footer from "../components/Footer";
 import AdminSidebar from "../components/AdminDashboard/AdminSidebar";
 import AdminUsers from "../components/AdminDashboard/AdminUsers";
@@ -11,117 +11,13 @@ import api from "../../api.js";
 
 export default function AdminDashboard() {
   const { t } = useTranslation();
-
   const [activeView, setActiveView] = useState("users");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const [courses, setCourses] = useState([]);
-  const [displayedCourses, setDisplayedCourses] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        // Fetch ALL courses (JWT token automatically added by api interceptor)
-        const resCourses = await api.get('/classroom-admin/courses/');
-        setCourses(resCourses.data.courses || []);
-
-        // Fetch which courses are currently marked as visible
-        const resDisplayed = await api.get('/classroom-admin/displayed-courses/');
-
-        // Create a map for quick lookup: { courseId: true }
-        const map = {};
-        resDisplayed.data.displayed_courses.forEach((c) => {
-          map[c.course_id] = true;
-        });
-
-        setDisplayedCourses(map);
-        
-      } catch (error) {
-        
-        if (error.response?.status === 401) {
-          setError('Session expired. Please log in again.');
-        } else if (error.response?.status === 403) {
-          setError('You do not have admin permissions.');
-        } else {
-          setError('Failed to load admin data. Please try again.');
-        }
-        
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleToggle = async (course, visible) => {
-    try {
-      // Toggle course visibility (JWT token automatically added)
-      await api.post('/classroom-admin/displayed-course/toggle/', {
-        course_id: course.id,
-        name: course.name,
-        section: course.section || '',
-        alternate_link: course.alternateLink,
-        visible,
-        // NO email parameter needed - user comes from JWT token!
-      });
-
-
-      // Update local state
-      setDisplayedCourses((prev) => {
-        const next = { ...prev };
-        if (visible) {
-          next[course.id] = true;
-        } else {
-          delete next[course.id];
-        }
-        return next;
-      });
-      
-    } catch (error) {
-      console.error('❌ Error toggling course:', error);
-      alert('Failed to update course visibility. Please try again.');
-    }
-  };
-
   const renderContent = () => {
-    if (loading) {
-      return (
-        <div className="text-center mt-10">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
-          <p>{t("dashboard.loading")}</p>
-        </div>
-      );
-    }
-
-    if (error) {
-      return (
-        <div className="text-center mt-10">
-          <p className="text-red-500 mb-4">{error}</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="custom_button"
-          >
-            Try Again
-          </button>
-        </div>
-      );
-    }
-
     switch (activeView) {
       case "courses":
-        return (
-          <AdminCourses
-            courses={courses}
-            displayedCourses={displayedCourses}
-            onToggle={handleToggle}
-          />
-        );
+        return <AdminCourses />;
       case "news":
         return <AdminNews />;
       case "publications":

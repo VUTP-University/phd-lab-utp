@@ -166,6 +166,8 @@ const resources = {
       admin_dashboard: {
         title: "Административен панел",
         courses_title: "Всички курсове",
+        no_courses_title: "Няма курсове",
+        no_courses_message: "В момента няма курсове за показване. Моля, проверете по-късно.",
         loading: "Зареждане на курсовете...",
         error: "Грешка при зареждане на курсовете.",
         course_name: "Име",
@@ -181,8 +183,11 @@ const resources = {
         },
         users_mgmt: {
           title: "Управление на потребители",
+          no_users: "Няма потребители",
+          no_users_message: "В момента няма администратори или студенти, регистрирани в системата.",
           admins: "Администратори",
           students: "Студенти",
+          loading: "Зареждане на потребителите...",
         },
         news: {
           title: "Управление на новини и събития",
@@ -273,6 +278,10 @@ const resources = {
         taxes: "Такси за обучение",
         news: "Новини и събития",
         utp: "Висше училище по телекомуникации и пощи",
+      },
+      common: {
+        loading: "Зареждане...",
+        error: "Грешка при зареждане на данните. Моля, опитайте отново по-късно."
       }
     }
   },
@@ -437,6 +446,8 @@ const resources = {
       admin_dashboard: {
         title: "Admin Panel",
         courses_title: "All Courses",
+        no_courses_title: "No Courses",
+        no_courses_message: "There are currently no courses to display. Please check back later.",
         loading: "Loading courses...",
         error: "Error loading courses.",
         course_name: "Course Name",
@@ -452,8 +463,11 @@ const resources = {
         },
         users_mgmt: {
           title: "Users Management",
+          no_users: "No Users",
+          no_users_message: "No admins or students are registered in the system.",
           admins: "Admins",
           students: "Students",
+          loading: "Loading users..."
         },
         news: {
           title: "News & Events Management",
@@ -543,21 +557,25 @@ const resources = {
         taxes: "Tuition Fees",
         news: "News & Events",
         utp: "University of Telecommunications and Posts",
-      }
+      },
+      common: {
+        loading: "Loading...",
+        error: "Error loading data. Please try again later."
       }
     }
-  };
+  }
+};
 
-  i18n
+i18n
   .use(initReactI18next)
-    .use(LanguageDetector)
-    .init({
-      resources,
-      fallbackLng: "bg", // default if detected language not available
-      lng: localStorage.getItem("language") || "bg", // start with saved language
-      debug: true,
-      interpolation: { escapeValue: false }
-    });
+  .use(LanguageDetector)
+  .init({
+    resources,
+    fallbackLng: "bg", // default if detected language not available
+    lng: localStorage.getItem("language") || "bg", // start with saved language
+    debug: true,
+    interpolation: { escapeValue: false }
+  });
 
 
-  export default i18n;
+export default i18n;

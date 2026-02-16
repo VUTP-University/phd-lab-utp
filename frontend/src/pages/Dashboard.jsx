@@ -1,6 +1,6 @@
 import React from "react";
-import CoursesList from "../components/Dashboard/CoursesList";
 import UserCard from "../components/Dashboard/UserCard";
+import CoursesList from "../components/Dashboard/CoursesList";
 import AIAssistant from "../components/Dashboard/AIAssistant";
 import Footer from "../components/Footer";
 
