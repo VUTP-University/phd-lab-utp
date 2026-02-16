@@ -278,6 +278,10 @@ const resources = {
         taxes: "Такси за обучение",
         news: "Новини и събития",
         utp: "Висше училище по телекомуникации и пощи",
+      },
+      common: {
+        loading: "Зареждане...",
+        error: "Грешка при зареждане на данните. Моля, опитайте отново по-късно."
       }
     }
   },
@@ -553,21 +557,25 @@ const resources = {
         taxes: "Tuition Fees",
         news: "News & Events",
         utp: "University of Telecommunications and Posts",
-      }
+      },
+      common: {
+        loading: "Loading...",
+        error: "Error loading data. Please try again later."
       }
     }
-  };
+  }
+};
 
-  i18n
+i18n
   .use(initReactI18next)
-    .use(LanguageDetector)
-    .init({
-      resources,
-      fallbackLng: "bg", // default if detected language not available
-      lng: localStorage.getItem("language") || "bg", // start with saved language
-      debug: true,
-      interpolation: { escapeValue: false }
-    });
+  .use(LanguageDetector)
+  .init({
+    resources,
+    fallbackLng: "bg", // default if detected language not available
+    lng: localStorage.getItem("language") || "bg", // start with saved language
+    debug: true,
+    interpolation: { escapeValue: false }
+  });
 
 
-  export default i18n;
+export default i18n;
