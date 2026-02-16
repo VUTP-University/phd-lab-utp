@@ -30,6 +30,7 @@ const resources = {
       about: {
         about_title: "За проекта",
         members_title: "Членове на проекта",
+        project_info: "Проектът „Смарт PHD Lab 5.0 Проектни докторантури за интелигентен растеж в областта на телекомуникациите, изкуствения интелект, автоматизацията и мехатрониката“ към процедура „Подкрепа за развитие на проектна докторантура“ , част от Програма „Образование“ 2021-2027, съфинансирана от Европейския социален фонд плюс (ЕСФ+), е изпълняван от ВУТП, в партньорство с МГУ “Св. Иван Рилски” (София) и ТУ – Варна.",
         members: [
           { "name": "Проф. д-р Миглена Темелкова", "position": "Ръководител" },
           { "name": "Доц. д-р Вихра Димитрова", "position": "Координатор" },
@@ -226,6 +227,8 @@ const resources = {
       dashboard: {
         title: "Табло за управление",
         courses_title: "Моите курсове",
+        no_courses_title: "Няма курсове",
+        no_courses_message: "В момента няма курсове за показване. Моля, проверете по-късно.",
         loading: "Зареждане на курсовете...",
         individual_plan_loading: "Зареждане на индивидуалния план...",
         individual_plan_uploaded: "Качен: ",
@@ -281,7 +284,8 @@ const resources = {
       },
       common: {
         loading: "Зареждане...",
-        error: "Грешка при зареждане на данните. Моля, опитайте отново по-късно."
+        error: "Грешка при зареждане на данните. Моля, опитайте отново по-късно.",
+        try_again: "Опитайте отново"
       }
     }
   },
@@ -311,6 +315,7 @@ const resources = {
       about: {
         about_title: "About the Project",
         members_title: "Project Members",
+        project_info: "The project “Smart PHD Lab 5.0 Project Doctorates for Intelligent Growth in the Fields of Telecommunications, Artificial Intelligence, Automation and Mechatronics” under the procedure “Support for the Development of Project Doctorates”, part of the Education Program 2021-2027, co-financed by the European Social Fund Plus (ESF+), is implemented by UTP, in partnership with MGU “St. Ivan Rilski” (Sofia) and TU – Varna.",
         members: [
           { "name": "Prof. Dr. Miglena Temelkova", "position": "Project Leader" },
           { "name": "Assoc. Prof. Dr. Vihra Dimitrova", "position": "Coordinator" },
@@ -506,6 +511,8 @@ const resources = {
       dashboard: {
         title: "Dashboard",
         courses_title: "My Courses",
+        no_courses_title: "No Courses",
+        no_courses_message: "There are currently no courses to display. Please check back later.",
         loading: "Loading courses...",
         individual_plan_loading: "Loading individual plan...",
         individual_plan_uploaded: "Uploaded: ",
@@ -560,7 +567,8 @@ const resources = {
       },
       common: {
         loading: "Loading...",
-        error: "Error loading data. Please try again later."
+        error: "Error loading data. Please try again later.",
+        try_again: "Try Again"
       }
     }
   }

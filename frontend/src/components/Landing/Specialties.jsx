@@ -44,7 +44,7 @@ export default function Specialties() {
   const navigate = useNavigate();
 
   return (
-    <section className="primary_object py-12 sm:py-6 mt-5">
+    <section className="primary_object py-6">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl mb-10 sm:text-4xl font-bold text-center primary_text ">
           {t("specialties.title")}
