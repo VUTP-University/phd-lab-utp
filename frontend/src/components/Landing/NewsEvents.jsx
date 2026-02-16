@@ -80,7 +80,7 @@ export default function NewsEvents() {
   const recentNews = news.slice(0, 3);
 
   return (
-    <section className="pb-10 pt-20 mt-10 primary_object">
+    <section className="primary_object py-6">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-3xl font-bold text-center primary_text mb-10">
           {t("news.title")}

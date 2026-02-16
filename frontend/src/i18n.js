@@ -226,6 +226,8 @@ const resources = {
       dashboard: {
         title: "Табло за управление",
         courses_title: "Моите курсове",
+        no_courses_title: "Няма курсове",
+        no_courses_message: "В момента няма курсове за показване. Моля, проверете по-късно.",
         loading: "Зареждане на курсовете...",
         individual_plan_loading: "Зареждане на индивидуалния план...",
         individual_plan_uploaded: "Качен: ",
@@ -281,7 +283,8 @@ const resources = {
       },
       common: {
         loading: "Зареждане...",
-        error: "Грешка при зареждане на данните. Моля, опитайте отново по-късно."
+        error: "Грешка при зареждане на данните. Моля, опитайте отново по-късно.",
+        try_again: "Опитайте отново"
       }
     }
   },
@@ -506,6 +509,8 @@ const resources = {
       dashboard: {
         title: "Dashboard",
         courses_title: "My Courses",
+        no_courses_title: "No Courses",
+        no_courses_message: "There are currently no courses to display. Please check back later.",
         loading: "Loading courses...",
         individual_plan_loading: "Loading individual plan...",
         individual_plan_uploaded: "Uploaded: ",
@@ -560,7 +565,8 @@ const resources = {
       },
       common: {
         loading: "Loading...",
-        error: "Error loading data. Please try again later."
+        error: "Error loading data. Please try again later.",
+        try_again: "Try Again"
       }
     }
   }
