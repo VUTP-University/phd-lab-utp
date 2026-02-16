@@ -1,14 +1,13 @@
 // NewsEvents.jsx - Component to display recent news and events on the landing page, with sharing options
-
-
-
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   Calendar
 } from "lucide-react";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import ErrorDisplay from "../../components/ErrorDisplay";
+import EmptyState from "../../components/EmptyState";
 import api from "../../../api.js";
 
 export default function NewsEvents() {
@@ -16,7 +15,8 @@ export default function NewsEvents() {
   const navigate = useNavigate();
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const recentNews = news.slice(0, 3); // Show only 6 most recent
+  const [error, setError] = useState(null);
+  const recentNews = news.slice(0, 3); // Show only 3 most recent
 
   useEffect(() => {
     fetchNews();
@@ -28,6 +28,7 @@ export default function NewsEvents() {
       setNews(response.data.news);
     } catch (error) {
       console.error("Error fetching news:", error);
+      setError(error);
     } finally {
       setLoading(false);
     }
@@ -63,12 +64,14 @@ export default function NewsEvents() {
 
   if (loading) {
     return (
-      <section className="pb-10 pt-20 mt-10 primary_object">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="text-center normal_text">{t("news.loading")}</p>
-        </div>
-      </section>
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size={48} />
+      </div>
     );
+  }
+
+  if (error) {
+    return <ErrorDisplay error={error} onRetry={fetchNews} fullScreen />;
   }
 
   return (
@@ -79,9 +82,10 @@ export default function NewsEvents() {
         </h2>
 
         {news.length === 0 ? (
-          <p className="text-center normal_text text-gray-500">
-            {t("news.no_news")}
-          </p>
+          <EmptyState
+            title={t("news.no_news_title")}
+            message={t("news.no_news_message")}
+          />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {recentNews.map((item) => (
