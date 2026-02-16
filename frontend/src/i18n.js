@@ -100,7 +100,8 @@ const resources = {
       news: {
         title: "Новини и събития",
         loading: "Зареждане на новините...",
-        no_news: "Няма създадени новини",
+        no_news_title: "Няма създадени новини",
+        no_news_message: "В момента няма новини или събития за показване. Моля, проверете по-късно за актуализации.",
         more_images: "още изображения",
         news: "Новина",
         event: "Събитие",
@@ -370,7 +371,8 @@ const resources = {
       news: {
         title: "News & Events",
         loading: "Loading news...",
-        no_news: "No news created",
+        no_news_title: "No news created",
+        no_news_message: "There are currently no news or events to display. Please check back later for updates.",
         more_images: "more images",
         news: "News",
         event: "Event",
