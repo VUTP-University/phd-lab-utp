@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Footer from "../components/Footer";
 import MarkdownRenderer from "../components/MarkdownRenderer";
+import { useTheme } from "../hooks/useTheme";
 
-import LabImage from "../assets/Lab_5-o.jpg";
 import UTPLogo from "../assets/Logo-UTP.png";
+import UTPLogoDark from "../assets/Logo-UTP-dark.png";  
 import TULogo from "../assets/Logo-TU.png";
 import MGULogo from "../assets/Logo-MGU.png";
 import EULogo from "../assets/EU-logo.png";
@@ -15,6 +16,7 @@ export default function About() {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const isDark = useTheme();
 
   // Project members from i18n
   const members = t("about.members", { returnObjects: true });
@@ -54,7 +56,7 @@ export default function About() {
           {/* Top 3 Logos */}
           <div className="flex items-center justify-center gap-8 mb-8 flex-wrap">
             <img src={MGULogo} alt="MGU Logo" className="h-20 object-contain" />
-            <img src={UTPLogo} alt="UTP Logo" className="h-20 object-contain" />
+            <img src={isDark ? UTPLogoDark : UTPLogo} alt="UTP Logo" className="h-20 object-contain" />
             <img src={TULogo} alt="TU Logo" className="h-20 object-contain" />
           </div>
 
