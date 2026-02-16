@@ -8,7 +8,7 @@ import UTPLogo from "../assets/Logo-UTP.png";
 import UTPLogoDark from "../assets/Logo-UTP-dark.png";  
 import TULogo from "../assets/Logo-TU.png";
 import MGULogo from "../assets/Logo-MGU.png";
-import EULogo from "../assets/EU-logo.png";
+import EULogo from "../assets/EU-Logo.png";
 import PrgLogo from "../assets/Logo-Progr.jpeg";
 
 export default function About() {
