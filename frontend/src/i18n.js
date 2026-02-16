@@ -30,6 +30,7 @@ const resources = {
       about: {
         about_title: "За проекта",
         members_title: "Членове на проекта",
+        project_info: "Проектът „Смарт PHD Lab 5.0 Проектни докторантури за интелигентен растеж в областта на телекомуникациите, изкуствения интелект, автоматизацията и мехатрониката“ към процедура „Подкрепа за развитие на проектна докторантура“ , част от Програма „Образование“ 2021-2027, съфинансирана от Европейския социален фонд плюс (ЕСФ+), е изпълняван от ВУТП, в партньорство с МГУ “Св. Иван Рилски” (София) и ТУ – Варна.",
         members: [
           { "name": "Проф. д-р Миглена Темелкова", "position": "Ръководител" },
           { "name": "Доц. д-р Вихра Димитрова", "position": "Координатор" },
@@ -314,6 +315,7 @@ const resources = {
       about: {
         about_title: "About the Project",
         members_title: "Project Members",
+        project_info: "The project “Smart PHD Lab 5.0 Project Doctorates for Intelligent Growth in the Fields of Telecommunications, Artificial Intelligence, Automation and Mechatronics” under the procedure “Support for the Development of Project Doctorates”, part of the Education Program 2021-2027, co-financed by the European Social Fund Plus (ESF+), is implemented by UTP, in partnership with MGU “St. Ivan Rilski” (Sofia) and TU – Varna.",
         members: [
           { "name": "Prof. Dr. Miglena Temelkova", "position": "Project Leader" },
           { "name": "Assoc. Prof. Dr. Vihra Dimitrova", "position": "Coordinator" },
