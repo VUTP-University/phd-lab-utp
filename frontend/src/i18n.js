@@ -287,7 +287,11 @@ const resources = {
         loading: "Зареждане...",
         error: "Грешка при зареждане на данните. Моля, опитайте отново по-късно.",
         try_again: "Опитайте отново",
-        go_back: "Назад"
+        go_back: "Назад",
+        go_home: "Начало",
+        title_404: "Страницата не е намерена",
+        message_404: "Този ресурс изглежда е преместен на друго място или не съществува.",
+        quick_links: "Нека Ви отведа на по-добро място. Ето някои полезни връзки:"
       }
     }
   },
@@ -572,7 +576,11 @@ const resources = {
         loading: "Loading...",
         error: "Error loading data. Please try again later.",
         try_again: "Try Again",
-        go_back: "Back"
+        go_back: "Back",
+        go_home: "Home",
+        title_404: "Page Not Found",
+        message_404: "This resource appears to have been moved or does not exist.",
+        quick_links: "Let me take you somewhere better. Here are some useful links:"
       }
     }
   }
