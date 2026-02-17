@@ -450,6 +450,32 @@ h1 {
   margin: 1.5rem 0;
 }
 
+
+/* Document links styling */
+.documents-content a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background: var(--surface);
+}
+
+.documents-content a:hover {
+  background: var(--surface-hover);
+  border-color: var(--primary);
+  transform: translateX(4px);
+}
+
+.documents-content a::before {
+  content: "📄";
+  font-size: 1.2rem;
+}
+
 /* Responsive Typography */
 @media (max-width: 768px) {
   .primary_text {

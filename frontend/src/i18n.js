@@ -96,6 +96,7 @@ const resources = {
         title: "Електронни ресурси",
         law_docs: "Нормативни документи",
         science_docs: "Научна дейност",
+        utplibrary: "Библиотека на ВУТП",
         science_dbs: "Научни бази данни"
       },
       news: {
@@ -285,7 +286,8 @@ const resources = {
       common: {
         loading: "Зареждане...",
         error: "Грешка при зареждане на данните. Моля, опитайте отново по-късно.",
-        try_again: "Опитайте отново"
+        try_again: "Опитайте отново",
+        go_back: "Назад"
       }
     }
   },
@@ -380,6 +382,7 @@ const resources = {
         title: "Electronic Resources",
         law_docs: "Regulatory Documents",
         science_docs: "Scientific Activity",
+        utplibrary: "UTP Library",
         science_dbs: "Scientific Databases"
       },
       news: {
@@ -568,7 +571,8 @@ const resources = {
       common: {
         loading: "Loading...",
         error: "Error loading data. Please try again later.",
-        try_again: "Try Again"
+        try_again: "Try Again",
+        go_back: "Back"
       }
     }
   }
