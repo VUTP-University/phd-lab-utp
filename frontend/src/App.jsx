@@ -19,6 +19,7 @@ import ScientificDatabases from "./pages/ScientificDatabases";
 import NewsDetail from "./pages/NewsDetail";
 import AllNews from "./pages/AllNews";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NotFound404 from "./pages/NotFound404"
 
 
 function App() {
@@ -100,6 +101,7 @@ function App() {
         {/* News Pages */}
         <Route path="/news" element={<AllNews />} />
         <Route path="/news/:id" element={<NewsDetail />} />
+        <Route path="*" element={<NotFound404 />} />
       </Routes>
     </>
   );
