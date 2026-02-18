@@ -29,7 +29,7 @@ const resources = {
       },
       about: {
         about_title: "За проекта",
-        members_title: "Членове на проекта",
+        members_title: "Членове на екипа",
         project_info: "Проектът „Смарт PHD Lab 5.0 Проектни докторантури за интелигентен растеж в областта на телекомуникациите, изкуствения интелект, автоматизацията и мехатрониката“ към процедура „Подкрепа за развитие на проектна докторантура“ , част от Програма „Образование“ 2021-2027, съфинансирана от Европейския социален фонд плюс (ЕСФ+), е изпълняван от ВУТП, в партньорство с МГУ “Св. Иван Рилски” (София) и ТУ – Варна.",
         members: [
           { "name": "Проф. д-р Миглена Темелкова", "position": "Ръководител" },
@@ -291,7 +291,10 @@ const resources = {
         go_home: "Начало",
         title_404: "Страницата не е намерена",
         message_404: "Този ресурс изглежда е преместен на друго място или не съществува.",
-        quick_links: "Нека Ви отведа на по-добро място. Ето някои полезни връзки:"
+        quick_links: "Ето някои полезни връзки:",
+        fun_facts: {
+          random: "Знаете ли? Първата докторска степен е присъдена през 1652 г. в Харвардския университет!"
+        }
       }
     }
   },
@@ -320,7 +323,7 @@ const resources = {
       },
       about: {
         about_title: "About the Project",
-        members_title: "Project Members",
+        members_title: "Project Team",
         project_info: "The project “Smart PHD Lab 5.0 Project Doctorates for Intelligent Growth in the Fields of Telecommunications, Artificial Intelligence, Automation and Mechatronics” under the procedure “Support for the Development of Project Doctorates”, part of the Education Program 2021-2027, co-financed by the European Social Fund Plus (ESF+), is implemented by UTP, in partnership with MGU “St. Ivan Rilski” (Sofia) and TU – Varna.",
         members: [
           { "name": "Prof. Dr. Miglena Temelkova", "position": "Project Leader" },
@@ -580,9 +583,12 @@ const resources = {
         go_home: "Home",
         title_404: "Page Not Found",
         message_404: "This resource appears to have been moved or does not exist.",
-        quick_links: "Let me take you somewhere better. Here are some useful links:"
+        quick_links: "Here are some useful links:",
+        fun_facts: {
+          random: "Did you know? The first doctoral degree was awarded in 1652 at Harvard University!"
+        }
       }
-    }
+    } 
   }
 };
 

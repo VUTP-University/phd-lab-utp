@@ -142,7 +142,7 @@ export default function NotFound404() {
           <p className="normal_text_3 normal_text_3--small italic flex items-center justify-center gap-2">
             <span style={{ fontSize: "1.5rem" }}>💡</span>
             <span style={{ color: "var(--text-muted)" }}>
-              Did you know? The first PhD was awarded in 1652 at Harvard University!
+              {t("common.fun_facts.random")}
             </span>
           </p>
         </div>
