@@ -29,7 +29,7 @@ export default function TeacherCourses() {
       const resCourses = await api.get("/classroom-teacher/courses/");
       setCourses(resCourses.data.courses || []);
 
-      const resDisplayed = await api.get("/classroom-teacher/displayed-courses/");
+      const resDisplayed = await api.get("/classroom-admin/displayed-courses/");
       const map = {};
       (resDisplayed.data?.displayed_courses || []).forEach((c) => {
         map[c.course_id] = true;
@@ -51,7 +51,7 @@ export default function TeacherCourses() {
 
   const handleToggle = async (course, visible) => {
     try {
-      await api.post("/classroom-teacher/displayed-course/toggle/", {
+      await api.post("/classroom-admin/displayed-course/toggle/", {
         course_id: course.id,
         name: course.name,
         section: course.section || "",
