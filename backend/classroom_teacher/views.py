@@ -19,10 +19,43 @@ from user_management.models import StudentIndividualPlan
 logger = logging.getLogger(__name__)
 
 
+class TeacherCoursesListView(APIView):
+    """List only the courses where the logged-in teacher is a teacher in Google Classroom."""
+
+    permission_classes = [IsLabTeacher]
+
+    def get(self, request):
+        user = request.user
+        logger.info(f"Teacher {user.email} fetching their courses")
+
+        try:
+            service = get_classroom_service(user.email)
+            courses_response = service.courses().list(
+                courseStates=["ACTIVE"],
+                teacherId="me",
+            ).execute()
+            courses = courses_response.get("courses", [])
+
+            logger.info(f"Teacher {user.email} fetched {len(courses)} courses")
+
+            return Response({
+                "courses": courses,
+                "count": len(courses),
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            logger.exception(f"Error fetching courses for teacher {user.email}")
+            return Response(
+                {"error": "Failed to fetch courses", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
 class TeacherCourseDetailsView(APIView):
     """
     Get detailed information about a course for the teacher.
     Shows all assignments with student submission counts.
+    Uses admin account to access all submissions across all students.
     """
 
     permission_classes = [IsLabTeacher]

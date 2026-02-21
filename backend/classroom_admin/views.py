@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import DisplayedCourse
 from .serializers import DisplayedCourseSerializer
-from classroom.google_service import get_classroom_service, ADMIN_EMAIL
+from classroom.google_service import get_classroom_service
 from appuser.permissions import IsLabAdmin, IsLabTeacherOrAdmin
 import logging
 
