@@ -13,6 +13,7 @@ import Apply from "./pages/Apply";
 import Taxes from "./pages/Taxes";
 import SpecialtyPage from "./pages/Specialties/SpecialtyPage";
 import AdminDashboard from "./pages/AdminDashboard";
+import TeacherDashboard from "./pages/TeacherDashboard";
 import Dashboard from "./pages/Dashboard";
 import LawDocuments from "./pages/LawDocuments";
 import ScientificDatabases from "./pages/ScientificDatabases";
@@ -88,11 +89,18 @@ function App() {
           </ProtectedRoute>
         } />
 
+        {/* Teacher Dashboard */}
+        <Route path="/teacher-dashboard" element={
+          <ProtectedRoute teacherOnly={true}>
+            <TeacherDashboard user={user} />
+          </ProtectedRoute>
+        } />
+
         {/* User Dashboard */}
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute studentOnly={true}>
               <Dashboard user={user} />
             </ProtectedRoute>
           }

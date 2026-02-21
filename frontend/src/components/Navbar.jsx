@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
-import { LogOut, Menu, X, Home, BookOpen, Shield, User } from "lucide-react";
+import { LogOut, Menu, X, Home, BookOpen, Shield, GraduationCap } from "lucide-react";
 
 import LabBrandImage from "../../src/assets/logo_pr_dokt_2.png";
 
@@ -37,13 +37,23 @@ export default function NavbarTailwind({ user, onLogout }) {
               {t("navbar.home")}
             </a>
 
-            {user && (
+            {user && user.is_student && !user.is_teacher && (
               <a
                 href="/dashboard"
                 className="px-3 py-2 rounded-lg text-sm font-medium normal_text hover:bg-gray-100 transition flex items-center gap-2"
               >
                 <BookOpen size={16} />
                 {t("navbar.my_courses")}
+              </a>
+            )}
+
+            {user && user.is_teacher && (
+              <a
+                href="/teacher-dashboard"
+                className="px-3 py-2 rounded-lg text-sm font-medium normal_text hover:bg-gray-100 transition flex items-center gap-2"
+              >
+                <GraduationCap size={16} />
+                {t("navbar.teaching_panel")}
               </a>
             )}
 
@@ -103,7 +113,7 @@ export default function NavbarTailwind({ user, onLogout }) {
               {t("navbar.home")}
             </a>
 
-            {user && (
+            {user && user.is_student && !user.is_teacher && (
               <a
                 href="/dashboard"
                 className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium normal_text hover:bg-gray-100 dark:hover:bg-gray-800 transition"
@@ -111,6 +121,17 @@ export default function NavbarTailwind({ user, onLogout }) {
               >
                 <BookOpen size={18} />
                 {t("navbar.my_courses")}
+              </a>
+            )}
+
+            {user && user.is_teacher && (
+              <a
+                href="/teacher-dashboard"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium normal_text hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                onClick={() => setMenuOpen(false)}
+              >
+                <GraduationCap size={18} />
+                {t("navbar.teaching_panel")}
               </a>
             )}
 

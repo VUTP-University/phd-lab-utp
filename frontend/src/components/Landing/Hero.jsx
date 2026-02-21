@@ -27,7 +27,13 @@ export default function Hero({ user, setUser }) {
       localStorage.setItem("user", JSON.stringify(user));
       
       setUser(user);
-      navigate("/dashboard");
+
+      // Redirect based on role
+      if (user.is_teacher) {
+        navigate("/teacher-dashboard");
+      } else {
+        navigate("/dashboard");
+      }
       
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);

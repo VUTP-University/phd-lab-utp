@@ -25,7 +25,7 @@ export default function ContactForm() {
                 <p className="normal_text">{t("contact.mail")}</p>
                 <a
                   href="mailto:admission@utp.bg"
-                  className="hover:underline transition-colors"
+                  className="normal_text_3 normal_text_3--small hover:underline transition-colors"
                 >
                   admission@utp.bg
                 </a>
@@ -41,8 +41,12 @@ export default function ContactForm() {
               </div>
               <div className="ml-4 text-sm">
                 <p className="normal_text">{t("contact.phone")}</p>
-                <p className="font-semibold text-blue-600">+359 2 806 2180</p>
-                <p className="font-semibold text-blue-600">+359 882 431 872</p>
+                <p className="normal_text_3 normal_text_3--small" style={{ whiteSpace: "pre-line" }}>
+                  +359 2 806 2180
+                </p>
+                <p className="normal_text_3 normal_text_3--small" style={{ whiteSpace: "pre-line" }}>
+                  +359 882 431 872
+                </p>
               </div>
             </div>
           </div>
@@ -56,7 +60,7 @@ export default function ContactForm() {
 
               <div className="ml-4 text-sm">
                 <p className="normal_text">{t("contact.address_title")}</p>
-                <p className="font-semibold text-blue-600">
+                <p className="normal_text_3 normal_text_3--small" style={{ whiteSpace: "pre-line" }}>
                   {t("contact.address")}
                 </p>
               </div>

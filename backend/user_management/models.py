@@ -2,6 +2,20 @@ from django.db import models
 from appuser.models import CustomUser
 
 
+class Supervision(models.Model):
+    """Links a teacher (supervisor) to a doctoral student."""
+    supervisor_email = models.EmailField()
+    student_email = models.EmailField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('supervisor_email', 'student_email')
+        ordering = ['supervisor_email', 'student_email']
+
+    def __str__(self):
+        return f"{self.supervisor_email} → {self.student_email}"
+
+
 class StudentIndividualPlan(models.Model):
     student_email = models.EmailField()
     file_name = models.CharField(max_length=255)

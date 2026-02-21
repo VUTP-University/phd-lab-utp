@@ -161,6 +161,7 @@ h1 {
 }
 
 .normal_text_3 {
+  color: var(--text-two);
   font-family: "Sofia Sans", sans-serif;
   font-style: normal;
   font-weight: 400;

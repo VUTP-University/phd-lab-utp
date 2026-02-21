@@ -24,7 +24,8 @@ def get_tokens_for_user(user):
     # Add custom claims to the token
     refresh['email'] = user.email
     refresh['is_admin'] = user.is_admin
-    refresh['is_student'] = not user.is_admin
+    refresh['is_teacher'] = user.is_teacher
+    refresh['is_student'] = not user.is_admin and not user.is_teacher
     
     return {
         'refresh': str(refresh),
@@ -79,7 +80,7 @@ class GoogleAuthView(APIView):
                 return Response(
                     {
                         "error": "Access denied", 
-                        "message": "You must be a member of the admin or student group."
+                        "message": "You must be a member of the admin, student, or teacher group."
                     },
                     status=status.HTTP_403_FORBIDDEN
                 )
@@ -92,12 +93,14 @@ class GoogleAuthView(APIView):
                     "family_name": idinfo.get("family_name", ""),
                     "google_sub": idinfo.get("sub"),
                     "is_admin": group_info['is_admin'],
+                    "is_teacher": group_info['is_teacher'],
                     "is_staff": group_info['is_admin'],
                 }
             )
 
             if not created:
                 user.is_admin = group_info['is_admin']
+                user.is_teacher = group_info['is_teacher']
                 user.is_staff = group_info['is_admin']
                 user.first_name = idinfo.get("given_name", user.first_name)
                 user.family_name = idinfo.get("family_name", user.family_name)
@@ -117,6 +120,7 @@ class GoogleAuthView(APIView):
                     "name": idinfo.get("name"),
                     "picture": idinfo.get("picture"),
                     "is_lab_admin": group_info['is_admin'],
+                    "is_teacher": group_info['is_teacher'],
                     "is_student": group_info['is_student'],
                 }
             }, status=status.HTTP_200_OK)
