@@ -13,6 +13,7 @@ from .serializers import DisplayedCourseSerializer
 from classroom.google_service import get_classroom_service
 from appuser.permissions import IsLabAdmin, IsLabTeacherOrAdmin
 import logging
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +31,7 @@ class AdminCoursesListView(APIView):
         logger.info(f"Admin {user.email} fetching all courses")
         
         try:
-            service = get_classroom_service(ADMIN_EMAIL)
+            service = get_classroom_service(settings.GOOGLE_ADMIN_EMAIL)
 
             # Fetch all active courses
             courses_response = service.courses().list(courseStates=["ACTIVE"]).execute()
