@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from classroom.google_service import get_classroom_service
+from classroom.google_service import get_classroom_service, ADMIN_EMAIL
 from appuser.permissions import IsLabTeacher
 from appuser.google_drive_service import (
     get_drive_service,
@@ -31,11 +31,11 @@ class TeacherCoursesListView(APIView):
         logger.info(f"Teacher {user.email} fetching all courses")
 
         try:
-            service = get_classroom_service(user.email)
+            service = get_classroom_service(ADMIN_EMAIL)
             courses_response = service.courses().list(courseStates=["ACTIVE"]).execute()
             courses = courses_response.get("courses", [])
 
-            logger.info(f"Teacher {user.email} fetched {len(courses)} courses")
+            logger.info(f"Teacher {user.email} fetched {len(courses)} courses via admin account")
 
             return Response({
                 "courses": courses,
@@ -165,7 +165,7 @@ class TeacherCourseDetailsView(APIView):
         user = request.user
 
         try:
-            service = get_classroom_service(user.email)
+            service = get_classroom_service(ADMIN_EMAIL)
 
             # Get coursework
             coursework_response = service.courses().courseWork().list(
