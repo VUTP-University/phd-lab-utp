@@ -5,10 +5,12 @@ import { Upload, Trash2, Users as UsersIcon } from "lucide-react";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import ErrorDisplay from "../../components/ErrorDisplay";
 import EmptyState from "../../components/EmptyState";
+import AdminSupervisions from "./AdminSupervisions";
 
 export default function AdminUsers() {
   const { t } = useTranslation();
   const [admins, setAdmins] = useState([]);
+  const [teachers, setTeachers] = useState([]);
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,12 +27,14 @@ export default function AdminUsers() {
       setLoading(true);
       setError(null);
 
-      const [adminsRes, studentsRes] = await Promise.all([
+      const [adminsRes, teachersRes, studentsRes] = await Promise.all([
         api.get("/user-management/group-members/?group=admin"),
+        api.get("/user-management/group-members/?group=teacher"),
         api.get("/user-management/group-members/?group=student"),
       ]);
 
       setAdmins(adminsRes.data.members || []);
+      setTeachers(teachersRes.data.members || []);
       setStudents(studentsRes.data.members || []);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -126,7 +130,7 @@ export default function AdminUsers() {
     return <ErrorDisplay error={error} onRetry={fetchUsers} />;
   }
 
-  if (admins.length === 0 && students.length === 0) {
+  if (admins.length === 0 && teachers.length === 0 && students.length === 0) {
     return (
       <EmptyState
         icon={UsersIcon}
@@ -177,13 +181,53 @@ export default function AdminUsers() {
             onClick={() => handleAdd("admin")}
             className="custom_button custom_button--small"
           >
-            Add Admin
+            {t("admin_dashboard.users_mgmt.add_admin")}
+          </button>
+        </div>
+      </section>
+
+      {/* Teachers */}
+      <section className="mb-8">
+        <h3 className="text-xl font-bold mb-3 badge badge--green">
+          {t("admin_dashboard.users_mgmt.teachers")} ({teachers.length})
+        </h3>
+        <ul className="space-y-2 mb-4">
+          {teachers.map((email) => (
+            <li
+              key={email}
+              className="flex justify-between items-center p-3 border rounded-lg normal_text_2"
+            >
+              <span>{email}</span>
+              <button
+                onClick={() => handleRemove(email, "teacher")}
+                className="text-red-600 hover:text-red-800 disabled:opacity-50 flex items-center gap-2"
+                disabled={removeEmail === email}
+              >
+                <Trash2 size={16} />
+                {removeEmail === email ? "Removing..." : "Remove"}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div className="flex gap-2">
+          <input
+            type="email"
+            placeholder="teacher@utp.bg"
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value)}
+            className="custom_input flex-1"
+          />
+          <button
+            onClick={() => handleAdd("teacher")}
+            className="custom_button custom_button--small"
+          >
+            {t("admin_dashboard.users_mgmt.add_teacher")}
           </button>
         </div>
       </section>
 
       {/* Students */}
-      <section>
+      <section className="mb-8">
         <h3 className="text-xl font-bold mb-3 badge badge--red">
           {t("admin_dashboard.users_mgmt.students")} ({students.length})
         </h3>
@@ -246,10 +290,12 @@ export default function AdminUsers() {
             onClick={() => handleAdd("student")}
             className="custom_button custom_button--small"
           >
-            Add Student
+            {t("admin_dashboard.users_mgmt.add_student")}
           </button>
         </div>
       </section>
+      {/* Supervision Assignments */}
+      <AdminSupervisions teachers={teachers} students={students} />
     </div>
   );
 }

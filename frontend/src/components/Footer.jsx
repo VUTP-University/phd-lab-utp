@@ -23,7 +23,7 @@ export default function Footer() {
                 <MapPin size={18} className="flex-shrink-0 mt-1 text-blue-600 dark:text-blue-400" />
                 <div>
                   <p className="normal_text_2 font-semibold mb-1">{t("contact.address_title")}</p>
-                  <p className="normal_text_2">
+                  <p className="normal_text_2" style={{ whiteSpace: "pre-line" }}>
                     {t("contact.address")}
                   </p>
                 </div>

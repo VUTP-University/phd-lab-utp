@@ -178,6 +178,63 @@ class IsLabStudent(BasePermission):
         return True
 
 
+class IsLabTeacher(BasePermission):
+    """Permission class for teacher-only access."""
+
+    message = "Teacher privileges required."
+
+    def has_permission(self, request, view):
+        jwt_auth = JWTAuthentication()
+
+        try:
+            user_auth = jwt_auth.authenticate(request)
+            if user_auth is None:
+                return False
+            user, token = user_auth
+        except (AuthenticationFailed, Exception) as e:
+            logger.warning(f"JWT authentication failed: {e}")
+            return False
+
+        if not user or not user.is_active:
+            return False
+
+        if not user.is_teacher:
+            logger.warning(f"Teacher access denied for user: {user.email}")
+            return False
+
+        request.user = user
+        logger.debug(f"Teacher access granted to: {user.email}")
+        return True
+
+
+class IsLabTeacherOrAdmin(BasePermission):
+    """Permission class for teacher or admin access."""
+
+    message = "Teacher or admin privileges required."
+
+    def has_permission(self, request, view):
+        jwt_auth = JWTAuthentication()
+
+        try:
+            user_auth = jwt_auth.authenticate(request)
+            if user_auth is None:
+                return False
+            user, token = user_auth
+        except (AuthenticationFailed, Exception) as e:
+            logger.warning(f"JWT authentication failed: {e}")
+            return False
+
+        if not user or not user.is_active:
+            return False
+
+        if not user.is_teacher and not user.is_admin:
+            logger.warning(f"Teacher/Admin access denied for user: {user.email}")
+            return False
+
+        request.user = user
+        return True
+
+
 class IsAuthenticatedUser(BasePermission):
     """
     Permission class to check if user is authenticated via JWT.

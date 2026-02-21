@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { User, Mail, Download, FileText, Brain } from "lucide-react";
+import { User, Mail, Download, FileText, Brain, GraduationCap } from "lucide-react";
 import api from "../../../api.js";
 
 function StudentCard({ user, onPlanAnalysis }) {
   const { t } = useTranslation();
   const [plan, setPlan] = useState(null);
   const [loadingPlan, setLoadingPlan] = useState(true);
+  const [supervisors, setSupervisors] = useState([]);
 
   useEffect(() => {
     const fetchIndividualPlan = async () => {
@@ -20,7 +21,17 @@ function StudentCard({ user, onPlanAnalysis }) {
       }
     };
 
+    const fetchSupervisors = async () => {
+      try {
+        const response = await api.get('/user-management/my-supervisors/');
+        setSupervisors(response.data.supervisors || []);
+      } catch (error) {
+        console.error('No supervisors found:', error);
+      }
+    };
+
     fetchIndividualPlan();
+    fetchSupervisors();
   }, []);
 
   return (
@@ -63,7 +74,7 @@ function StudentCard({ user, onPlanAnalysis }) {
               <div className="flex items-center justify-between mb-2">
                 <div>
                   <p className="text-sm font-medium normal_text">{plan.file_name}</p>
-                  <p className="text-xs text-gray-800 dark:text-gray-800">
+                  <p className="text-xs text-gray-800 normal_text_3 normal_text_3--small">
                   {t("dashboard.individual_plan_uploaded")} {new Date(plan.uploaded_at).toLocaleDateString()}
                   </p>
                 </div>
@@ -92,6 +103,28 @@ function StudentCard({ user, onPlanAnalysis }) {
           <p className="text-sm text-gray-500 dark:text-gray-400 italic">
             {t("dashboard.no_plan") || "No individual plan uploaded yet"}
           </p>
+        )}
+      </div>
+
+      {/* Supervisors Section */}
+      <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+        <h4 className="font-semibold normal_text mb-3 flex items-center gap-2">
+          <GraduationCap size={18} />
+          {t("dashboard.my_supervisors")}
+        </h4>
+        {supervisors.length === 0 ? (
+          <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+            {t("dashboard.no_supervisors")}
+          </p>
+        ) : (
+          <ul className="space-y-1">
+            {supervisors.map((email) => (
+              <li key={email} className="flex items-center gap-2 text-sm normal_text_2">
+                <Mail size={13} className="opacity-50" />
+                {email}
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </div>

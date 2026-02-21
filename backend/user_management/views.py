@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
-from appuser.permissions import IsLabAdmin, IsLabAdminOrStudent
+from appuser.permissions import IsLabAdmin, IsLabAdminOrStudent, IsLabTeacherOrAdmin
 from .group_utils import get_group_members, add_user_to_group, remove_user_from_group
 from appuser.google_drive_service import (
     get_drive_service,
@@ -10,7 +10,7 @@ from appuser.google_drive_service import (
     upload_file_to_drive,
     share_file_with_users
 )
-from .models import StudentIndividualPlan
+from .models import StudentIndividualPlan, Supervision
 import logging, os
 from rest_framework.exceptions import APIException
 
@@ -28,6 +28,8 @@ class GroupMembersView(APIView):
                 group = settings.ADMIN_GROUP
             elif group_email == 'student':
                 group = settings.STUDENTS_GROUP
+            elif group_email == 'teacher':
+                group = settings.TEACHERS_GROUP
             else:
                 return Response({"error": "Invalid group"}, status=400)
             
@@ -46,11 +48,13 @@ class ManageGroupMemberView(APIView):
         group = request.data.get('group')  # 'admin' or 'student'
         action = request.data.get('action')
         
-        # Convert 'admin'/'student' to actual group email
+        # Convert 'admin'/'student'/'teacher' to actual group email
         if group == 'admin':
             group_email = settings.ADMIN_GROUP
         elif group == 'student':
             group_email = settings.STUDENTS_GROUP
+        elif group == 'teacher':
+            group_email = settings.TEACHERS_GROUP
         else:
             return Response({"error": "Invalid group"}, status=400)
         
@@ -194,3 +198,78 @@ class MyIndividualPlanView(APIView):
                 {"error": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+
+class SupervisionsView(APIView):
+    """Admin: list all supervision pairs, add or remove one."""
+
+    permission_classes = [IsLabAdmin]
+
+    def get(self, request):
+        supervisions = Supervision.objects.all()
+        data = [
+            {"id": s.id, "supervisor_email": s.supervisor_email, "student_email": s.student_email}
+            for s in supervisions
+        ]
+        return Response({"supervisions": data}, status=200)
+
+    def post(self, request):
+        supervisor_email = request.data.get('supervisor_email', '').strip()
+        student_email = request.data.get('student_email', '').strip()
+
+        if not supervisor_email or not student_email:
+            return Response({"error": "Missing supervisor_email or student_email"}, status=400)
+
+        supervision, created = Supervision.objects.get_or_create(
+            supervisor_email=supervisor_email,
+            student_email=student_email,
+        )
+
+        if not created:
+            return Response({"error": "This supervision pair already exists"}, status=400)
+
+        logger.info(f"Admin {request.user.email} assigned {supervisor_email} → {student_email}")
+        return Response(
+            {"id": supervision.id, "supervisor_email": supervisor_email, "student_email": student_email},
+            status=201,
+        )
+
+    def delete(self, request):
+        supervision_id = request.data.get('id')
+        if not supervision_id:
+            return Response({"error": "Missing id"}, status=400)
+
+        supervision = Supervision.objects.filter(id=supervision_id).first()
+        if not supervision:
+            return Response({"error": "Supervision not found"}, status=404)
+
+        logger.info(
+            f"Admin {request.user.email} removed supervision "
+            f"{supervision.supervisor_email} → {supervision.student_email}"
+        )
+        supervision.delete()
+        return Response({"message": "Supervision removed"}, status=200)
+
+
+class MySupervisionView(APIView):
+    """Read-only for students: returns the list of their supervisors."""
+
+    permission_classes = [IsLabAdminOrStudent]
+
+    def get(self, request):
+        user = request.user
+        supervisions = Supervision.objects.filter(student_email=user.email)
+        supervisors = [s.supervisor_email for s in supervisions]
+        return Response({"supervisors": supervisors}, status=200)
+
+
+class MyDoctoralStudentsView(APIView):
+    """Read-only for teachers: returns the list of their doctoral students."""
+
+    permission_classes = [IsLabTeacherOrAdmin]
+
+    def get(self, request):
+        user = request.user
+        supervisions = Supervision.objects.filter(supervisor_email=user.email)
+        students = [s.student_email for s in supervisions]
+        return Response({"doctoral_students": students}, status=200)

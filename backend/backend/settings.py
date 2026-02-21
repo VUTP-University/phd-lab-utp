@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'classroom',
     'classroom_admin',
     'user_management',
+    'classroom_teacher',
     'news_and_events.apps.NewsAndEventsConfig'
 ]
 
@@ -221,6 +222,7 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 # Google Auth Groups
 ADMIN_GROUP = os.getenv('GOOGLE_ADMIN_GROUP')
 STUDENTS_GROUP = os.getenv("GOOGLE_STUDENTS_GROUP")
+TEACHERS_GROUP = os.getenv("GOOGLE_TEACHERS_GROUP")
 
 # Youtube API settings
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')

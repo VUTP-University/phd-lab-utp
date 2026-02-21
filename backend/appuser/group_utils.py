@@ -11,6 +11,7 @@ SERVICE_ACCOUNT_FILE = os.path.join(BASE_DIR, 'appuser', 'service_account.json')
 ADMIN_EMAIL = os.getenv('GOOGLE_ADMIN_EMAIL')
 ADMIN_GROUP = os.getenv('GOOGLE_ADMIN_GROUP')
 STUDENTS_GROUP = os.getenv('GOOGLE_STUDENTS_GROUP')
+TEACHERS_GROUP = os.getenv('GOOGLE_TEACHERS_GROUP')
 logger = logging.getLogger(__name__)
 
 
@@ -53,9 +54,11 @@ def check_user_groups(user_email):
     """
     is_admin = is_user_in_group(user_email, ADMIN_GROUP)
     is_student = is_user_in_group(user_email, STUDENTS_GROUP)
-    
+    is_teacher = is_user_in_group(user_email, TEACHERS_GROUP) if TEACHERS_GROUP else False
+
     return {
         'is_admin': is_admin,
         'is_student': is_student,
-        'is_authorized': is_admin or is_student  # User must be in at least one group
+        'is_teacher': is_teacher,
+        'is_authorized': is_admin or is_student or is_teacher
     }
