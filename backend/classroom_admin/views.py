@@ -19,19 +19,18 @@ logger = logging.getLogger(__name__)
 
 class AdminCoursesListView(APIView):
     """
-    Returns all courses available for the admin.
-    Only LISTS courses - doesn't automatically mark them as visible.
+    Returns all active courses from Google Classroom.
+    Accessible by both admins and teachers — always uses admin account.
     """
-    
-    permission_classes = [IsLabAdmin]
+
+    permission_classes = [IsLabTeacherOrAdmin]
 
     def get(self, request):
         user = request.user
         logger.info(f"Admin {user.email} fetching all courses")
         
         try:
-            # Get Google Classroom service
-            service = get_classroom_service(user.email)
+            service = get_classroom_service(ADMIN_EMAIL)
 
             # Fetch all active courses
             courses_response = service.courses().list(courseStates=["ACTIVE"]).execute()

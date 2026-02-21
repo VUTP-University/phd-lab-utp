@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     TeacherCoursesListView,
     TeacherCourseDetailsView,
-    TeacherUploadPlanView,
+    TeacherUploadPlanView
 )
 
 urlpatterns = [
