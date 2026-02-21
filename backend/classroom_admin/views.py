@@ -10,8 +10,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import DisplayedCourse
 from .serializers import DisplayedCourseSerializer
-from classroom.google_service import get_classroom_service
-from appuser.permissions import IsLabAdmin
+from classroom.google_service import get_classroom_service, ADMIN_EMAIL
+from appuser.permissions import IsLabAdmin, IsLabTeacherOrAdmin
 import logging
 
 logger = logging.getLogger(__name__)
@@ -19,19 +19,18 @@ logger = logging.getLogger(__name__)
 
 class AdminCoursesListView(APIView):
     """
-    Returns all courses available for the admin.
-    Only LISTS courses - doesn't automatically mark them as visible.
+    Returns all active courses from Google Classroom.
+    Accessible by both admins and teachers — always uses admin account.
     """
-    
-    permission_classes = [IsLabAdmin]
+
+    permission_classes = [IsLabTeacherOrAdmin]
 
     def get(self, request):
         user = request.user
         logger.info(f"Admin {user.email} fetching all courses")
         
         try:
-            # Get Google Classroom service
-            service = get_classroom_service(user.email)
+            service = get_classroom_service(ADMIN_EMAIL)
 
             # Fetch all active courses
             courses_response = service.courses().list(courseStates=["ACTIVE"]).execute()
@@ -56,16 +55,11 @@ class AdminCoursesListView(APIView):
 
 class DisplayedCourseToggleView(APIView):
     """
-    Toggle a course's visibility in the DisplayedCourse table.
-    
-    ADMIN ONLY - Students cannot access this view.
-    Admins use this to control which courses are visible to all users.
-    
-    Authentication: JWT token required
-    Authorization: Admin only (IsLabAdmin)
+    Toggle a course's visibility in the shared DisplayedCourse table.
+    Accessible by both admins and teachers.
     """
-    
-    permission_classes = [IsLabAdmin]
+
+    permission_classes = [IsLabTeacherOrAdmin]
 
     def post(self, request):
         """
@@ -186,16 +180,11 @@ class DisplayedCourseToggleView(APIView):
         
 class DisplayedCoursesListView(APIView):
     """
-    Returns all displayed courses (saved as visible in local DB).
-    
-    ADMIN ONLY - Students cannot access this view.
-    Shows admins which courses are currently visible to all users.
-    
-    Authentication: JWT token required
-    Authorization: Admin only (IsLabAdmin)
+    Returns all courses currently marked as visible in the local DB.
+    Accessible by both admins and teachers.
     """
-    
-    permission_classes = [IsLabAdmin]
+
+    permission_classes = [IsLabTeacherOrAdmin]
     
     def get(self, request):
         """

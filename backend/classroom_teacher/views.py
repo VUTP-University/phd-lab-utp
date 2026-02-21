@@ -1,6 +1,6 @@
 import logging
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -15,142 +15,8 @@ from appuser.google_drive_service import (
     share_file_with_users,
 )
 from user_management.models import StudentIndividualPlan
-from classroom_admin.models import DisplayedCourse
-from classroom_admin.serializers import DisplayedCourseSerializer
 
 logger = logging.getLogger(__name__)
-
-
-class TeacherCoursesListView(APIView):
-    """List all courses available for the teacher from Google Classroom."""
-
-    permission_classes = [IsLabTeacher]
-
-    def get(self, request):
-        user = request.user
-        logger.info(f"Teacher {user.email} fetching all courses")
-
-        try:
-            service = get_classroom_service(ADMIN_EMAIL)
-            courses_response = service.courses().list(courseStates=["ACTIVE"]).execute()
-            courses = courses_response.get("courses", [])
-
-            logger.info(f"Teacher {user.email} fetched {len(courses)} courses via admin account")
-
-            return Response({
-                "courses": courses,
-                "count": len(courses),
-            }, status=status.HTTP_200_OK)
-
-        except Exception as e:
-            logger.exception(f"Error fetching courses for teacher {user.email}")
-            return Response(
-                {"error": "Failed to fetch courses", "details": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            )
-
-
-class TeacherDisplayedCoursesListView(APIView):
-    """List courses the teacher has marked as visible."""
-
-    permission_classes = [IsLabTeacher]
-
-    def get(self, request):
-        user = request.user
-        logger.info(f"Teacher {user.email} retrieving displayed courses")
-
-        try:
-            courses = DisplayedCourse.objects.all()
-            data = [
-                {
-                    "course_id": c.course_id,
-                    "name": c.name,
-                    "section": c.section,
-                    "alternate_link": c.alternate_link,
-                }
-                for c in courses
-            ]
-
-            return Response({
-                "displayed_courses": data,
-                "count": len(data),
-            }, status=status.HTTP_200_OK)
-
-        except Exception as e:
-            logger.exception(f"Error retrieving displayed courses for teacher {user.email}")
-            return Response(
-                {"error": "Failed to retrieve displayed courses", "details": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            )
-
-
-class TeacherDisplayedCourseToggleView(APIView):
-    """Toggle a course's visibility for the teacher."""
-
-    permission_classes = [IsLabTeacher]
-
-    def post(self, request):
-        user = request.user
-        data = request.data
-        course_id = data.get("course_id")
-        name = data.get("name")
-        section = data.get("section", "")
-        alternate_link = data.get("alternate_link")
-        visible = data.get("visible", True)
-
-        if not course_id or not name or not alternate_link:
-            return Response(
-                {"error": "Missing required fields", "required": ["course_id", "name", "alternate_link"]},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        try:
-            if visible:
-                course, created = DisplayedCourse.objects.get_or_create(
-                    course_id=course_id,
-                    defaults={
-                        "name": name,
-                        "section": section,
-                        "alternate_link": alternate_link,
-                    },
-                )
-                if not created:
-                    course.name = name
-                    course.section = section
-                    course.alternate_link = alternate_link
-                    course.save()
-
-                serializer = DisplayedCourseSerializer(course)
-                action = "created" if created else "updated"
-
-                logger.info(f"Teacher {user.email} {action} visible course: {course_id} ({name})")
-
-                return Response(
-                    {"message": f"Course {action} successfully", "action": action, "course": serializer.data},
-                    status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,
-                )
-            else:
-                course = DisplayedCourse.objects.filter(course_id=course_id).first()
-
-                if course:
-                    course.delete()
-                    logger.info(f"Teacher {user.email} removed visible course: {course_id}")
-                    return Response(
-                        {"message": "Course removed successfully", "action": "removed", "course_id": course_id},
-                        status=status.HTTP_200_OK,
-                    )
-                else:
-                    return Response(
-                        {"message": "Course not found in displayed courses", "course_id": course_id},
-                        status=status.HTTP_404_NOT_FOUND,
-                    )
-
-        except Exception as e:
-            logger.exception(f"Error toggling course for teacher {user.email}")
-            return Response(
-                {"error": "Internal server error", "details": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            )
 
 
 class TeacherCourseDetailsView(APIView):
@@ -167,13 +33,11 @@ class TeacherCourseDetailsView(APIView):
         try:
             service = get_classroom_service(ADMIN_EMAIL)
 
-            # Get coursework
             coursework_response = service.courses().courseWork().list(
                 courseId=course_id
             ).execute()
             coursework_list = coursework_response.get("courseWork", [])
 
-            # Get enrolled students count
             students_response = service.courses().students().list(
                 courseId=course_id
             ).execute()
@@ -185,7 +49,6 @@ class TeacherCourseDetailsView(APIView):
 
             for work in coursework_list:
                 try:
-                    # Fetch ALL student submissions for this assignment
                     submissions_response = service.courses().courseWork().studentSubmissions().list(
                         courseId=course_id,
                         courseWorkId=work["id"],
@@ -212,7 +75,6 @@ class TeacherCourseDetailsView(APIView):
                         "alternateLink": work.get("alternateLink", ""),
                     }
 
-                    # Determine if current or previous based on due date
                     due_date = work.get("dueDate")
                     is_past_due = False
                     if due_date:
@@ -274,7 +136,6 @@ class TeacherUploadPlanView(APIView):
             service = get_drive_service(user.email)
             folders = setup_phd_lab_structure(service)
 
-            # Check and delete existing plan
             existing_plan = StudentIndividualPlan.objects.filter(
                 student_email=student_email
             ).first()
@@ -287,7 +148,6 @@ class TeacherUploadPlanView(APIView):
                     logger.warning(f"Could not delete old file: {e}")
                 existing_plan.delete()
 
-            # Save file temporarily
             temp_path = f"/tmp/{uploaded_file.name}"
             with open(temp_path, "wb+") as destination:
                 for chunk in uploaded_file.chunks():
@@ -303,7 +163,7 @@ class TeacherUploadPlanView(APIView):
                 service, result["file_id"], [user.email, student_email], role="reader"
             )
 
-            plan = StudentIndividualPlan.objects.create(
+            StudentIndividualPlan.objects.create(
                 student_email=student_email,
                 file_name=filename,
                 drive_file_id=result["file_id"],
