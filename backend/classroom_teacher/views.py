@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from classroom.google_service import get_classroom_service, ADMIN_EMAIL
+from classroom.google_service import get_classroom_service
 from appuser.permissions import IsLabTeacher
 from appuser.google_drive_service import (
     get_drive_service,
@@ -64,7 +64,7 @@ class TeacherCourseDetailsView(APIView):
         user = request.user
 
         try:
-            service = get_classroom_service(ADMIN_EMAIL)
+            service = get_classroom_service(user.email)
 
             coursework_response = service.courses().courseWork().list(
                 courseId=course_id

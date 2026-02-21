@@ -26,7 +26,7 @@ export default function TeacherCourses() {
       setLoading(true);
       setError(null);
 
-      const resCourses = await api.get("/classroom-admin/courses/");
+      const resCourses = await api.get("/classroom-teacher/courses/");
       setCourses(resCourses.data.courses || []);
 
       const resDisplayed = await api.get("/classroom-admin/displayed-courses/");
