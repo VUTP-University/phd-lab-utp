@@ -31,7 +31,7 @@ export default function TeacherCourses() {
 
       const resDisplayed = await api.get("/classroom-teacher/displayed-courses/");
       const map = {};
-      resDisplayed.data.displayed_courses.forEach((c) => {
+      (resDisplayed.data?.displayed_courses || []).forEach((c) => {
         map[c.course_id] = true;
       });
       setDisplayedCourses(map);
