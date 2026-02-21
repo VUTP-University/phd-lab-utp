@@ -61,10 +61,11 @@ export default function TeacherCourseDetails({ courseId, onClose }) {
 
   if (!details) return null;
 
-  const assignments =
+  const assignments = (
     activeTab === "current"
       ? details.current_assignments
-      : details.previous_assignments;
+      : details.previous_assignments
+  ) || [];
 
   return (
     <div className="mt-4 primary_object p-6 rounded-lg border">
@@ -74,7 +75,7 @@ export default function TeacherCourseDetails({ courseId, onClose }) {
           <div className="flex items-center gap-2 normal_text_2">
             <Users size={18} />
             <span>
-              {t("teacher_dashboard.total_students")}: {details.total_students}
+              {t("teacher_dashboard.total_students")}: {details.total_students ?? 0}
             </span>
           </div>
         </div>
@@ -98,7 +99,7 @@ export default function TeacherCourseDetails({ courseId, onClose }) {
         >
           <span className="flex items-center gap-2">
             <AlertCircle size={16} />
-            {t("teacher_dashboard.current_assignments")} ({details.current_count})
+            {t("teacher_dashboard.current_assignments")} ({details.current_count ?? 0})
           </span>
         </button>
         <button
@@ -111,7 +112,7 @@ export default function TeacherCourseDetails({ courseId, onClose }) {
         >
           <span className="flex items-center gap-2">
             <CheckCircle size={16} />
-            {t("teacher_dashboard.previous_assignments")} ({details.previous_count})
+            {t("teacher_dashboard.previous_assignments")} ({details.previous_count ?? 0})
           </span>
         </button>
       </div>
