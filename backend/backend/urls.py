@@ -43,6 +43,9 @@ urlpatterns = [
     # YoutUbe API endpoints
     path('api/youtube-live/', include('youtube_api.urls')),
     
+    # Contact form endpoints
+    path('api/contact/', include('contact_form.urls')),
+    
     # Google OAuth2 authentication endpoints
     path('api/auth/', include('dj_rest_auth.urls')),
     path('api/auth/', include('dj_rest_auth.registration.urls')),

@@ -62,7 +62,9 @@ const resources = {
         placeholder_name: 'Име',
         placeholder_email: 'Имейл',
         email_subject: "Тема",
-        message: "Съобщение"
+        message: "Съобщение",
+        success_message: "Вашето съобщение беше изпратено успешно!",
+        error_message: "Грешка при изпращане на съобщението. Моля, опитайте отново по-късно.",
       },
       specialties: {
         title: "Докторантски програми",
@@ -112,7 +114,7 @@ const resources = {
         share_on_linkedin: "Сподели в LinkedIn",
         view_all: "Виж всички новини",
         all_news: {
-          back_home: "Назад към началото",
+          back_home: "Назад",
           title: "Всички новини и събития",
           all: "Всички",
           news: "Новини",
@@ -426,7 +428,9 @@ const resources = {
         placeholder_name: 'Name',
         placeholder_email: 'Email',
         email_subject: "Subject",
-        message: "Message"
+        message: "Message",
+        success_message: "Your message has been sent successfully!",
+        error_message: "Failed to send message. Please try again later.",
       },
       specialties: {
         title: "Doctoral Programs",
@@ -475,7 +479,7 @@ const resources = {
         share_on_linkedin: "Share on LinkedIn",
         view_all: "View All News",
         all_news: {
-          back_home: "Back to Home",
+          back_home: "Back",
           title: "All News & Events",
           all: "All",
           news: "News",
