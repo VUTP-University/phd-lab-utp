@@ -5,14 +5,14 @@ import { useTranslation } from "react-i18next";
 const DO_SPACE_BASE_URL = import.meta.env.VITE_DO_SPACES_ENDPOINT;
 
 const procedureSteps = [
-  { key: "step1", file: DO_SPACE_BASE_URL + "apply_procedure_docs/zayavlenie-po-obrazec-redovna-zadochna-doktorantura.pdf" },
+  { key: "step1", file: "https://www.utp.bg/wp-content/uploads/2025/09/zayavlenie-po-obrazec-redovna-zadochna-doktorantura.docx" },
   { key: "step2" },
   { key: "step3" },
   { key: "step4" },
-  { key: "step5", file: DO_SPACE_BASE_URL + "apply_procedure_docs/deklaraciya-po-chl-91.pdf" },
+  { key: "step5", file: "https://www.utp.bg/wp-content/uploads/2025/09/deklaraciya-po-chl-91.docx" },
   { key: "step6" },
-  { key: "step7", file: DO_SPACE_BASE_URL + "apply_procedure_docs/formulyar-saglasie-sabirane-obrabotka-ld-kopie.pdf" },
-  { key: "step8", file: DO_SPACE_BASE_URL + "apply_procedure_docs/deklaraciya-dostovernost-predstavenite-dokumenti.pdf" },
+  { key: "step7", file: "https://www.utp.bg/wp-content/uploads/2025/09/formulyar-saglasie-sabirane-obrabotka-ld-kopie.pdf" },
+  { key: "step8", file: "https://www.utp.bg/wp-content/uploads/2025/09/deklaraciya-dostovernost-predstavenite-dokumenti.docx" },
 ];
 
 export default function Procedure() {

@@ -166,6 +166,18 @@ const resources = {
           anual_fees5: "ДРУГИ ТАКСИ ЗА ОБУЧЕНИЕ В ОНС “ДОКТОР”",
           anual_fees5_1: "Такса за предварително обсъждане пред катедрен съвет, в т. ч. разширен катедрен съвет",
           anual_fees5_2: "Такса за защита пред научно жури, в т. ч. и издаване на диплома за придобиване на ОНС „Доктор“"
+        },
+        taxesNonEU: {
+          application_fee: "Такса за кандидатстване в ОНС “Доктор”",
+          exam_tax: "Такса за изпит по специалността / чужд език",
+          admin_fulltime: "Годишна такса обучение – П.Н. 3.7 “Администрация и управление” – редовна и самостоятелна форма на обучение",
+          admin_parttime: "Годишна такса обучение – П.Н. 3.7 “Администрация и управление” – задочна форма на обучение",
+          it_fulltime: "Годишна такса обучение – П.Н. 5.3. “Комуникационна и компютърна техника” – редовна и самостоятелна форма на обучение",
+          it_parttime: "Годишна такса обучение – П.Н. 5.3. “Комуникационна и компютърна техника” – задочна форма на обучение",
+          eng_fulltime: "Годишна такса обучение – П.Н. 5.13. “Общо инженерство” – редовна и самостоятелна форма на обучение",
+          eng_parttime: "Годишна такса обучение – П.Н. 5.13. “Общо инженерство” – задочна форма на обучение",
+          foreign_lang_header: "Такса за обучение на чужд език",
+          foreign_lang_english: "Такса за обучение на чужд език Английски"
         }
       },
       teacher_dashboard: {
@@ -531,6 +543,18 @@ const resources = {
           anual_fees5: "OTHER TUITION FEES FOR PhD DEGREE",
           anual_fees5_1: "Fee for preliminary discussion before the departmental council, including extended departmental council",
           anual_fees5_2: "Fee for defense before a scientific jury, including issuance of a diploma for obtaining a PhD degree"
+        },
+        taxesNonEU: {
+          application_fee: "Application fee for admission to PhD degree",
+          exam_tax: "Exam fee in the specialty / Foreign language",
+          admin_fulltime: "Annual tuition fee – P.F. 3.7 “Administration and Management” – full-time and independent form",
+          admin_parttime: "Annual tuition fee – P.F. 3.7 “Administration and Management” – part-time form",
+          it_fulltime: "Annual tuition fee – P.F. 5.3. “Communication and Computer Engineering” – full-time and independent form",
+          it_parttime: "Annual tuition fee – P.F. 5.3. “Communication and Computer Engineering” – part-time form",
+          eng_fulltime: "Annual tuition fee – P.F. 5.13. “General Engineering” – full-time and independent form",
+          eng_parttime: "Annual tuition fee – P.F. 5.13. “General Engineering” – part-time form",
+          foreign_lang_header: "Foreign Language Training Fee",
+          foreign_lang_english: "Foreign language training fee English"
         }
       },
       teacher_dashboard: {
