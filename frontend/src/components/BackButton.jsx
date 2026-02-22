@@ -1,18 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function BackButton({ to = "/" }) {
+export default function BackButton() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
-    <div className="mt-4">
-      <Link
-        to={to}
-        className="primary_object w-full sm:w-auto block text-center px-6 py-3 rounded-lg font-semibold  transition"
-      >
-        {t("contact.back_button")}
-      </Link>
-    </div>
+    <button
+      onClick={() => navigate("/")}
+      className="flex items-center gap-2 mb-6 normal_text hover:text-blue-600 transition"
+    >
+      <ArrowLeft size={20} />
+      {t("common.go_back")}
+    </button>
   );
 }

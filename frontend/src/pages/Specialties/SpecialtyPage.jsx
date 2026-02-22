@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-import ThemeToggle from "../../components/ThemeToggle";
-import LanguageToggle from "../../components/LanguageToggle";
 import Footer from "../../components/Footer";
-
 import { specialties } from "../../data/specialties";
+import MarkdownRenderer from "../../components/MarkdownRenderer";
+import { ArrowLeft } from "lucide-react";
 
 export default function SpecialtyPage() {
   const { page } = useParams();
@@ -23,7 +21,7 @@ export default function SpecialtyPage() {
 
     setLoading(true);
 
-    fetch(`/specialties/${i18n.language}/${page}.txt`)
+    fetch(`/specialties/${i18n.language}/${page}.md`)
       .then((res) => {
         if (!res.ok) throw new Error("Not found");
         return res.text();
@@ -35,18 +33,20 @@ export default function SpecialtyPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      {/* <header className="container mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-        <div className="flex items-center space-x-2">
-          <LanguageToggle />
-          <ThemeToggle />
-        </div>
-      </header> */}
-
       {/* Main */}
-      <main className="flex-1 container mt-10 mx-auto px-4 sm:px-6 lg:px-8 py-8 primary_object">
+      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 mb-6 sm:mb-10">
+          {/* Back Button */}
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 mb-6 md:mb-8 normal_text hover:text-blue-600 dark:hover:text-blue-400 transition"
+          >
+            <ArrowLeft size={20} />
+            {t("common.go_back")}
+          </button>
+
+
         {!specialty ? (
-          <div className="text-center py-20">
+          <div className="primary_object rounded-lg text-center py-20 px-6">
             <h2 className="text-2xl font-bold mb-4">404</h2>
             <p className="mb-6">{t("specialties.notFound")}</p>
             <button className="custom_button" onClick={() => navigate("/")}>
@@ -54,12 +54,12 @@ export default function SpecialtyPage() {
             </button>
           </div>
         ) : (
-          <>
-            <h1 className="text-3xl sm:text-4xl font-bold primary_text mb-4">
+          <div className="primary_object rounded-lg p-6 sm:p-8 md:p-10">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold primary_text mb-3 leading-tight">
               {t(`specialties.programs.${specialty.program}`)}
             </h1>
 
-            <p className="secondary_text mb-6">
+            <p className="secondary_text mb-6 text-sm sm:text-base">
               {t("specialties.field")}: {specialty.code} –{" "}
               {t(`specialties.fields.${specialty.field}`)}
             </p>
@@ -67,12 +67,12 @@ export default function SpecialtyPage() {
             {loading ? (
               <p className="italic opacity-70">{t("common.loading")}</p>
             ) : (
-              <div className="leading-relaxed w-full text-justify normal_text">
-                {content}
-              </div>
+              <article className="leading-relaxed w-full text-left sm:text-justify normal_text">
+                <MarkdownRenderer>{content}</MarkdownRenderer>
+              </article>
             )}
 
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+            <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 className="custom_button w-full sm:w-auto px-6 py-3 transition text-center"
                 onClick={() => navigate("/apply")}
@@ -94,7 +94,7 @@ export default function SpecialtyPage() {
                 </a>
               )}
             </div>
-          </>
+          </div>
         )}
       </main>
 
