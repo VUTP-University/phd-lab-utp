@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
+from django.conf import settings
 from rest_framework.views import APIView, View
 from rest_framework.response import Response
 from rest_framework import status
 from appuser.permissions import IsLabAdmin, IsLabAdminOrStudent
-from appuser.google_drive_service import get_drive_service, setup_phd_lab_structure, upload_news_images
+from appuser.google_drive_service import get_service_account_drive_service, setup_phd_lab_structure, upload_news_images
 from .models import News, NewsImage
 from .serializers import NewsSerializer, NewsCreateUpdateSerializer
 import logging
@@ -41,16 +42,14 @@ class NewsListCreateView(APIView):
             images = request.FILES.getlist('images')
             
             if images:
-                # Get Drive service
-                service = get_drive_service(user.email)
-                folders = setup_phd_lab_structure(service)
-                
-                # Upload images
+                service = get_service_account_drive_service()
+                folders = setup_phd_lab_structure(service, admin_group_email=settings.ADMIN_GROUP)
+
                 uploaded_images = upload_news_images(
                     service,
                     images,
                     news.id,
-                    folders['news_media']
+                    folders['news_media'],
                 )
                 
                 # Save image records
@@ -123,14 +122,14 @@ class NewsDetailView(APIView):
             # Handle new image uploads
             images = request.FILES.getlist('images')
             if images:
-                service = get_drive_service(request.user.email)
-                folders = setup_phd_lab_structure(service)
-                
+                service = get_service_account_drive_service()
+                folders = setup_phd_lab_structure(service, admin_group_email=settings.ADMIN_GROUP)
+
                 uploaded_images = upload_news_images(
                     service,
                     images,
                     news.id,
-                    folders['news_media']
+                    folders['news_media'],
                 )
                 
                 for img_data in uploaded_images:
@@ -171,8 +170,8 @@ class NewsDetailView(APIView):
             
             image = NewsImage.objects.get(id=image_id, news_id=news_id)
             
-            # Delete from Drive
-            service = get_drive_service(request.user.email)
+            # Delete from Drive (files are owned by the service account)
+            service = get_service_account_drive_service()
             try:
                 service.files().delete(fileId=image.drive_file_id).execute()
             except:

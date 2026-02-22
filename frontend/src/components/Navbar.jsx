@@ -12,7 +12,7 @@ export default function NavbarTailwind({ user, onLogout }) {
 
   return (
     <nav className="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 shadow-sm backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-10xl mx-auto px-4 sm:px-2 lg:px-2">
         <div className="flex justify-between items-center h-16">
           {/* Left: Brand */}
           <a href="/" className="flex items-center gap-3 group">

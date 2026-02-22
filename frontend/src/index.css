@@ -171,6 +171,15 @@ h1 {
 .normal_text_3--medium { font-size: 18px; }
 .normal_text_3--large { font-size: 22px; }
 
+.normal_text_4 {
+  color: var(--bg);
+  font-family: "Sofia Sans", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .normal_text_footer {
   color: var(--text-muted);
   font-family: "Sofia Sans", sans-serif;

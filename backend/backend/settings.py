@@ -216,6 +216,9 @@ GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 GOOGLE_ADMIN_EMAIL = os.getenv('GOOGLE_ADMIN_EMAIL')
 SERVICE_ACCOUNT_FILE = os.path.join(BASE_DIR, 'appuser', 'service_account.json')
 
+# Google Drive root folder: 'PhD-Lab' for prod, 'PhD-Lab-Staging' for dev/staging
+GOOGLE_DRIVE_ROOT_FOLDER = os.getenv('GOOGLE_DRIVE_ROOT_FOLDER', 'PhD-Lab')
+
 # OpenAI API settings
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 

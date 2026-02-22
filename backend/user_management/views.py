@@ -5,10 +5,10 @@ from django.conf import settings
 from appuser.permissions import IsLabAdmin, IsLabAdminOrStudent, IsLabTeacherOrAdmin
 from .group_utils import get_group_members, add_user_to_group, remove_user_from_group
 from appuser.google_drive_service import (
-    get_drive_service,
+    get_service_account_drive_service,
     setup_phd_lab_structure,
     upload_file_to_drive,
-    share_file_with_users
+    share_file_with_users,
 )
 from .models import StudentIndividualPlan, Supervision
 import logging, os
@@ -90,11 +90,11 @@ class UploadStudentPlanView(APIView):
             )
         
         try:
-            # Get Drive service (no impersonation)
-            service = get_drive_service(user.email)
-            
-            # Setup folder structure
-            folders = setup_phd_lab_structure(service)
+            # Files are stored in the service account's Drive (central location).
+            # The root folder is shared with the admin group via setup_phd_lab_structure,
+            # giving all admins full folder-tree visibility without per-file sharing.
+            service = get_service_account_drive_service()
+            folders = setup_phd_lab_structure(service, admin_group_email=settings.ADMIN_GROUP)
             
             # Check and delete existing plan for the student
             existing_plan = StudentIndividualPlan.objects.filter(
@@ -130,14 +130,15 @@ class UploadStudentPlanView(APIView):
                 folders['individual_plans']
             )
             
-            # Share with both admin and student
+            # Share the file with the student so it appears in "Shared with me".
+            # The uploading admin already has access via the admin group folder share above.
             share_file_with_users(
                 service,
                 result['file_id'],
-                [user.email, student_email],  # Share with both
+                [student_email],
                 role='reader'
             )
-            
+
             # Save to database
             plan = StudentIndividualPlan.objects.create(
                 student_email=student_email,
