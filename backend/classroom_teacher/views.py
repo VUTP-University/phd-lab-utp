@@ -2,6 +2,7 @@ import logging
 import os
 from datetime import datetime
 
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,7 +10,7 @@ from rest_framework import status
 from classroom.google_service import get_classroom_service
 from appuser.permissions import IsLabTeacher
 from appuser.google_drive_service import (
-    get_drive_service,
+    get_service_account_drive_service,
     setup_phd_lab_structure,
     upload_file_to_drive,
     share_file_with_users,
@@ -166,8 +167,11 @@ class TeacherUploadPlanView(APIView):
             )
 
         try:
-            service = get_drive_service(user.email)
-            folders = setup_phd_lab_structure(service)
+            # Files are stored in the service account's Drive (central location).
+            # The root folder is shared with the admin group via setup_phd_lab_structure,
+            # giving all admins full folder-tree visibility without per-file sharing.
+            service = get_service_account_drive_service()
+            folders = setup_phd_lab_structure(service, admin_group_email=settings.ADMIN_GROUP)
 
             existing_plan = StudentIndividualPlan.objects.filter(
                 student_email=student_email
@@ -192,6 +196,9 @@ class TeacherUploadPlanView(APIView):
                 service, temp_path, filename, folders["individual_plans"]
             )
 
+            # Share the file directly with the teacher and student so it appears
+            # in their "Shared with me". Admins already have access via the
+            # root folder that was shared with the admin group above.
             share_file_with_users(
                 service, result["file_id"], [user.email, student_email], role="reader"
             )

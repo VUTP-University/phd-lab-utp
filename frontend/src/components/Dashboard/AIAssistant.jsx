@@ -121,8 +121,8 @@ const AIAssistant = forwardRef(({ user }, ref) => {
                     <Brain className="text-white" size={24} />
                   </div>
                   <div>
-                    <h3 className="text-white font-bold text-lg normal_text_3 normal_text_3--medium">{t("dashboard.ai_assistant_name")}</h3>
-                    <p className="text-white/80 text-xs normal_text_3 normal_text_3--small">{t("dashboard.ai_assistant_descr")}</p>
+                    <h3 className="text-white font-bold text-lg normal_text_4">{t("dashboard.ai_assistant_name")}</h3>
+                    <p className="text-white/80 text-xs normal_text_4">{t("dashboard.ai_assistant_descr")}</p>
                   </div>
                 </div>
                 <button 
@@ -136,7 +136,7 @@ const AIAssistant = forwardRef(({ user }, ref) => {
 
             {/* Quick Actions */}
             <div className="p-6 space-y-3 border-b border-gray-200 dark:border-gray-800">
-              <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 normal_text_3 normal_text_3--medium">
+              <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 normal_text_4">
                 {t("dashboard.ai_quick_analysis")}
               </h4>
               
@@ -147,10 +147,10 @@ const AIAssistant = forwardRef(({ user }, ref) => {
               >
                 <TrendingUp className="text-purple-600 dark:text-purple-400 group-hover:scale-110 transition" size={20} />
                 <div className="text-left flex-1">
-                  <p className="font-medium text-gray-900 dark:text-white text-sm normal_text_3 normal_text_3--medium">
+                  <p className="font-medium text-gray-900 dark:text-white text-sm normal_text_4">
                     {t("dashboard.ai_overall_performance")}
                   </p>
-                  <p className="text-xs text-gray-600 dark:text-gray-400 normal_text_3 normal_text_3--small">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 normal_text_4">
                     {t("dashboard.ai_overall_performance_descr")}
                   </p>
                 </div>
@@ -163,10 +163,10 @@ const AIAssistant = forwardRef(({ user }, ref) => {
               >
                 <FileText className="text-green-600 dark:text-green-400 group-hover:scale-110 transition" size={20} />
                 <div className="text-left flex-1">
-                  <p className="font-medium text-gray-900 dark:text-white text-sm normal_text_3 normal_text_3--medium">
+                  <p className="font-medium text-gray-900 dark:text-white text-sm normal_text_4">
                     {t("dashboard.ai_analyze_individual_plan")}
                   </p>
-                  <p className="text-xs text-gray-600 dark:text-gray-400 normal_text_3 normal_text_3--small">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 normal_text_4">
                     {t("dashboard.ai_analyze_individual_plan_descr")}
                   </p>
                 </div>
@@ -178,7 +178,7 @@ const AIAssistant = forwardRef(({ user }, ref) => {
               {loading && (
                 <div className="flex flex-col items-center justify-center h-full">
                   <Loader2 className="animate-spin text-purple-600 mb-4" size={48} />
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-gray-600 dark:text-gray-400 normal_text_4">
                     {t("dashboard.ai_analyze_in_progress")}
                   </p>
                 </div>
