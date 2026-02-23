@@ -31,6 +31,8 @@ dist-ssr
 **/venv/
 **/.venv/
 
+# Ignore Django settings
+**/settings.py
 
 # Ignore node_modules
 **node_modules/**
