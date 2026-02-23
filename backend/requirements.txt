@@ -35,7 +35,7 @@ proto-plus==1.27.0
 protobuf==6.33.4
 pyasn1==0.6.2
 pyasn1_modules==0.4.2
-pycparser==2.23
+pycparser==3.0
 pydantic==2.12.5
 pydantic_core==2.41.5
 PyJWT==2.11.0
