@@ -33,7 +33,7 @@ openai==2.17.0
 pillow==11.3.0
 proto-plus==1.27.0
 protobuf==6.33.4
-pyasn1==0.6.1
+pyasn1==0.6.2
 pyasn1_modules==0.4.2
 pycparser==2.23
 pydantic==2.12.5
