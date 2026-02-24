@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "../hooks/useTheme";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
 import { LogOut, Menu, X, Home, BookOpen, Shield, GraduationCap } from "lucide-react";
 
 import LabBrandImage from "../../src/assets/logo_pr_dokt_2.png";
+import PhDLogoBlack from "../../src/assets/SmartPhDLogo_Black.png";
+import PhDLogoBlue from "../../src/assets/SmartPhDLogo_Blue.png";
 
 export default function NavbarTailwind({ user, onLogout }) {
   const { t } = useTranslation();
+  const isDark = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -17,9 +21,9 @@ export default function NavbarTailwind({ user, onLogout }) {
           {/* Left: Brand */}
           <a href="/" className="flex items-center gap-3 group">
             <img
-              src={LabBrandImage}
+              src={isDark ? PhDLogoBlue : PhDLogoBlack}
               alt="UTP Lab Logo"
-              className="h-12 w-auto object-contain transition-transform group-hover:scale-105"
+              className="h-16 w-auto object-contain transition-transform group-hover:scale-105"
             />
             <h1 className="text-sm font-semibold normal_text hidden sm:block">
               {t("navbar.brand")}

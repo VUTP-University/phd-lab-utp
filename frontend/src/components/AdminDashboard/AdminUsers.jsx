@@ -180,7 +180,7 @@ export default function AdminUsers() {
                 disabled={removeEmail === email}
               >
                 <Trash2 size={16} />
-                {removeEmail === email ? "Removing..." : "Remove"}
+                {removeEmail === email ? t("admin_dashboard.users_mgmt.removing") : t("admin_dashboard.users_mgmt.remove")}
               </button>
             </li>
           ))}
@@ -220,7 +220,7 @@ export default function AdminUsers() {
                 disabled={removeEmail === email}
               >
                 <Trash2 size={16} />
-                {removeEmail === email ? "Removing..." : "Remove"}
+                {removeEmail === email ? t("admin_dashboard.users_mgmt.removing") : t("admin_dashboard.users_mgmt.remove")}
               </button>
             </li>
           ))}
@@ -272,12 +272,12 @@ export default function AdminUsers() {
                   {uploadingFor === email ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                      Uploading...
+                      {t("admin_dashboard.users_mgmt.uploading")}
                     </>
                   ) : (
                     <>
                       <Upload size={16} />
-                      Upload Plan
+                      {t("admin_dashboard.users_mgmt.upload_plan")}
                     </>
                   )}
                 </button>
