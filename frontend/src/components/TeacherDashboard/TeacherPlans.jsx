@@ -129,7 +129,7 @@ export default function TeacherPlans() {
               {t("teacher_dashboard.plans.select_file")}
             </label>
             <div className="flex items-center gap-3">
-              <label className="cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition normal_text_2">
+              <label className="cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg transition normal_text_2 custom_button custom_button--medium">
                 <Upload size={18} />
                 {t("teacher_dashboard.plans.choose_file")}
                 <input

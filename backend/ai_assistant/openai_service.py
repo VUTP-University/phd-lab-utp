@@ -44,11 +44,11 @@ Format with clear headers and bullet points.
     
     try:
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o-mini",
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a supportive and knowledgeable PhD academic advisor. Provide concise, actionable advice."
+                    "content": "You are a supportive and knowledgeable PhD academic advisor. Provide concise, actionable advice. Always respond in Bulgarian language."
                 },
                 {"role": "user", "content": prompt}
             ],
@@ -96,11 +96,11 @@ Be concise and actionable. Use bullet points.
     
     try:
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o-mini",
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a supportive PhD academic advisor specializing in course-specific guidance."
+                    "content": "You are a supportive PhD academic advisor specializing in course-specific guidance. Always respond in Bulgarian language."
                 },
                 {"role": "user", "content": prompt}
             ],
@@ -146,11 +146,11 @@ Be encouraging and specific.
     
     try:
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o-mini",
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a PhD academic advisor focused on long-term planning and milestone tracking."
+                    "content": "You are a PhD academic advisor focused on long-term planning and milestone tracking. Always respond in Bulgarian language."
                 },
                 {"role": "user", "content": prompt}
             ],
