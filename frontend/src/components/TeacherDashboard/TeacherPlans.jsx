@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Upload, FileText, CheckCircle, AlertCircle, GraduationCap } from "lucide-react";
+import { Upload, FileText, CheckCircle, AlertCircle, GraduationCap, ExternalLink } from "lucide-react";
 import api from "../../../api.js";
 
 export default function TeacherPlans() {
@@ -11,20 +11,36 @@ export default function TeacherPlans() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState(null);
+  const [uploadedPlans, setUploadedPlans] = useState([]);
+  const [loadingPlans, setLoadingPlans] = useState(true);
 
   useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        const res = await api.get("/user-management/my-doctoral-students/");
-        setStudents(res.data.doctoral_students || []);
-      } catch (err) {
-        console.error("Error fetching doctoral students:", err);
-      } finally {
-        setLoadingStudents(false);
-      }
-    };
     fetchStudents();
+    fetchUploadedPlans();
   }, []);
+
+  const fetchStudents = async () => {
+    try {
+      const res = await api.get("/user-management/my-doctoral-students/");
+      setStudents(res.data.doctoral_students || []);
+    } catch (err) {
+      console.error("Error fetching doctoral students:", err);
+    } finally {
+      setLoadingStudents(false);
+    }
+  };
+
+  const fetchUploadedPlans = async () => {
+    try {
+      setLoadingPlans(true);
+      const res = await api.get("/classroom-teacher/uploaded-plans/");
+      setUploadedPlans(res.data.uploaded_plans || []);
+    } catch (err) {
+      console.error("Error fetching uploaded plans:", err);
+    } finally {
+      setLoadingPlans(false);
+    }
+  };
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -60,6 +76,8 @@ export default function TeacherPlans() {
 
       const fileInput = document.getElementById("teacher-plan-file-input");
       if (fileInput) fileInput.value = "";
+
+      fetchUploadedPlans();
     } catch (err) {
       console.error("Error uploading plan:", err);
       setMessage({
@@ -162,6 +180,43 @@ export default function TeacherPlans() {
           </button>
         </form>
       )}
+
+      {/* Uploaded Plans List */}
+      <div className="mt-10">
+        <h3 className="text-xl font-semibold mb-4 secondary_text">
+          {t("teacher_dashboard.plans.uploaded_plans_title")}
+        </h3>
+        {loadingPlans ? (
+          <p className="text-sm normal_text_2">{t("common.loading")}</p>
+        ) : uploadedPlans.length === 0 ? (
+          <p className="text-sm normal_text_2">{t("teacher_dashboard.plans.no_uploaded_plans")}</p>
+        ) : (
+          <ul className="space-y-2">
+            {uploadedPlans.map((plan) => (
+              <li
+                key={plan.id}
+                className="flex items-center justify-between p-3 border rounded-lg normal_text_2"
+              >
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-medium">{plan.student_email}</span>
+                  <span className="text-xs opacity-60">
+                    {plan.file_name} · {new Date(plan.uploaded_at).toLocaleDateString()}
+                  </span>
+                </div>
+                <a
+                  href={plan.drive_web_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-sm custom_button custom_button--small"
+                >
+                  <ExternalLink size={14} />
+                  {t("teacher_dashboard.plans.open")}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

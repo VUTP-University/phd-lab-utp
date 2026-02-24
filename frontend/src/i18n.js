@@ -226,7 +226,10 @@ const resources = {
           upload_error: "Грешка при качване на плана. Моля, опитайте отново.",
           missing_fields: "Моля, изберете студент и изберете файл.",
           pdf_only: "Само PDF файлове са позволени.",
-          no_students_hint: "Свържете се с администратор, за да бъдат назначени докторанти към Вас."
+          no_students_hint: "Свържете се с администратор, за да бъдат назначени докторанти към Вас.",
+          uploaded_plans_title: "Качени планове",
+          no_uploaded_plans: "Все още няма качени планове.",
+          open: "Отвори"
         }
       },
       admin_dashboard: {
@@ -272,6 +275,10 @@ const resources = {
           remove_error: "Грешка при премахване.",
           remove: "Премахни",
           removing: "Премахване...",
+          all_plans_title: "Всички индивидуални планове",
+          no_plans: "Все още няма качени индивидуални планове.",
+          uploaded_by: "Качено от",
+          open: "Отвори"
         },
         news: {
           title: "Управление на новини и събития",
@@ -603,7 +610,10 @@ const resources = {
           upload_error: "Error uploading plan. Please try again.",
           missing_fields: "Please select a student and choose a file.",
           pdf_only: "Only PDF files are allowed.",
-          no_students_hint: "Contact an administrator to have doctoral students assigned to you."
+          no_students_hint: "Contact an administrator to have doctoral students assigned to you.",
+          uploaded_plans_title: "Uploaded Plans",
+          no_uploaded_plans: "No plans uploaded yet.",
+          open: "Open"
         }
       },
       admin_dashboard: {
@@ -649,6 +659,10 @@ const resources = {
           remove_error: "Error removing supervision.",
           remove: "Remove",
           removing: "Removing...",
+          all_plans_title: "All Individual Plans",
+          no_plans: "No individual plans uploaded yet.",
+          uploaded_by: "Uploaded by",
+          open: "Open"
         },
         news: {
           title: "News & Events Management",
