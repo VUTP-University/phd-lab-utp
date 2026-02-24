@@ -368,7 +368,7 @@ export default function AdminNews() {
                 {editingNews.images.map((img) => (
                   <div key={img.id} className="relative group">
                     <img
-                      src={`/api/news/media/${img.drive_file_id}/`}
+                      src={`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/news/media/${img.drive_file_id}/`}
                       alt={img.file_name}
                       className="w-full h-32 object-cover rounded-lg"
                       onError={(e) => {
@@ -451,7 +451,7 @@ export default function AdminNews() {
                 {/* Thumbnail */}
                 {item.images.length > 0 ? (
                   <img
-                    src={`/api/news/media/${item.images[0].drive_file_id}/`}
+                    src={`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/news/media/${item.images[0].drive_file_id}/`}
                     alt={item.title}
                     className="w-32 h-32 object-cover rounded-lg flex-shrink-0"
                     onError={(e) => {

@@ -15,7 +15,32 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.http import FileResponse, HttpResponse
+from pathlib import Path
+
+# Path to the React production build's index.html
+_FRONTEND_INDEX = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist" / "index.html"
+
+
+def spa_fallback(request, *args, **kwargs):
+    """Serve the React SPA index.html for any browser navigation request.
+
+    This lets React Router handle client-side routes like /news/1 after a
+    hard reload or direct URL access, instead of Django returning a 404.
+    Falls back to a plain 404 when the React build is not present (dev mode).
+    """
+    if _FRONTEND_INDEX.exists():
+        return FileResponse(open(_FRONTEND_INDEX, "rb"), content_type="text/html")
+    return HttpResponse(
+        "<h3>React build not found.</h3>"
+        "<p>Run <code>npm run build</code> inside <code>frontend/</code> "
+        "or access the app via the Vite dev server (default: "
+        "<a href='http://localhost:5173'>http://localhost:5173</a>).</p>",
+        status=404,
+        content_type="text/html",
+    )
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -50,6 +75,11 @@ urlpatterns = [
     path('api/auth/', include('dj_rest_auth.urls')),
     path('api/auth/', include('dj_rest_auth.registration.urls')),
     path('api/auth/', include('allauth.socialaccount.urls')),
+
+    # SPA catch-all — must be last so all API routes take priority.
+    # Serves the React build's index.html for browser navigation (hard reload,
+    # direct URL access).  Returns a 404 hint in dev when the build is absent.
+    re_path(r"^(?!admin/).*$", spa_fallback),
 ]
 
 

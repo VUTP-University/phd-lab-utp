@@ -35,8 +35,9 @@ function stripMarkdown(text) {
     .trim();
 }
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 function driveThumb(fileId) {
-  return `/api/news/media/${fileId}/`;
+  return `${API_BASE}/news/media/${fileId}/`;
 }
 
 export default function NewsEvents() {

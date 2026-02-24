@@ -24,8 +24,11 @@ import api from "../../api.js";
 
 // Use backend proxy so images are served via the service account — avoids
 // browser CORB errors that occur when Drive files are not publicly shared.
+// Absolute URL is required: the Vite dev server runs on a different port
+// (5173) than Django (8000), so relative paths would miss the backend.
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 function driveThumb(fileId) {
-  return `/api/news/media/${fileId}/`;
+  return `${API_BASE}/news/media/${fileId}/`;
 }
 
 // Extract a YouTube video ID from any common YouTube URL format.
