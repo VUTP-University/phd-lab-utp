@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
+from django.http import HttpResponse
 from rest_framework.views import APIView, View
 from rest_framework.response import Response
 from rest_framework import status
@@ -7,6 +8,8 @@ from appuser.permissions import IsLabAdmin, IsLabAdminOrStudent
 from appuser.google_drive_service import get_service_account_drive_service, setup_phd_lab_structure, upload_news_images
 from .models import News, NewsImage
 from .serializers import NewsSerializer, NewsCreateUpdateSerializer
+from googleapiclient.http import MediaIoBaseDownload
+import io
 import logging
 
 logger = logging.getLogger(__name__)
@@ -246,3 +249,45 @@ class NewsDetailTemplateView(View):
         }
 
         return render(request, 'news/news_detail.html', context)
+
+
+class DriveImageProxyView(View):
+    """Stream a Google Drive image through the backend using the service account.
+
+    This avoids CORB / CORS issues in the browser and works regardless of whether
+    the file has public sharing enabled (the service account always has access).
+
+    URL: /api/news/media/<file_id>/
+    Optional query param: ?size=w400  (used only for cache-key differentiation)
+    """
+
+    def get(self, request, file_id):
+        try:
+            service = get_service_account_drive_service()
+
+            # Fetch MIME type so we return the correct Content-Type header
+            file_meta = service.files().get(
+                fileId=file_id,
+                fields='mimeType'
+            ).execute()
+
+            # Download the file content into memory
+            media_request = service.files().get_media(fileId=file_id)
+            fh = io.BytesIO()
+            downloader = MediaIoBaseDownload(fh, media_request)
+            done = False
+            while not done:
+                _, done = downloader.next_chunk()
+
+            fh.seek(0)
+            response = HttpResponse(
+                fh.read(),
+                content_type=file_meta.get('mimeType', 'image/jpeg'),
+            )
+            # Cache aggressively — images don't change after upload
+            response['Cache-Control'] = 'public, max-age=86400'
+            return response
+
+        except Exception as e:
+            logger.error(f"DriveImageProxy: could not fetch file {file_id}: {e}")
+            return HttpResponse(status=404)

@@ -461,6 +461,33 @@ h1 {
 }
 
 
+/* Markdown — code blocks */
+.md-code-block {
+  background-color: var(--surface-hover);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.md-code-block code {
+  color: var(--text-two);
+  font-size: 0.875rem;
+  font-family: ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
+  line-height: 1.7;
+}
+
+/* Markdown — inline code */
+.md-inline-code {
+  background-color: var(--badge-blue-bg);
+  color: var(--badge-blue-text);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.875em;
+  font-family: ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
+}
+
 /* Document links styling */
 .documents-content a {
   display: inline-flex;

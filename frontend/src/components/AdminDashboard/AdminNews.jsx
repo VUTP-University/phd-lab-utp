@@ -1,35 +1,86 @@
-// AdminNews.jsx - Component for admin dashboard to manage news and events, 
+// AdminNews.jsx - Component for admin dashboard to manage news and events,
 // including creation, editing, image uploads, and visibility toggling
-
 
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { 
+import {
   Save,
-  Edit2, 
-  Eye, 
-  EyeOff, 
+  Edit2,
+  Eye,
+  EyeOff,
   Image as ImageIcon,
   X,
   Loader2,
-  Upload
+  Upload,
+  Info,
 } from "lucide-react";
+import MDEditor from "@uiw/react-md-editor";
+import "@uiw/react-md-editor/markdown-editor.css";
 import api from "../../../api.js";
+
+// Detect dark mode from html element class
+function useColorMode() {
+  const [mode, setMode] = useState(
+    document.documentElement.classList.contains("dark") ? "dark" : "light"
+  );
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setMode(
+        document.documentElement.classList.contains("dark") ? "dark" : "light"
+      );
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
+  return mode;
+}
+
+// Strip markdown/HTML syntax for plain text previews
+function stripMarkdown(text) {
+  if (!text) return "";
+  return text
+    .replace(/<!--[\s\S]*?-->/g, "")          // HTML comments
+    .replace(/```[\s\S]*?```/g, "")            // fenced code blocks
+    .replace(/`([^`]+)`/g, "$1")              // inline code
+    .replace(/~~([^~]+)~~/g, "$1")            // ~~strikethrough~~
+    .replace(/\*\*([^*]+)\*\*/g, "$1")        // **bold**
+    .replace(/__([^_]+)__/g, "$1")            // __bold__
+    .replace(/\*([^*]+)\*/g, "$1")            // *italic*
+    .replace(/_([^_]+)_/g, "$1")              // _italic_
+    .replace(/#{1,6}\s+/g, "")               // # headings
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, "")  // images
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // [links](url)
+    .replace(/^[-*+]\s+/gm, "")              // - bullet lists
+    .replace(/^\d+\.\s+/gm, "")              // 1. ordered lists
+    .replace(/^>\s*/gm, "")                  // > blockquotes
+    .replace(/^-{3,}$/gm, "")               // --- hr
+    .replace(/<[^>]+>/g, "")                 // remaining HTML tags
+    .replace(/https?:\/\/\S+/g, "")          // bare URLs
+    .replace(/^\|[\s|:-]+$/gm, "")           // table separator rows  |---|---|
+    .replace(/\|/g, " ")                     // table cell pipes
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
 export default function AdminNews() {
   const { t } = useTranslation();
+  const colorMode = useColorMode();
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingNews, setEditingNews] = useState(null);
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    news_type: 'news',
+    title: "",
+    description: "",
+    news_type: "news",
     share_facebook: false,
-    share_linkedin: false
+    share_linkedin: false,
   });
   const [images, setImages] = useState([]);
   const [submitting, setSubmitting] = useState(false);
+  const [showMarkdownHelp, setShowMarkdownHelp] = useState(false);
 
   useEffect(() => {
     fetchNews();
@@ -37,10 +88,10 @@ export default function AdminNews() {
 
   const fetchNews = async () => {
     try {
-      const response = await api.get('/news/admin/');
+      const response = await api.get("/news/admin/");
       setNews(response.data.news);
     } catch (error) {
-      console.error('Error fetching news:', error);
+      console.error("Error fetching news:", error);
     } finally {
       setLoading(false);
     }
@@ -53,20 +104,20 @@ export default function AdminNews() {
       description: newsItem.description,
       news_type: newsItem.news_type,
       share_facebook: newsItem.share_facebook,
-      share_linkedin: newsItem.share_linkedin
+      share_linkedin: newsItem.share_linkedin,
     });
     setImages([]);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleCancel = () => {
     setEditingNews(null);
     setFormData({
-      title: '',
-      description: '',
-      news_type: 'news',
+      title: "",
+      description: "",
+      news_type: "news",
       share_facebook: false,
-      share_linkedin: false
+      share_linkedin: false,
     });
     setImages([]);
   };
@@ -77,31 +128,31 @@ export default function AdminNews() {
 
     try {
       const data = new FormData();
-      data.append('title', formData.title);
-      data.append('description', formData.description);
-      data.append('news_type', formData.news_type);
-      data.append('share_facebook', formData.share_facebook);
-      data.append('share_linkedin', formData.share_linkedin);
+      data.append("title", formData.title);
+      data.append("description", formData.description);
+      data.append("news_type", formData.news_type);
+      data.append("share_facebook", formData.share_facebook);
+      data.append("share_linkedin", formData.share_linkedin);
 
-      images.forEach(image => {
-        data.append('images', image);
+      images.forEach((image) => {
+        data.append("images", image);
       });
 
       if (editingNews) {
         await api.put(`/news/${editingNews.id}/`, data, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+          headers: { "Content-Type": "multipart/form-data" },
         });
       } else {
-        await api.post('/news/', data, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        await api.post("/news/", data, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
       }
 
       handleCancel();
       fetchNews();
     } catch (error) {
-      console.error('Error saving news:', error);
-      alert('Failed to save news');
+      console.error("Error saving news:", error);
+      alert("Failed to save news");
     } finally {
       setSubmitting(false);
     }
@@ -112,17 +163,17 @@ export default function AdminNews() {
       await api.post(`/news/${newsId}/toggle-visibility/`);
       fetchNews();
     } catch (error) {
-      console.error('Error toggling visibility:', error);
+      console.error("Error toggling visibility:", error);
     }
   };
 
   const handleImageSelect = (e) => {
     const files = Array.from(e.target.files);
-    setImages(prev => [...prev, ...files]);
+    setImages((prev) => [...prev, ...files]);
   };
 
   const removeImage = (index) => {
-    setImages(prev => prev.filter((_, i) => i !== index));
+    setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleDeleteImage = async (imageId) => {
@@ -135,13 +186,11 @@ export default function AdminNews() {
         data: { image_id: imageId },
       });
 
-      // Update local state
       setEditingNews({
         ...editingNews,
         images: editingNews.images.filter((img) => img.id !== imageId),
       });
 
-      // Refresh news list
       fetchNews();
     } catch (error) {
       console.error("Error deleting image:", error);
@@ -193,30 +242,74 @@ export default function AdminNews() {
               }
               className="w-full border rounded-lg px-4 py-2 custom_input dark:border-gray-700 normal_text"
             >
-              <option value="news">
-                {t("admin_dashboard.news.news")}
-              </option>
-              <option value="event">
-                {t("admin_dashboard.news.event")}
-              </option>
+              <option value="news">{t("admin_dashboard.news.news")}</option>
+              <option value="event">{t("admin_dashboard.news.event")}</option>
             </select>
           </div>
 
-          {/* Description */}
+          {/* Rich Text Description */}
           <div>
-            <label className="block text-sm font-medium mb-2 normal_text">
-              {t("admin_dashboard.news.description")} *
-            </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-              rows="6"
-              className="w-full border rounded-lg px-4 py-2 custom_input normal_text resize-none"
-              placeholder={t("admin_dashboard.news.description_placeholder")}
-              required
-            />
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-medium normal_text">
+                {t("admin_dashboard.news.description")} *
+              </label>
+              <button
+                type="button"
+                onClick={() => setShowMarkdownHelp((v) => !v)}
+                className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition"
+              >
+                <Info size={14} />
+                Formatting tips
+              </button>
+            </div>
+
+            {/* Markdown Help Panel */}
+            {showMarkdownHelp && (
+              <div className="mb-3 p-4 rounded-lg border border-blue-200 dark:border-blue-800 text-xs normal_text">
+                <p className="font-semibold mb-2 normal_text">
+                  Formatting Guide:
+                </p>
+                <div className="grid grid-cols-2 gap-x-6 gap-y-1 mb-2">
+                  <span>
+                    <code className="badge badge--blue px-1 rounded">**text**</code> → <strong>bold</strong>
+                  </span>
+                  <span>
+                    <code className="badge badge--blue px-1 rounded">*text*</code> → <em>italic</em>
+                  </span>
+                  <span>
+                    <code className="badge badge--blue px-1 rounded"># Heading</code> → Large heading
+                  </span>
+                  <span>
+                    <code className="badge badge--blue px-1 rounded">[label](url)</code> → Link
+                  </span>
+                  <span>
+                    <code className="badge badge--blue px-1 rounded">- item</code> → Bullet list
+                  </span>
+                  <span>
+                    <code className="badge badge--blue px-1 rounded">&gt; text</code> → Blockquote
+                  </span>
+                </div>
+                <p className="mt-2 secondary_text">
+                  🎬 YouTube embed: paste a YouTube URL on its own line (e.g.{" "}
+                  <code className="badge badge--blue px-1 rounded">https://youtu.be/...</code>)
+                </p>
+                <p className="mt-1 secondary_text">
+                  😀 Emoji: use your OS picker (Win+. / Cmd+Ctrl+Space) or type them directly
+                </p>
+              </div>
+            )}
+
+            <div data-color-mode={colorMode}>
+              <MDEditor
+                value={formData.description}
+                onChange={(val) =>
+                  setFormData({ ...formData, description: val || "" })
+                }
+                height={400}
+                preview="live"
+                visibleDragbar={false}
+              />
+            </div>
           </div>
 
           {/* Images */}
@@ -275,16 +368,13 @@ export default function AdminNews() {
                 {editingNews.images.map((img) => (
                   <div key={img.id} className="relative group">
                     <img
-                      src={`https://drive.google.com/thumbnail?id=${img.drive_file_id}&sz=w400`}
+                      src={`/api/news/media/${img.drive_file_id}/`}
                       alt={img.file_name}
                       className="w-full h-32 object-cover rounded-lg"
                       onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src =
-                          img.drive_thumbnail_link || img.drive_web_link;
+                        e.target.style.visibility = "hidden";
                       }}
                     />
-                    {/* Delete button */}
                     <button
                       type="button"
                       onClick={() => handleDeleteImage(img.id)}
@@ -361,14 +451,11 @@ export default function AdminNews() {
                 {/* Thumbnail */}
                 {item.images.length > 0 ? (
                   <img
-                    src={`https://drive.google.com/thumbnail?id=${item.images[0].drive_file_id}&sz=w400`}
+                    src={`/api/news/media/${item.images[0].drive_file_id}/`}
                     alt={item.title}
                     className="w-32 h-32 object-cover rounded-lg flex-shrink-0"
                     onError={(e) => {
-                      e.target.onerror = null; // Prevent infinite loop
-                      e.target.src =
-                        item.images[0].drive_thumbnail_link ||
-                        item.images[0].drive_web_link;
+                      e.target.style.visibility = "hidden";
                     }}
                   />
                 ) : (
@@ -385,7 +472,7 @@ export default function AdminNews() {
                         {item.title}
                       </h4>
                       <p className="text-sm normal_text mt-1 line-clamp-2">
-                        {item.description}
+                        {stripMarkdown(item.description)}
                       </p>
                       <div className="flex items-center gap-3 mt-3 flex-wrap">
                         <span
