@@ -15,7 +15,7 @@ from appuser.google_drive_service import (
     upload_file_to_drive,
     share_file_with_users,
 )
-from user_management.models import StudentIndividualPlan
+from user_management.models import StudentIndividualPlan, Supervision
 
 logger = logging.getLogger(__name__)
 
@@ -229,5 +229,49 @@ class TeacherUploadPlanView(APIView):
             logger.exception(f"Error uploading plan: {e}")
             return Response(
                 {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+class TeacherUploadedPlansView(APIView):
+    """List all individual plans uploaded by the teacher with links to open them."""
+
+    permission_classes = [IsLabTeacher]
+
+    def get(self, request):
+        user = request.user
+        
+        try:
+            # Get all students supervised by this teacher
+            student_emails = Supervision.objects.filter(
+                supervisor_email=user.email
+            ).values_list('student_email', flat=True)
+
+            # Get plans for those students, regardless of who uploaded them
+            plans = StudentIndividualPlan.objects.filter(
+                student_email__in=student_emails
+            ).order_by('-uploaded_at')
+            
+            plans_data = []
+            for plan in plans:
+                plans_data.append({
+                    "id": plan.id,
+                    "student_email": plan.student_email,
+                    "file_name": plan.file_name,
+                    "drive_web_link": plan.drive_web_link,
+                    "uploaded_at": plan.uploaded_at.isoformat(),
+                })
+            
+            logger.info(f"Teacher {user.email} fetched {len(plans_data)} uploaded plans")
+            
+            return Response({
+                "uploaded_plans": plans_data,
+                "count": len(plans_data),
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            logger.exception(f"Error fetching uploaded plans for teacher {user.email}")
+            return Response(
+                {"error": "Failed to fetch uploaded plans", "details": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )

@@ -47,7 +47,10 @@ export default function Hero({ user, setUser }) {
   return (
     <section className="primary_object py-6">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="font-bold primary_text">{t("hero.phd_lab")}</h1>
+        <h1 className="font-bold primary_text">{t("navbar.brand")}</h1>
+        <h1 className="text-sm font-semibold normal_text hidden sm:block">
+          {t("hero.phd_lab")}
+          </h1>
         <h2 className="mt-4 secondary_text max-w-2xl mx-auto">
           {t("hero.uni_name")}
         </h2>

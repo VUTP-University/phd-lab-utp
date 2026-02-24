@@ -4,6 +4,7 @@ from rest_framework import status
 from django.conf import settings
 from appuser.permissions import IsLabAdmin, IsLabAdminOrStudent, IsLabTeacherOrAdmin
 from .group_utils import get_group_members, add_user_to_group, remove_user_from_group
+from appuser.models import CustomUser
 from appuser.google_drive_service import (
     get_service_account_drive_service,
     setup_phd_lab_structure,
@@ -274,3 +275,95 @@ class MyDoctoralStudentsView(APIView):
         supervisions = Supervision.objects.filter(supervisor_email=user.email)
         students = [s.student_email for s in supervisions]
         return Response({"doctoral_students": students}, status=200)
+
+
+class AdminAllIndividualPlansView(APIView):
+    """Admin: List all individual plans uploaded to Google Drive with links to open them."""
+
+    permission_classes = [IsLabAdmin]
+
+    def get(self, request):
+        user = request.user
+        
+        try:
+            # Get all individual plans in the system
+            plans = StudentIndividualPlan.objects.all().order_by('-uploaded_at')
+            
+            plans_data = []
+            for plan in plans:
+                plans_data.append({
+                    "id": plan.id,
+                    "student_email": plan.student_email,
+                    "file_name": plan.file_name,
+                    "drive_web_link": plan.drive_web_link,
+                    "uploaded_at": plan.uploaded_at.isoformat(),
+                    "uploaded_by": plan.uploaded_by.email if plan.uploaded_by else None,
+                })
+            
+            logger.info(f"Admin {user.email} fetched all {len(plans_data)} individual plans")
+            
+            return Response({
+                "all_individual_plans": plans_data,
+                "count": len(plans_data),
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            logger.exception(f"Error fetching all individual plans for admin {user.email}")
+            return Response(
+                {"error": "Failed to fetch individual plans", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+class AdminUsersWithPlansView(APIView):
+    """Admin: List all users with their individual plans information."""
+
+    permission_classes = [IsLabAdmin]
+
+    def get(self, request):
+        user = request.user
+        
+        try:
+            # Get all users
+            users = CustomUser.objects.all().order_by('email')
+            
+            # Get all individual plans
+            plans_by_email = {}
+            all_plans = StudentIndividualPlan.objects.all()
+            for plan in all_plans:
+                plans_by_email[plan.student_email] = {
+                    "id": plan.id,
+                    "file_name": plan.file_name,
+                    "drive_web_link": plan.drive_web_link,
+                    "uploaded_at": plan.uploaded_at.isoformat(),
+                    "uploaded_by": plan.uploaded_by.email if plan.uploaded_by else None,
+                }
+            
+            # Combine user data with individual plans
+            users_data = []
+            for user_obj in users:
+                user_data = {
+                    "id": user_obj.id,
+                    "email": user_obj.email,
+                    "first_name": user_obj.first_name,
+                    "last_name": user_obj.last_name,
+                    "is_active": user_obj.is_active,
+                    "date_joined": user_obj.date_joined.isoformat(),
+                    "individual_plan": plans_by_email.get(user_obj.email, None)
+                }
+                users_data.append(user_data)
+            
+            logger.info(f"Admin {user.email} fetched {len(users_data)} users with plans data")
+            
+            return Response({
+                "users": users_data,
+                "count": len(users_data),
+                "total_plans": len(plans_by_email),
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            logger.exception(f"Error fetching users with plans for admin {user.email}")
+            return Response(
+                {"error": "Failed to fetch users with plans", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )

@@ -226,7 +226,10 @@ const resources = {
           upload_error: "Грешка при качване на плана. Моля, опитайте отново.",
           missing_fields: "Моля, изберете студент и изберете файл.",
           pdf_only: "Само PDF файлове са позволени.",
-          no_students_hint: "Свържете се с администратор, за да бъдат назначени докторанти към Вас."
+          no_students_hint: "Свържете се с администратор, за да бъдат назначени докторанти към Вас.",
+          uploaded_plans_title: "Качени планове",
+          no_uploaded_plans: "Все още няма качени планове.",
+          open: "Отвори"
         }
       },
       admin_dashboard: {
@@ -258,6 +261,8 @@ const resources = {
           add_teacher: "Добави преподавател",
           add_student: "Добави студент",
           loading: "Зареждане на потребителите...",
+          error: "Грешка при зареждане на потребителите.",
+          upload_plan: "Качване на индивидуален план",
           supervisions_title: "Научно ръководство",
           supervisions_description: "Назначете научен ръководител към докторант. Един докторант може да има повече от един ръководител.",
           select_supervisor: "Научен ръководител",
@@ -272,6 +277,10 @@ const resources = {
           remove_error: "Грешка при премахване.",
           remove: "Премахни",
           removing: "Премахване...",
+          all_plans_title: "Всички индивидуални планове",
+          no_plans: "Все още няма качени индивидуални планове.",
+          uploaded_by: "Качено от",
+          open: "Отвори"
         },
         news: {
           title: "Управление на новини и събития",
@@ -399,7 +408,7 @@ const resources = {
       },
       hero: {
         uni_name: "University of Telecommunications and Posts",
-        phd_lab: "PhD Lab",
+        phd_lab: "Doctoral School",
         description: "A collaborative research and innovation platform for doctoral students, supervisors, and academic institutions.",
         info_button: "About",
         mission_button: "Scope",
@@ -603,7 +612,10 @@ const resources = {
           upload_error: "Error uploading plan. Please try again.",
           missing_fields: "Please select a student and choose a file.",
           pdf_only: "Only PDF files are allowed.",
-          no_students_hint: "Contact an administrator to have doctoral students assigned to you."
+          no_students_hint: "Contact an administrator to have doctoral students assigned to you.",
+          uploaded_plans_title: "Uploaded Plans",
+          no_uploaded_plans: "No plans uploaded yet.",
+          open: "Open"
         }
       },
       admin_dashboard: {
@@ -634,6 +646,8 @@ const resources = {
           add_admin: "Add Admin",
           add_teacher: "Add Teacher",
           add_student: "Add Student",
+          error: "Error loading users.",
+          upload_plan: "Upload Individual Plan",
           loading: "Loading users...",
           supervisions_title: "Scientific Supervision",
           supervisions_description: "Assign a scientific supervisor to a doctoral student. A student can have more than one supervisor.",
@@ -649,6 +663,10 @@ const resources = {
           remove_error: "Error removing supervision.",
           remove: "Remove",
           removing: "Removing...",
+          all_plans_title: "All Individual Plans",
+          no_plans: "No individual plans uploaded yet.",
+          uploaded_by: "Uploaded by",
+          open: "Open"
         },
         news: {
           title: "News & Events Management",

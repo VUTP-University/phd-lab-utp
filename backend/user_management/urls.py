@@ -2,7 +2,7 @@
 from django.urls import path
 from .views import (
     GroupMembersView, ManageGroupMemberView, UploadStudentPlanView, MyIndividualPlanView,
-    SupervisionsView, MySupervisionView, MyDoctoralStudentsView,
+    SupervisionsView, MySupervisionView, MyDoctoralStudentsView, AdminAllIndividualPlansView, AdminUsersWithPlansView,
 )
 
 urlpatterns = [
@@ -13,4 +13,6 @@ urlpatterns = [
     path('supervisions/', SupervisionsView.as_view()),
     path('my-supervisors/', MySupervisionView.as_view()),
     path('my-doctoral-students/', MyDoctoralStudentsView.as_view()),
+    path('admin/all-individual-plans/', AdminAllIndividualPlansView.as_view()),
+    path('admin/users-with-plans/', AdminUsersWithPlansView.as_view()),
 ]
