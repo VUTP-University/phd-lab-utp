@@ -21,10 +21,10 @@ class AIAssistantView(APIView):
         user = request.user
         analysis_type = request.data.get('type')  # 'overall', 'course', 'plan'
         
-        # Check rate limit (max 10 requests per day)
+        # Check rate limit (max 10 requests per month)
         if not self.check_rate_limit(user.email):
             return Response(
-                {"error": "Daily AI analysis limit reached. Try again tomorrow."},
+                {"error": "Monthly AI analysis limit reached. Try again next month."},
                 status=status.HTTP_429_TOO_MANY_REQUESTS
             )
         
@@ -55,14 +55,15 @@ class AIAssistantView(APIView):
             )
     
     def check_rate_limit(self, email):
-        """Check if user has exceeded daily limit"""
-        today = datetime.now().date()
+        """Check if user has exceeded monthly limit"""
+        now = datetime.now()
         count = AIUsageLog.objects.filter(
             student_email=email,
-            created_at__date=today
+            created_at__year=now.year,
+            created_at__month=now.month
         ).count()
-        
-        return count < 10  # Max 10 per day
+
+        return count < 10  # Max 10 per month
     
     def get_overall_summary(self, user):
         """Generate overall performance summary"""
