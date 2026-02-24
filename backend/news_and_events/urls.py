@@ -4,7 +4,8 @@ from .views import (
     NewsDetailView,
     AdminNewsListView,
     NewsToggleVisibilityView,
-    NewsDetailTemplateView
+    NewsDetailTemplateView,
+    DriveImageProxyView,
 )
 
 urlpatterns = [
@@ -12,7 +13,10 @@ urlpatterns = [
     path('admin/', AdminNewsListView.as_view(), name='admin-news-list'),
     path('<int:news_id>/', NewsDetailView.as_view(), name='news-detail'),
     path('<int:news_id>/toggle-visibility/', NewsToggleVisibilityView.as_view(), name='news-toggle-visibility'),
-    
-     # Template view for social media crawlers
+
+    # Template view for social media crawlers
     path('<int:news_id>/share/', NewsDetailTemplateView.as_view(), name='news-share'),
+
+    # Image proxy — serves Drive files via service account to avoid CORB in browsers
+    path('media/<str:file_id>/', DriveImageProxyView.as_view(), name='drive-image-proxy'),
 ]
