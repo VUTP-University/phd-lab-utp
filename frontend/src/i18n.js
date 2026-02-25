@@ -100,7 +100,8 @@ const resources = {
         law_docs: "Нормативни документи",
         science_docs: "Научна дейност",
         utplibrary: "Библиотека на ВУТП",
-        science_dbs: "Научни бази данни"
+        science_dbs: "Научни бази данни",
+        content_not_found: "Съдържанието не е намерено."
       },
       news: {
         title: "Новини и събития",
@@ -486,7 +487,8 @@ const resources = {
         law_docs: "Regulatory Documents",
         science_docs: "Scientific Activity",
         utplibrary: "UTP Library",
-        science_dbs: "Scientific Databases"
+        science_dbs: "Scientific Databases",
+        content_not_found: "Content not found."
       },
       news: {
         title: "News & Events",

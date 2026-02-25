@@ -17,6 +17,7 @@ import TeacherDashboard from "./pages/TeacherDashboard";
 import Dashboard from "./pages/Dashboard";
 import LawDocuments from "./pages/LawDocuments";
 import ScientificDatabases from "./pages/ScientificDatabases";
+import ScientificActivity from "./pages/ScientificActivity";
 import NewsDetail from "./pages/NewsDetail";
 import AllNews from "./pages/AllNews";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -81,6 +82,7 @@ function App() {
         {/* Documents */}
         <Route path="/law-documents" element={<LawDocuments />} />
         <Route path="/scientific-databases" element={<ScientificDatabases />} />
+        <Route path="/scientific-activity" element={<ScientificActivity />} />
         
         {/* Admin Dashboard */}
         <Route path="/admin-dashboard" element={
