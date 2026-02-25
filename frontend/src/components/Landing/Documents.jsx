@@ -22,7 +22,10 @@ export default function Documents() {
           {t("documents.law_docs")}
         </button>
 
-        <button className="custom_button w-full sm:w-auto px-6 py-3 transition">
+        <button
+          className="custom_button w-full sm:w-auto px-6 py-3 transition"
+          onClick={() => navigate("/scientific-activity")}
+        >
           {t("documents.science_docs")}
         </button>
 
