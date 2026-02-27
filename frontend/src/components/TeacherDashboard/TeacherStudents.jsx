@@ -13,7 +13,7 @@ export default function TeacherStudents() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const res = await api.get("/user-management/my-doctoral-students/");
+        const res = await api.get("/api/user-management/my-doctoral-students/");
         setStudents(res.data.doctoral_students || []);
       } catch (err) {
         console.error("Error fetching doctoral students:", err);

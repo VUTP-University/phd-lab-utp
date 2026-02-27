@@ -34,7 +34,7 @@ export default function CoursesList({ onCourseAnalysis }) {
     try {
       setLoading(true);
       setError(null);
-      const response = await api.get('classroom/visible-courses/');
+      const response = await api.get('/api/classroom/visible-courses/');
       setCourses(response.data.courses || []);
     } catch (error) {
       console.error('Failed to fetch courses:', error);
@@ -50,7 +50,7 @@ export default function CoursesList({ onCourseAnalysis }) {
     setLoadingDetails(prev => ({ ...prev, [courseId]: true }));
     
     try {
-      const response = await api.get(`classroom/course/${courseId}/details/`);
+      const response = await api.get(`/api/classroom/course/${courseId}/details/`);
       setCourseDetails(prev => ({ ...prev, [courseId]: response.data }));
     } catch (error) {
       console.error('Failed to fetch course details:', error);

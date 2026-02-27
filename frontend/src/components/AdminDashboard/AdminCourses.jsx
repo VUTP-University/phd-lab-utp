@@ -25,11 +25,11 @@ export default function AdminCourses() {
       setError(null);
 
       // Fetch ALL courses
-      const resCourses = await api.get("/classroom-admin/courses/");
+      const resCourses = await api.get("/api/classroom-admin/courses/");
       setCourses(resCourses.data.courses || []);
 
       // Fetch visible courses
-      const resDisplayed = await api.get("/classroom-admin/displayed-courses/");
+      const resDisplayed = await api.get("/api/classroom-admin/displayed-courses/");
 
       // Create a map: { courseId: true }
       const map = {};
@@ -54,7 +54,7 @@ export default function AdminCourses() {
 
   const handleToggle = async (course, visible) => {
     try {
-      await api.post("/classroom-admin/displayed-course/toggle/", {
+      await api.post("/api/classroom-admin/displayed-course/toggle/", {
         course_id: course.id,
         name: course.name,
         section: course.section || "",

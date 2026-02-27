@@ -28,7 +28,7 @@ import api from "../../api.js";
 // (5173) than Django (8000), so relative paths would miss the backend.
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 function driveThumb(fileId) {
-  return `${API_BASE}/news/media/${fileId}/`;
+  return `${API_BASE}/api/news/media/${fileId}/`;
 }
 
 // Extract a YouTube video ID from any common YouTube URL format.
@@ -393,7 +393,7 @@ export default function NewsDetail() {
 
   const fetchNews = async () => {
     try {
-      const response = await api.get(`/news/${id}/`);
+      const response = await api.get(`/api/news/${id}/`);
       setNews(response.data);
 
       document.title = response.data.title;
@@ -426,7 +426,7 @@ export default function NewsDetail() {
   };
 
   const shareOnFacebook = () => {
-    const shareUrl = `${window.location.origin}/news/${news.id}/share/`;
+    const shareUrl = `${window.location.origin}/api/news/${news.id}/share/`;
     window.open(
       `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
       "_blank",
@@ -435,7 +435,7 @@ export default function NewsDetail() {
   };
 
   const shareOnLinkedIn = () => {
-    const shareUrl = `${window.location.origin}/news/${news.id}/share/`;
+    const shareUrl = `${window.location.origin}/api/news/${news.id}/share/`;
     window.open(
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
       "_blank",

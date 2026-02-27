@@ -17,7 +17,7 @@ export default function AdminSupervisions({ teachers, students }) {
 
   const fetchSupervisions = async () => {
     try {
-      const res = await api.get("/user-management/supervisions/");
+      const res = await api.get("/api/user-management/supervisions/");
       setSupervisions(res.data.supervisions || []);
     } catch (error) {
       console.error("Error fetching supervisions:", error);
@@ -32,7 +32,7 @@ export default function AdminSupervisions({ teachers, students }) {
 
     try {
       setAdding(true);
-      await api.post("/user-management/supervisions/", {
+      await api.post("/api/user-management/supervisions/", {
         supervisor_email: selectedSupervisor,
         student_email: selectedStudent,
       });
@@ -55,7 +55,7 @@ export default function AdminSupervisions({ teachers, students }) {
 
     try {
       setRemoving(supervision.id);
-      await api.delete("/user-management/supervisions/", {
+      await api.delete("/api/user-management/supervisions/", {
         data: { id: supervision.id },
       });
       setSupervisions((prev) => prev.filter((s) => s.id !== supervision.id));
