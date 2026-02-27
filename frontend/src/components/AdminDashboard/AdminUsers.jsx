@@ -31,9 +31,9 @@ export default function AdminUsers() {
       setError(null);
 
       const [adminsRes, teachersRes, studentsRes] = await Promise.all([
-        api.get("/user-management/group-members/?group=admin"),
-        api.get("/user-management/group-members/?group=teacher"),
-        api.get("/user-management/group-members/?group=student"),
+        api.get("/api/user-management/group-members/?group=admin"),
+        api.get("/api/user-management/group-members/?group=teacher"),
+        api.get("/api/user-management/group-members/?group=student"),
       ]);
 
       setAdmins(adminsRes.data.members || []);
@@ -50,7 +50,7 @@ export default function AdminUsers() {
   const fetchAllPlans = async () => {
     try {
       setLoadingPlans(true);
-      const res = await api.get("/user-management/admin/all-individual-plans/");
+      const res = await api.get("/api/user-management/admin/all-individual-plans/");
       setAllPlans(res.data.all_individual_plans || []);
     } catch (err) {
       console.error("Error fetching all plans:", err);
@@ -65,7 +65,7 @@ export default function AdminUsers() {
       return;
     }
     try {
-      await api.post("/user-management/manage-member/", {
+      await api.post("/api/user-management/manage-member/", {
         email: newEmail.trim(),
         group,
         action: "add",
@@ -85,7 +85,7 @@ export default function AdminUsers() {
 
     try {
       setRemoveEmail(email);
-      await api.post("/user-management/manage-member/", {
+      await api.post("/api/user-management/manage-member/", {
         email,
         group,
         action: "remove",
@@ -117,7 +117,7 @@ export default function AdminUsers() {
       formData.append("file", file);
       formData.append("student_email", email);
 
-      await api.post("/user-management/upload-plan/", formData, {
+      await api.post("/api/user-management/upload-plan/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -44,28 +44,27 @@ def spa_fallback(request, *args, **kwargs):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('appuser.urls')),
-    
-    
+    path('api/', include('appuser.urls')),
+
     # Classroom Admin related endpoints
-    path('classroom-admin/', include('classroom_admin.urls')),
+    path('api/classroom-admin/', include('classroom_admin.urls')),
 
     # Classroom Teacher related endpoints
-    path('classroom-teacher/', include('classroom_teacher.urls')),
-    
+    path('api/classroom-teacher/', include('classroom_teacher.urls')),
+
     # News and Events endpoints
-    path('news/', include('news_and_events.urls')),
-    
+    path('api/news/', include('news_and_events.urls')),
+
     # AI Assistant endpoints
-    path('ai-assistant/', include('ai_assistant.urls')),
-    
+    path('api/ai-assistant/', include('ai_assistant.urls')),
+
     # Classroom related endpoints
-    path('classroom/', include('classroom.urls')),
-    
+    path('api/classroom/', include('classroom.urls')),
+
     # User management endpoints (Google Group management)
-    path('user-management/', include('user_management.urls')),
-    
-    # YoutUbe API endpoints
+    path('api/user-management/', include('user_management.urls')),
+
+    # YouTube API endpoints
     path('api/youtube-live/', include('youtube_api.urls')),
     
     # Contact form endpoints

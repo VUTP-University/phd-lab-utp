@@ -10,7 +10,7 @@ export default function Hero({ user, setUser }) {
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const res = await api.post('/auth/google/',
+      const res = await api.post('/api/auth/google/',
         {
           credential: credentialResponse.credential,
         }

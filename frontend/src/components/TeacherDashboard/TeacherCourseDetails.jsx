@@ -27,7 +27,7 @@ export default function TeacherCourseDetails({ courseId, onClose }) {
       setLoading(true);
       setError(null);
       const response = await api.get(
-        `/classroom-teacher/course/${courseId}/details/`
+        `/api/classroom-teacher/course/${courseId}/details/`
       );
       setDetails(response.data);
     } catch (err) {

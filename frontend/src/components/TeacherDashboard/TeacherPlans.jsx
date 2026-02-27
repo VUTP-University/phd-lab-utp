@@ -21,7 +21,7 @@ export default function TeacherPlans() {
 
   const fetchStudents = async () => {
     try {
-      const res = await api.get("/user-management/my-doctoral-students/");
+      const res = await api.get("/api/user-management/my-doctoral-students/");
       setStudents(res.data.doctoral_students || []);
     } catch (err) {
       console.error("Error fetching doctoral students:", err);
@@ -33,7 +33,7 @@ export default function TeacherPlans() {
   const fetchUploadedPlans = async () => {
     try {
       setLoadingPlans(true);
-      const res = await api.get("/classroom-teacher/uploaded-plans/");
+      const res = await api.get("/api/classroom-teacher/uploaded-plans/");
       setUploadedPlans(res.data.uploaded_plans || []);
     } catch (err) {
       console.error("Error fetching uploaded plans:", err);
@@ -63,7 +63,7 @@ export default function TeacherPlans() {
       formData.append("student_email", studentEmail);
       formData.append("file", selectedFile);
 
-      await api.post("/classroom-teacher/upload-plan/", formData, {
+      await api.post("/api/classroom-teacher/upload-plan/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

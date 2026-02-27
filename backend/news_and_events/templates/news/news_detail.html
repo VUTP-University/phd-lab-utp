@@ -9,13 +9,13 @@
     
     <!-- Primary Meta Tags -->
     <meta name="title" content="{{ news.title }}">
-    <meta name="description" content="{{ news.description|truncatewords:50 }}">
-    
+    <meta name="description" content="{{ news.description|striptags|truncatewords:50 }}">
+
     <!-- Open Graph / Facebook / LinkedIn -->
     <meta property="og:type" content="article">
     <meta property="og:url" content="{{ page_url }}">
     <meta property="og:title" content="{{ news.title }}">
-    <meta property="og:description" content="{{ news.description|truncatewords:50 }}">
+    <meta property="og:description" content="{{ news.description|striptags|truncatewords:50 }}">
     <meta property="og:site_name" content="PhD Lab - University of Telecommunications and Post">
     {% if image_url %}
     <meta property="og:image" content="{{ image_url }}">

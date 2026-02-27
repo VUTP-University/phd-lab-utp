@@ -38,7 +38,7 @@ const AIAssistant = forwardRef(({ user }, ref) => {
     setAnalysisType('overall');
     
     try {
-      const res = await api.post('/ai-assistant/analyze/', {
+      const res = await api.post('/api/ai-assistant/analyze/', {
         type: 'overall'
       });
       
@@ -57,7 +57,7 @@ const AIAssistant = forwardRef(({ user }, ref) => {
     setAnalysisType(`course-${courseName}`);
     
     try {
-      const res = await api.post('/ai-assistant/analyze/', {
+      const res = await api.post('/api/ai-assistant/analyze/', {
         type: 'course',
         course_id: courseId
       });
@@ -77,7 +77,7 @@ const AIAssistant = forwardRef(({ user }, ref) => {
     setAnalysisType('plan');
     
     try {
-      const res = await api.post('/ai-assistant/analyze/', {
+      const res = await api.post('/api/ai-assistant/analyze/', {
         type: 'plan'
       });
       

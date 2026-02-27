@@ -12,7 +12,7 @@ function StudentCard({ user, onPlanAnalysis }) {
   useEffect(() => {
     const fetchIndividualPlan = async () => {
       try {
-        const response = await api.get('/user-management/my-plan/');
+        const response = await api.get('/api/user-management/my-plan/');
         setPlan(response.data);
       } catch (error) {
         console.error('No plan found:', error);
@@ -23,7 +23,7 @@ function StudentCard({ user, onPlanAnalysis }) {
 
     const fetchSupervisors = async () => {
       try {
-        const response = await api.get('/user-management/my-supervisors/');
+        const response = await api.get('/api/user-management/my-supervisors/');
         setSupervisors(response.data.supervisors || []);
       } catch (error) {
         console.error('No supervisors found:', error);

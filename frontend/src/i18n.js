@@ -65,6 +65,7 @@ const resources = {
         message: "Съобщение",
         success_message: "Вашето съобщение беше изпратено успешно!",
         error_message: "Грешка при изпращане на съобщението. Моля, опитайте отново по-късно.",
+        sending: "Изпращане..."
       },
       specialties: {
         title: "Докторантски програми",
@@ -264,6 +265,7 @@ const resources = {
           loading: "Зареждане на потребителите...",
           error: "Грешка при зареждане на потребителите.",
           upload_plan: "Качване на индивидуален план",
+          uploading: "Качване...",
           supervisions_title: "Научно ръководство",
           supervisions_description: "Назначете научен ръководител към докторант. Един докторант може да има повече от един ръководител.",
           select_supervisor: "Научен ръководител",
@@ -453,6 +455,7 @@ const resources = {
         message: "Message",
         success_message: "Your message has been sent successfully!",
         error_message: "Failed to send message. Please try again later.",
+        sending: "Sending..."
       },
       specialties: {
         title: "Doctoral Programs",
@@ -650,6 +653,7 @@ const resources = {
           add_student: "Add Student",
           error: "Error loading users.",
           upload_plan: "Upload Individual Plan",
+          uploading: "Uploading...",
           loading: "Loading users...",
           supervisions_title: "Scientific Supervision",
           supervisions_description: "Assign a scientific supervisor to a doctoral student. A student can have more than one supervisor.",

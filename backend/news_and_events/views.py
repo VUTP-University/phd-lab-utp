@@ -233,13 +233,11 @@ class NewsDetailTemplateView(View):
     def get(self, request, news_id):
         news = get_object_or_404(News, id=news_id, is_visible=True)
         
-        # Get first image for OG tags
+        # Get first image for OG tags — use our own proxy so crawlers can access it
         first_image = news.images.first()
         image_url = None
         if first_image:
-            # Use Google Drive thumbnail for better performance
-            # image_url = f"https://drive.google.com/thumbnail?id={first_image.drive_file_id}&sz=w800"
-            image_url = f"https://drive.google.com/uc?export=view&id={first_image.drive_file_id}"
+            image_url = request.build_absolute_uri(f"/api/news/media/{first_image.drive_file_id}/")
 
         
         context = {

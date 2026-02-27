@@ -88,7 +88,7 @@ export default function AdminNews() {
 
   const fetchNews = async () => {
     try {
-      const response = await api.get("/news/admin/");
+      const response = await api.get("/api/news/admin/");
       setNews(response.data.news);
     } catch (error) {
       console.error("Error fetching news:", error);
@@ -139,11 +139,11 @@ export default function AdminNews() {
       });
 
       if (editingNews) {
-        await api.put(`/news/${editingNews.id}/`, data, {
+        await api.put(`/api/news/${editingNews.id}/`, data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       } else {
-        await api.post("/news/", data, {
+        await api.post("/api/news/", data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       }
@@ -160,7 +160,7 @@ export default function AdminNews() {
 
   const handleToggleVisibility = async (newsId) => {
     try {
-      await api.post(`/news/${newsId}/toggle-visibility/`);
+      await api.post(`/api/news/${newsId}/toggle-visibility/`);
       fetchNews();
     } catch (error) {
       console.error("Error toggling visibility:", error);
@@ -182,7 +182,7 @@ export default function AdminNews() {
     }
 
     try {
-      await api.delete(`/news/${editingNews.id}/`, {
+      await api.delete(`/api/news/${editingNews.id}/`, {
         data: { image_id: imageId },
       });
 
@@ -368,7 +368,7 @@ export default function AdminNews() {
                 {editingNews.images.map((img) => (
                   <div key={img.id} className="relative group">
                     <img
-                      src={`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/news/media/${img.drive_file_id}/`}
+                      src={`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/news/media/${img.drive_file_id}/`}
                       alt={img.file_name}
                       className="w-full h-32 object-cover rounded-lg"
                       onError={(e) => {
@@ -451,7 +451,7 @@ export default function AdminNews() {
                 {/* Thumbnail */}
                 {item.images.length > 0 ? (
                   <img
-                    src={`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/news/media/${item.images[0].drive_file_id}/`}
+                    src={`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/news/media/${item.images[0].drive_file_id}/`}
                     alt={item.title}
                     className="w-32 h-32 object-cover rounded-lg flex-shrink-0"
                     onError={(e) => {

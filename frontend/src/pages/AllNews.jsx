@@ -35,7 +35,7 @@ function stripMarkdown(text) {
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 function driveThumb(fileId) {
-  return `${API_BASE}/news/media/${fileId}/`;
+  return `${API_BASE}/api/news/media/${fileId}/`;
 }
 
 export default function AllNews() {
@@ -51,7 +51,7 @@ export default function AllNews() {
 
   const fetchNews = async () => {
     try {
-      const response = await api.get("/news/");
+      const response = await api.get("/api/news/");
       setNews(response.data.news);
     } catch (error) {
       console.error("Error fetching news:", error);
@@ -65,7 +65,7 @@ export default function AllNews() {
 
   const shareOnFacebook = (newsItem, e) => {
     e.stopPropagation();
-    const shareUrl = `${window.location.origin}/news/${newsItem.id}/share/`;
+    const shareUrl = `${window.location.origin}/api/news/${newsItem.id}/share/`;
     window.open(
       `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
       "_blank",
@@ -75,7 +75,7 @@ export default function AllNews() {
 
   const shareOnLinkedIn = (newsItem, e) => {
     e.stopPropagation();
-    const shareUrl = `${window.location.origin}/news/${newsItem.id}/share/`;
+    const shareUrl = `${window.location.origin}/api/news/${newsItem.id}/share/`;
     window.open(
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
       "_blank",
